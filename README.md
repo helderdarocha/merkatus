@@ -1,5 +1,5 @@
 merkatus
 ========
-XXX
+XXXaYYY
 
 A public bidding assistant.
