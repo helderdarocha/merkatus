@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <h:head>
+        <style>
+            p {margin-top: 40px}
+        </style>
+    </h:head>
+    <h:body>
+ 
+    	<h1>Cadastrar concurso</h1>
+    	<h:form>
+            <input type="date"/>
+	    <p>Selecionar concurso
+            <h:selectOneMenu value="#{cadastrarConcursoManagedBean.concursoLabel}">
+                <f:selectItems value="#{cadastrarConcursoManagedBean.concursoMap}" />
+   	    </h:selectOneMenu>
+            </p>
+            <p>Selecionar edital
+            <h:selectOneMenu value="#{cadastrarConcursoManagedBean.edital}">
+                <f:selectItems value="#{cadastrarConcursoManagedBean.editais}" />
+   	    </h:selectOneMenu>
+            </p> 
+            <p>Selecionar tipo de pregão eletrônico
+            <h:selectOneMenu value="#{cadastrarConcursoManagedBean.tipoPregao}">
+                <f:selectItems value="#{cadastrarConcursoManagedBean.tiposPregao}" />
+   	    </h:selectOneMenu>
+            </p> 
+            
+            <p>Selecionar tipo de dispensa de licitação
+            <h:selectOneMenu value="#{cadastrarConcursoManagedBean.tipoDispensa}">
+                <f:selectItems value="#{cadastrarConcursoManagedBean.tiposDispensa}" />
+   	    </h:selectOneMenu>
+            </p> 
+ 
+    	    <h:commandButton value="Novo produto" action="cadastrarConcursoResult" />
+	    <h:commandButton value="Selecionar produto" type="reset" />
+ 
+    	</h:form>
+    </h:body>
+</html>
+
