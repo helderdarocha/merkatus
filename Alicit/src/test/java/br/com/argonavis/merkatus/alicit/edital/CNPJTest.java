@@ -6,7 +6,10 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
+import java.text.ParseException;
+import java.util.Date;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
@@ -36,4 +39,17 @@ public class CNPJTest {
         assertEquals("04239747000158", cnpj2.toNormalizedString());
     }
     
+    @Test
+    public void testEquals() throws ParseException {
+        CNPJ c1 = new CNPJ("04.239.747/0001-58");
+        CNPJ c2 = new CNPJ("04239747000158");
+        assertEquals(c1, c2);
+    }
+    
+    @Test
+    public void testHashCode() throws ParseException {
+        CNPJ c1 = new CNPJ("04.239.747/0001-58");
+        CNPJ c2 = new CNPJ("04239747000158");
+        assertEquals(c1.hashCode(), c2.hashCode());
+    }
 }

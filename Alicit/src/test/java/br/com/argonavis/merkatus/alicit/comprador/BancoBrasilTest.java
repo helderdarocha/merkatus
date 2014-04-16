@@ -15,15 +15,63 @@ import static org.junit.Assert.*;
  */
 public class BancoBrasilTest {
     
-    public BancoBrasilTest() {
-    }
-
+    Comprador comprador = new BancoBrasil();
+    
     @Test
     public void testGetIdCodigoComprador() {
+        assertEquals("ORGAO", comprador.getIdCodigoComprador());
     }
 
     @Test
     public void testGetMascara() {
+        assertEquals("\\d{8}", comprador.getMascara(null));
+    }
+
+    @Test
+    public void testValidarCodigoComprador() {
+        assertTrue(comprador.validarCodigoComprador("12345678", null));
+    }
+
+    @Test
+    public void testGetNomeCurto() {
+        assertEquals("Portal BB", comprador.getNomeCurto());
+    }
+
+    @Test
+    public void testGetNomeLongo() {
+        assertEquals("Portal de Compras Banco do Brasil", comprador.getNomeLongo());
+    }
+
+    @Test
+    public void testGetCodigo() {
+        assertEquals("BB", comprador.getCodigo());
+    }
+
+    @Test
+    public void testGetWebsite() {
+        assertEquals("www.licitacoes-e.com.br", comprador.getWebsite());
+    }
+    
+    // testes de relacionamento - integracao
+    
+    @Test
+    public void testGetEditais() {
+        
+    }
+
+    @Test
+    public void testAddEdital() {
+        
+    }
+
+    @Test
+    public void testRemoveEdital() {
+        
+    }
+
+    @Test
+    public void testSetEditais() {
+        
     }
     
 }

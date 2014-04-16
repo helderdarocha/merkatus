@@ -41,6 +41,22 @@ public class Sistema implements Serializable {
         this.id = id;
     }
 
+    public Set<Comprador> getCompradores() {
+        return compradores;
+    }
+
+    public void setCompradores(Set<Comprador> compradores) {
+        this.compradores = compradores;
+    }
+
+    public Set<Edital> getEditais() {
+        return editais;
+    }
+
+    public void setEditais(Set<Edital> editais) {
+        this.editais = editais;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

@@ -26,9 +26,19 @@ public class PregaoEletronico extends Edital {
     private Tipo tipo;
 
     public PregaoEletronico() {}
-    public PregaoEletronico(Tipo tipo) {}
+    public PregaoEletronico(Tipo tipo) {
+        this.tipo = tipo;
+    }
     public PregaoEletronico(Comprador comprador, Tipo tipo) {
         super(comprador);
+        this.tipo = tipo;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 

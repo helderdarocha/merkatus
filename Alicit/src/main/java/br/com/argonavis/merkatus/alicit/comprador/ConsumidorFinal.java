@@ -22,7 +22,7 @@ public class ConsumidorFinal extends Comprador {
 
     @Override
     public String getMascara(Date dataEdital) {
-        return "(\\d|\\w|\\W).*";
+        return "(\\d.*|\\w.*|\\W.*).*";
     }
     
 }

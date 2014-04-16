@@ -6,20 +6,44 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
+import java.text.ParseException;
+import java.util.Date;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author helderdarocha
  */
 public class EmailTest {
-    
-    public EmailTest() {
-    }
 
+    @Test
+    public void testToString() throws ParseException {
+        Email email = new Email("helder@argonavis.com.br");
+        assertEquals("helder@argonavis.com.br", email.toString());
+    }
+    
+    @Test
+    public void testInvalidEmail() {
+        try {
+           Email email = new Email("@argonavis.com.br");
+           fail("Invalid email passed!");
+        } catch (ParseException e) { }
+    }
+    
     @org.junit.Test
-    public void testToString() {
+    public void testEquals() throws ParseException {
+        Email e1 = new Email("helder@argonavis.com.br");
+        Email e2 = new Email("helder@argonavis.com.br");
+        assertEquals(e1, e2);
+    }
+    
+    @Test
+    public void testHashCode() throws ParseException {
+        Email e1 = new Email("helder@argonavis.com.br");
+        Email e2 = new Email("helder@argonavis.com.br");
+        assertEquals(e1.hashCode(), e2.hashCode());
     }
     
 }

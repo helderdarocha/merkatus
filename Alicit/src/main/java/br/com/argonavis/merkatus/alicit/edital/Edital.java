@@ -44,6 +44,21 @@ public abstract class Edital implements Serializable {
     public Edital(Comprador comprador) {
         this.comprador = comprador;
     }
+    
+    public void setIdentificacao(String nomeDisplay, Codigo numeroEdital, Codigo numeroEditalComprador, CNPJ cnpjComprador) {
+        this.nomeDisplay = nomeDisplay;
+        this.numeroEdital = numeroEdital;
+        this.numeroEditalComprador = numeroEditalComprador;
+        this.cnpjComprador = cnpjComprador;
+    }
+    
+    public void setContatos(Endereco enderecoEnvioDocumentacao, Endereco enderecoEntrega, Email email, Telefone telefoneEntrega, Telefone telefoneCobranca) {
+        this.enderecoEnvioDocumentacao = enderecoEnvioDocumentacao;
+        this.enderecoEntrega = enderecoEntrega;
+        this.email = email;
+        this.telefoneEntrega = telefoneEntrega;
+        this.telefoneCobranca = telefoneCobranca;
+    }
 
     public Long getId() {
         return id;
@@ -124,8 +139,6 @@ public abstract class Edital implements Serializable {
     public void setTelefoneCobranca(Telefone telefoneCobranca) {
         this.telefoneCobranca = telefoneCobranca;
     }
-    
-    
 
     public void setComprador(Comprador comprador) {
         this.comprador = comprador;

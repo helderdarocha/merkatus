@@ -6,6 +6,8 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
+import br.com.argonavis.merkatus.alicit.comprador.BancoBrasil;
+import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,11 +17,30 @@ import static org.junit.Assert.*;
  */
 public class PregaoEletronicoTest {
     
-    public PregaoEletronicoTest() {
+    @Test
+    public void testGetComprador() {
+        PregaoEletronico d1 = new PregaoEletronico();
+        assertNull(d1.getComprador());
+        
+        Comprador c1 = new BancoBrasil();
+        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA);
+        assertEquals(c1, d2.getComprador());
+        
+        PregaoEletronico d3 = new PregaoEletronico(PregaoEletronico.Tipo.SRP_CARONA);
+        assertNull(d3.getComprador());
     }
-
-    @org.junit.Test
-    public void testToString() {
+    
+    @Test
+    public void testGetTipo() {
+        PregaoEletronico d1 = new PregaoEletronico();
+        assertNull(d1.getTipo());
+        
+        Comprador c1 = new BancoBrasil();
+        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA);
+        assertEquals(PregaoEletronico.Tipo.COMPRA_DIRETA, d2.getTipo());
+        
+        PregaoEletronico d3 = new PregaoEletronico(PregaoEletronico.Tipo.SRP_CARONA);
+        assertEquals(PregaoEletronico.Tipo.SRP_CARONA, d3.getTipo());
     }
     
 }

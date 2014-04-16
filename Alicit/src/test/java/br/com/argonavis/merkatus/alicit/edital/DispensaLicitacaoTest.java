@@ -6,8 +6,10 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
-import org.junit.Test;
+import br.com.argonavis.merkatus.alicit.comprador.BancoBrasil;
+import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
@@ -15,11 +17,30 @@ import static org.junit.Assert.*;
  */
 public class DispensaLicitacaoTest {
     
-    public DispensaLicitacaoTest() {
+    @Test
+    public void testGetComprador() {
+        DispensaLicitacao d1 = new DispensaLicitacao();
+        assertNull(d1.getComprador());
+        
+        Comprador c1 = new BancoBrasil();
+        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA);
+        assertEquals(c1, d2.getComprador());
+        
+        DispensaLicitacao d3 = new DispensaLicitacao(DispensaLicitacao.Tipo.CONVITE_ELETRONICO);
+        assertNull(d3.getComprador());
     }
-
-    @org.junit.Test
-    public void testToString() {
+    
+    @Test
+    public void testGetTipo() {
+        DispensaLicitacao d1 = new DispensaLicitacao();
+        assertNull(d1.getTipo());
+        
+        Comprador c1 = new BancoBrasil();
+        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA);
+        assertEquals(DispensaLicitacao.Tipo.COMPRA_DIRETA, d2.getTipo());
+        
+        DispensaLicitacao d3 = new DispensaLicitacao(DispensaLicitacao.Tipo.CONVITE_ELETRONICO);
+        assertEquals(DispensaLicitacao.Tipo.CONVITE_ELETRONICO, d3.getTipo());
     }
     
 }

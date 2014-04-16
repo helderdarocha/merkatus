@@ -6,6 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -15,7 +16,7 @@ import java.util.Locale;
  * Representa um CNPJ.
  * @author helderdarocha
  */
-class CNPJ {
+public class CNPJ implements Serializable {
     private String normalizedCnpj;
     private String formattedCnpj;
 
@@ -74,5 +75,17 @@ class CNPJ {
      */
     public String toNormalizedString() {
         return normalizedCnpj;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof CNPJ)) return false;
+        CNPJ other = (CNPJ) o;
+        return other.normalizedCnpj.equals(this.normalizedCnpj);
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.normalizedCnpj.hashCode();
     }
 }

@@ -24,7 +24,7 @@ public class BancoBrasil extends Comprador {
     
     @Override
     public String getIdCodigoComprador() {
-        return "Orgao";
+        return "ORGAO";
     }
 
     @Override

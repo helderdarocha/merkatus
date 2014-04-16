@@ -15,15 +15,43 @@ import static org.junit.Assert.*;
  */
 public class ConsumidorFinalTest {
     
-    public ConsumidorFinalTest() {
-    }
-
-    @Test
+    Comprador comprador = new ConsumidorFinal();
+    
+        @Test
     public void testGetIdCodigoComprador() {
+        assertEquals("Código do comprador", comprador.getIdCodigoComprador());
     }
 
     @Test
     public void testGetMascara() {
+        assertEquals("(\\d.*|\\w.*|\\W.*).*", comprador.getMascara(null));
+    }
+
+    @Test
+    public void testValidarCodigoComprador() {
+        assertTrue(comprador.validarCodigoComprador("A8473B228", null));
+    }
+    
+    // testes de relacionamento - integracao
+    
+    @Test
+    public void testGetEditais() {
+        
+    }
+
+    @Test
+    public void testAddEdital() {
+        
+    }
+
+    @Test
+    public void testRemoveEdital() {
+        
+    }
+
+    @Test
+    public void testSetEditais() {
+        
     }
     
 }
