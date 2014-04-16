@@ -37,7 +37,7 @@ public abstract class Comprador implements Serializable {
     private String codigo;
     private String website;
     
-    @OneToMany(mappedBy="comprador", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="comprador", cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Edital> editais;
 
     public Comprador() {}
@@ -120,8 +120,8 @@ public abstract class Comprador implements Serializable {
     }
     
     public void removeEdital(Edital edital) {
-        this.editais.remove(edital);
         edital.setComprador(null);
+        this.editais.remove(edital);
     }
     
     public void setEditais(Set<Edital> editais) {

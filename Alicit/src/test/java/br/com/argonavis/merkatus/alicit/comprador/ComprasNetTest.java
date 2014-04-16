@@ -6,8 +6,18 @@
 
 package br.com.argonavis.merkatus.alicit.comprador;
 
+import br.com.argonavis.merkatus.alicit.PersistenceUtilities;
+import br.com.argonavis.merkatus.alicit.edital.CNPJ;
+import br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao;
+import br.com.argonavis.merkatus.alicit.edital.Edital;
+import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -16,8 +26,8 @@ import static org.junit.Assert.*;
 public class ComprasNetTest {
     
     Comprador comprador = new ComprasNet();
-    
-        @Test
+
+    @Test
     public void testGetIdCodigoComprador() {
         assertEquals("UASG", comprador.getIdCodigoComprador());
     }
@@ -52,26 +62,5 @@ public class ComprasNetTest {
         assertEquals("www.comprasnet.gov.br", comprador.getWebsite());
     }
     
-    // testes de relacionamento - integracao
-    
-    @Test
-    public void testGetEditais() {
-        
-    }
 
-    @Test
-    public void testAddEdital() {
-        
-    }
-
-    @Test
-    public void testRemoveEdital() {
-        
-    }
-
-    @Test
-    public void testSetEditais() {
-        
-    }
-    
 }

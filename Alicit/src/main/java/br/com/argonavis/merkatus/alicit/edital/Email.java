@@ -8,14 +8,18 @@ package br.com.argonavis.merkatus.alicit.edital;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author helderdarocha
  */
+@Embeddable
 public class Email implements Serializable {
     private String mascara = "^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5}){1,25})$";
     private String email;
+    
+    public Email() {}
     
     public Email(String email) throws ParseException {
         this.email = validate(email, mascara);

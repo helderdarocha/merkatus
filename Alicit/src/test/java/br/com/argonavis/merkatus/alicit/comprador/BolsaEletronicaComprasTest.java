@@ -56,26 +56,4 @@ public class BolsaEletronicaComprasTest {
         assertEquals("www.bec.sp.gov.br", comprador.getWebsite());
     }
     
-    // testes de relacionamento - integracao
-    
-    @Test
-    public void testGetEditais() {
-        
-    }
-
-    @Test
-    public void testAddEdital() {
-        
-    }
-
-    @Test
-    public void testRemoveEdital() {
-        
-    }
-
-    @Test
-    public void testSetEditais() {
-        
-    }
-    
 }

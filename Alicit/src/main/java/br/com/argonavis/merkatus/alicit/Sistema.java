@@ -10,6 +10,7 @@ import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +28,10 @@ public class Sistema implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany()
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Comprador> compradores;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Edital> editais;
 
     public Long getId() {
@@ -51,6 +52,10 @@ public class Sistema implements Serializable {
 
     public Set<Edital> getEditais() {
         return editais;
+    }
+    
+    public void addEdital(Edital edital) {
+        this.editais.add(edital);
     }
 
     public void setEditais(Set<Edital> editais) {

@@ -7,11 +7,13 @@
 package br.com.argonavis.merkatus.alicit.edital;
 
 import java.io.Serializable;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author helderdarocha
  */
+@Embeddable
 public class Endereco implements Serializable {
     private String latitude;
     private String longitude;
@@ -28,6 +30,8 @@ public class Endereco implements Serializable {
     private String bairro;
     
     private String endereco;
+    
+    public Endereco() {}
     
     public Endereco(String endereco, String cidade, String uf, String cep) {
         this.endereco = endereco;

@@ -11,15 +11,19 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import javax.persistence.Embeddable;
 
 /**
  * Representa um CNPJ.
  * @author helderdarocha
  */
+@Embeddable
 public class CNPJ implements Serializable {
     private String normalizedCnpj;
     private String formattedCnpj;
 
+    public CNPJ() {}
+    
     /**
      * Cria um CNPJ e recebe um string formatado xx.xxx.xxx/xxxx-xx ou 14 digitos.
      * Retorna CNPJ normalizado (14 digitos) ou formatado.

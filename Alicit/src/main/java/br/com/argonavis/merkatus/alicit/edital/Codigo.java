@@ -8,13 +8,17 @@ package br.com.argonavis.merkatus.alicit.edital;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import javax.persistence.Embeddable;
 
 /**
  * Representa um código qualquer, validado por uma máscara.
  * @author helderdarocha
  */
+@Embeddable
 public class Codigo implements Serializable {
     private String codigo;
+    
+    public Codigo() {}
     
     /**
      * Cria um código.

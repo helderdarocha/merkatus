@@ -6,6 +6,12 @@
 
 package br.com.argonavis.merkatus.alicit.comprador;
 
+import br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao;
+import br.com.argonavis.merkatus.alicit.edital.Edital;
+import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -50,28 +56,6 @@ public class BancoBrasilTest {
     @Test
     public void testGetWebsite() {
         assertEquals("www.licitacoes-e.com.br", comprador.getWebsite());
-    }
-    
-    // testes de relacionamento - integracao
-    
-    @Test
-    public void testGetEditais() {
-        
-    }
-
-    @Test
-    public void testAddEdital() {
-        
-    }
-
-    @Test
-    public void testRemoveEdital() {
-        
-    }
-
-    @Test
-    public void testSetEditais() {
-        
     }
     
 }

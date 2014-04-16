@@ -7,15 +7,19 @@
 package br.com.argonavis.merkatus.alicit.edital;
 
 import java.io.Serializable;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author helderdarocha
  */
+@Embeddable
 public class Telefone implements Serializable {
     private String ddi = "55";
     private String ddd;
     private String numero;
+    
+    public Telefone() {}
     
     public Telefone(String ddd, String numero) {
         this.ddd = ddd;

@@ -4,6 +4,13 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.com.argonavis.merkatus.alicit.comprador.ConsumidorFinal</class>
     <class>br.com.argonavis.merkatus.alicit.Sistema</class>
+    <class>br.com.argonavis.merkatus.alicit.comprador.BancoBrasil</class>
+    <class>br.com.argonavis.merkatus.alicit.comprador.BolsaEletronicaCompras</class>
+    <class>br.com.argonavis.merkatus.alicit.comprador.Comprador</class>
+    <class>br.com.argonavis.merkatus.alicit.comprador.ComprasNet</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.Edital</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.PregaoEletronico</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/alicitdev?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="alicitdev"/>

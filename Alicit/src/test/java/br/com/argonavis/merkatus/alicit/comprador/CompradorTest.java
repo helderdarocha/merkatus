@@ -6,9 +6,17 @@
 
 package br.com.argonavis.merkatus.alicit.comprador;
 
-import java.util.Date;
+import br.com.argonavis.merkatus.alicit.PersistenceUtilities;
+import br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao;
+import br.com.argonavis.merkatus.alicit.edital.Edital;
+import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -16,32 +24,67 @@ import static org.junit.Assert.*;
  */
 public class CompradorTest {
     
-    Comprador comprador = new CompradorImpl();
+    Comprador comprador = new BancoBrasil();
+    
+    @Before
+    public void init() {
+        PersistenceUtilities.persist(comprador);
+    }
+    
+    @After
+    public void destroy() {
+        PersistenceUtilities.remove(comprador);
+    }
 
     @Test
     public void testGetIdCodigoComprador() {
-        assertEquals("123", comprador.getIdCodigoComprador());
+        assertEquals("ORGAO", comprador.getIdCodigoComprador());
     }
 
     @Test
     public void testGetMascara() {
-        assertEquals("\\d.*", comprador.getMascara(null));
+        assertEquals("\\d{8}", comprador.getMascara(null));
     }
     
     @Test
     public void testValidarCodigoComprador() {
-        assertTrue(comprador.validarCodigoComprador("123", null));
+        assertTrue(comprador.validarCodigoComprador("12345678", null));
+    }
+    
+   // testes de relacionamento - integracao
+    
+   @Test
+    public void testSetEditais() {
+        setupEditais();
     }
 
-    public class CompradorImpl extends Comprador {
+    private void setupEditais() {
+        Set<Edital> editais = new HashSet<>();
+        editais.add(new PregaoEletronico(comprador, PregaoEletronico.Tipo.SRP));
+        editais.add(new DispensaLicitacao(comprador, DispensaLicitacao.Tipo.COMPRA_DIRETA));
+        comprador.setEditais(editais);
+    }
+    
+    @Test
+    public void testGetEditais() {
+        setupEditais();
+        assertEquals(2, comprador.getEditais().size());
+    }
+ 
+    @Test
+    public void testAddEdital() throws ParseException {
+        setupEditais();
+        Edital edital = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA);
+        comprador.addEdital(edital);
+        assertEquals(3, comprador.getEditais().size());
+        assertEquals(comprador, comprador.getEditais().iterator().next().getComprador());
+    }
 
-        public String getIdCodigoComprador() {
-            return "123";
-        }
-
-        public String getMascara(Date dataEdital) {
-            return "\\d.*";
-        }
+    @Test
+    public void testRemoveEdital() {
+        setupEditais();
+        comprador.removeEdital(comprador.getEditais().iterator().next());
+        assertEquals(1, comprador.getEditais().size());
     }
     
 }

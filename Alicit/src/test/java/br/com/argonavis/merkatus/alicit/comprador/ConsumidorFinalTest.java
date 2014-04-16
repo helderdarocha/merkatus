@@ -32,26 +32,4 @@ public class ConsumidorFinalTest {
         assertTrue(comprador.validarCodigoComprador("A8473B228", null));
     }
     
-    // testes de relacionamento - integracao
-    
-    @Test
-    public void testGetEditais() {
-        
-    }
-
-    @Test
-    public void testAddEdital() {
-        
-    }
-
-    @Test
-    public void testRemoveEdital() {
-        
-    }
-
-    @Test
-    public void testSetEditais() {
-        
-    }
-    
 }
