@@ -18,7 +18,7 @@ import javax.persistence.Embeddable;
 public class Codigo implements Serializable {
     private String codigo;
     
-    public Codigo() {}
+    protected Codigo() {}
     
     /**
      * Cria um código.

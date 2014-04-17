@@ -23,11 +23,11 @@ public class PregaoEletronicoTest {
         assertNull(d1.getComprador());
         
         Comprador c1 = new BancoBrasil();
-        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA);
+        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("223777"));
         assertEquals(c1, d2.getComprador());
         
-        PregaoEletronico d3 = new PregaoEletronico(PregaoEletronico.Tipo.SRP_CARONA);
-        assertNull(d3.getComprador());
+        PregaoEletronico d3 = new PregaoEletronico(c1, PregaoEletronico.Tipo.SRP_CARONA, new Codigo("223776"));
+        assertEquals(c1, d3.getComprador());
     }
     
     @Test
@@ -36,10 +36,10 @@ public class PregaoEletronicoTest {
         assertNull(d1.getTipo());
         
         Comprador c1 = new BancoBrasil();
-        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA);
+        PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("323777"));
         assertEquals(PregaoEletronico.Tipo.COMPRA_DIRETA, d2.getTipo());
         
-        PregaoEletronico d3 = new PregaoEletronico(PregaoEletronico.Tipo.SRP_CARONA);
+        PregaoEletronico d3 = new PregaoEletronico(c1, PregaoEletronico.Tipo.SRP_CARONA, new Codigo("323776"));
         assertEquals(PregaoEletronico.Tipo.SRP_CARONA, d3.getTipo());
     }
     

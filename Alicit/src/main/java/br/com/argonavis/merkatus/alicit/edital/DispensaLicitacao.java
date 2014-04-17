@@ -24,12 +24,9 @@ public class DispensaLicitacao extends Edital {
     }
     private Tipo tipo;
 
-    public DispensaLicitacao() {}
-    public DispensaLicitacao(Tipo tipo) {
-        this.tipo = tipo;
-    }
-    public DispensaLicitacao(Comprador comprador, Tipo tipo) {
-        super(comprador);
+    protected DispensaLicitacao() {}
+    public DispensaLicitacao(Comprador comprador, Tipo tipo, Codigo numero) {
+        super(comprador, numero);
         this.tipo = tipo;
     }
 

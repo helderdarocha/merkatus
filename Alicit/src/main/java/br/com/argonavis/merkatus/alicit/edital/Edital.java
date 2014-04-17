@@ -36,6 +36,7 @@ public abstract class Edital implements Serializable {
     @AttributeOverrides({ 
        @AttributeOverride(name="codigo", column=@Column(name="NUMERO_EDITAL"))
     })
+    @Column(unique = true)
     private Codigo numeroEdital;
     
     @Embedded
@@ -103,11 +104,12 @@ public abstract class Edital implements Serializable {
     @ManyToOne(cascade = {CascadeType.ALL})
     private Comprador comprador;
 
-    public Edital() {
+    protected Edital() {
     }
 
-    public Edital(Comprador comprador) {
+    public Edital(Comprador comprador, Codigo numeroEdital) {
         this.comprador = comprador;
+        this.numeroEdital = numeroEdital;
     }
     
     public void setIdentificacao(String nomeDisplay, Codigo numeroEdital, Codigo numeroEditalComprador, CNPJ cnpjComprador) {
@@ -211,6 +213,18 @@ public abstract class Edital implements Serializable {
 
     public Comprador getComprador() {
         return comprador;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Edital)) return false;
+        Edital other = (Edital) o;
+        return other.numeroEdital.equals(this.numeroEdital);
+    }
+    
+    @Override
+    public int hashCode() {
+        return (this.numeroEdital).hashCode();
     }
 
 }

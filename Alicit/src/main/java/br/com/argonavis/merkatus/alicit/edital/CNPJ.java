@@ -22,7 +22,7 @@ public class CNPJ implements Serializable {
     private String normalizedCnpj;
     private String formattedCnpj;
 
-    public CNPJ() {}
+    protected CNPJ() {}
     
     /**
      * Cria um CNPJ e recebe um string formatado xx.xxx.xxx/xxxx-xx ou 14 digitos.

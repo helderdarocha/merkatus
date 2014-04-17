@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,13 +35,15 @@ public abstract class Comprador implements Serializable {
     
     private String nomeCurto;
     private String nomeLongo;
+    
+    @Column(unique = true)
     private String codigo;
     private String website;
     
     @OneToMany(mappedBy="comprador", cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Edital> editais;
 
-    public Comprador() {}
+    protected Comprador() {}
     public Comprador(String nomeCurto, String nomeLongo, String codigo, String website) {
         this.nomeLongo = nomeLongo;
         this.nomeCurto = nomeCurto;
@@ -98,7 +101,7 @@ public abstract class Comprador implements Serializable {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    protected void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -126,6 +129,18 @@ public abstract class Comprador implements Serializable {
     
     public void setEditais(Set<Edital> editais) {
         this.editais = editais;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Comprador)) return false;
+        Comprador other = (Comprador) o;
+        return other.codigo.equals(this.codigo);
+    }
+    
+    @Override
+    public int hashCode() {
+        return (this.codigo).hashCode();
     }
     
 }

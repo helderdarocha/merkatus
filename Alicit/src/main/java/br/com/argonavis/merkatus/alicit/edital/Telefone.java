@@ -19,7 +19,7 @@ public class Telefone implements Serializable {
     private String ddd;
     private String numero;
     
-    public Telefone() {}
+    protected Telefone() {}
     
     public Telefone(String ddd, String numero) {
         this.ddd = ddd;

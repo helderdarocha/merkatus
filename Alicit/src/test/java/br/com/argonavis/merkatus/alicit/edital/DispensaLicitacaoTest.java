@@ -23,11 +23,11 @@ public class DispensaLicitacaoTest {
         assertNull(d1.getComprador());
         
         Comprador c1 = new BancoBrasil();
-        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA);
+        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("123456"));
         assertEquals(c1, d2.getComprador());
         
-        DispensaLicitacao d3 = new DispensaLicitacao(DispensaLicitacao.Tipo.CONVITE_ELETRONICO);
-        assertNull(d3.getComprador());
+        DispensaLicitacao d3 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.CONVITE_ELETRONICO, new Codigo("123457"));
+        assertEquals(c1, d3.getComprador());
     }
     
     @Test
@@ -36,10 +36,10 @@ public class DispensaLicitacaoTest {
         assertNull(d1.getTipo());
         
         Comprador c1 = new BancoBrasil();
-        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA);
+        DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("123459"));
         assertEquals(DispensaLicitacao.Tipo.COMPRA_DIRETA, d2.getTipo());
         
-        DispensaLicitacao d3 = new DispensaLicitacao(DispensaLicitacao.Tipo.CONVITE_ELETRONICO);
+        DispensaLicitacao d3 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.CONVITE_ELETRONICO, new Codigo("123458"));
         assertEquals(DispensaLicitacao.Tipo.CONVITE_ELETRONICO, d3.getTipo());
     }
     

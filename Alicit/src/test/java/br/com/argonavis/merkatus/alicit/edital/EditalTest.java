@@ -12,6 +12,7 @@ import br.com.argonavis.merkatus.alicit.comprador.ComprasNet;
 import java.text.ParseException;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  *
@@ -22,8 +23,8 @@ public class EditalTest {
     Comprador comprador1 = new ComprasNet();
     Comprador comprador2 = new BolsaEletronicaCompras();
     
-    Edital pe = new PregaoEletronico(comprador1, PregaoEletronico.Tipo.COMPRA_DIRETA);
-    Edital dl = new DispensaLicitacao(comprador2, DispensaLicitacao.Tipo.COTACAO_ELETRONICA);
+    Edital pe = new PregaoEletronico(comprador1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("123999"));
+    Edital dl = new DispensaLicitacao(comprador2, DispensaLicitacao.Tipo.COTACAO_ELETRONICA, new Codigo("123777"));
     
     String nomeDisplay1, nomeDisplay2;
     Codigo numeroEdital1, numeroEdital2, numeroEditalComprador1, numeroEditalComprador2;
@@ -122,6 +123,18 @@ public class EditalTest {
     public void testGetComprador() {
         assertEquals(comprador1, pe.getComprador());
         assertEquals(comprador2, dl.getComprador());
+    }
+    
+    @Test
+    public void testEquals() {
+        Edital pe2 = new PregaoEletronico(comprador1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("1234567890"));
+        assertEquals(pe, pe2);
+    }
+    
+    @Test
+    public void testHashCode() throws ParseException {
+        Edital pe2 = new PregaoEletronico(comprador1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("1234567890"));
+        assertEquals(pe.hashCode(), pe2.hashCode());
     }
     
 }

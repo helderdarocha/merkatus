@@ -6,6 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -48,6 +49,13 @@ public class PersistenceUtilities {
             em.close();
         }
         return result;
+    }
+    
+    public static List findAll(Class entityClass) {
+        EntityManager em = emf.createEntityManager();
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return em.createQuery(cq).getResultList();
     }
     
     public static void remove(Object object) {

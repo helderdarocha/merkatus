@@ -6,17 +6,15 @@
 
 package br.com.argonavis.merkatus.alicit.comprador;
 
-import br.com.argonavis.merkatus.alicit.PersistenceUtilities;
+import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
 import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
-import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
 
 /**
  *
@@ -25,16 +23,9 @@ import org.junit.Before;
 public class CompradorTest {
     
     Comprador comprador = new BancoBrasil();
-    
-    @Before
-    public void init() {
-        PersistenceUtilities.persist(comprador);
-    }
-    
-    @After
-    public void destroy() {
-        PersistenceUtilities.remove(comprador);
-    }
+    Edital e1 = new PregaoEletronico(comprador, PregaoEletronico.Tipo.SRP, new Codigo("123456"));
+    Edital e2 = new DispensaLicitacao(comprador, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("654321"));
+    Edital e3 = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("999999"));
 
     @Test
     public void testGetIdCodigoComprador() {
@@ -50,9 +41,7 @@ public class CompradorTest {
     public void testValidarCodigoComprador() {
         assertTrue(comprador.validarCodigoComprador("12345678", null));
     }
-    
-   // testes de relacionamento - integracao
-    
+
    @Test
     public void testSetEditais() {
         setupEditais();
@@ -60,8 +49,8 @@ public class CompradorTest {
 
     private void setupEditais() {
         Set<Edital> editais = new HashSet<>();
-        editais.add(new PregaoEletronico(comprador, PregaoEletronico.Tipo.SRP));
-        editais.add(new DispensaLicitacao(comprador, DispensaLicitacao.Tipo.COMPRA_DIRETA));
+        editais.add(e1);
+        editais.add(e2);
         comprador.setEditais(editais);
     }
     
@@ -74,8 +63,7 @@ public class CompradorTest {
     @Test
     public void testAddEdital() throws ParseException {
         setupEditais();
-        Edital edital = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA);
-        comprador.addEdital(edital);
+        comprador.addEdital(e3);
         assertEquals(3, comprador.getEditais().size());
         assertEquals(comprador, comprador.getEditais().iterator().next().getComprador());
     }
@@ -85,6 +73,18 @@ public class CompradorTest {
         setupEditais();
         comprador.removeEdital(comprador.getEditais().iterator().next());
         assertEquals(1, comprador.getEditais().size());
+    }
+    
+    @Test
+    public void testEquals() {
+        Comprador comprador1 = new BancoBrasil();
+        assertEquals(comprador, comprador1);
+    }
+    
+    @Test
+    public void testHashCode() throws ParseException {
+        Comprador comprador1 = new BancoBrasil();
+        assertEquals(comprador.hashCode(), comprador1.hashCode());
     }
     
 }

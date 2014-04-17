@@ -31,7 +31,7 @@ public class Endereco implements Serializable {
     
     private String endereco;
     
-    public Endereco() {}
+    protected Endereco() {}
     
     public Endereco(String endereco, String cidade, String uf, String cep) {
         this.endereco = endereco;

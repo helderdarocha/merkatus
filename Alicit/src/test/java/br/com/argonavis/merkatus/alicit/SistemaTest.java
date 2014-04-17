@@ -5,7 +5,6 @@
  */
 package br.com.argonavis.merkatus.alicit;
 
-import static br.com.argonavis.merkatus.alicit.PersistenceUtilities.emf;
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import br.com.argonavis.merkatus.alicit.comprador.ComprasNet;
 import br.com.argonavis.merkatus.alicit.edital.CNPJ;
@@ -13,14 +12,11 @@ import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
 import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -35,27 +31,25 @@ public class SistemaTest {
         EntityManager em = PersistenceUtilities.emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        Sistema sistema = null;
         Comprador comprador = null;
         try {
-            sistema = new Sistema();
-            em.persist(sistema);
-            
-            Set<Comprador> compradores = sistema.getCompradores();
+            List compradores = PersistenceUtilities.findAll(Comprador.class);
             assertNotNull(compradores);
-            assertEquals(0, compradores.size());
+            int size = compradores.size();
 
             comprador = new ComprasNet();
             compradores.add(comprador);
-            compradores = sistema.getCompradores();
-            assertEquals(1, compradores.size());
-            assertEquals("ComprasNET", compradores.iterator().next().getCodigo());
+            PersistenceUtilities.persist(comprador);
+            
+            compradores = PersistenceUtilities.findAll(Comprador.class);
+            assertEquals(size + 1, compradores.size());
+            
+            em.remove(comprador);
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
         } finally {
-            em.remove(sistema);
-            em.remove(comprador);
             em.close();
         }
     }
@@ -65,36 +59,35 @@ public class SistemaTest {
         EntityManager em = PersistenceUtilities.emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        Sistema sistema = null;
         Comprador comprador = null;
         Edital edital = null;
         try {
-            sistema = new Sistema();
-            em.persist(sistema);
 
-            Set<Edital> editais = sistema.getEditais();
+            List editais = PersistenceUtilities.findAll(Edital.class);
             assertNotNull(editais);
-            assertEquals(0, editais.size());
+            int size = editais.size();
 
-            edital = new PregaoEletronico(PregaoEletronico.Tipo.COMPRA_DIRETA);
             comprador = new ComprasNet();
+            Codigo numero = new Codigo("123457");
+            edital = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA, numero);         
 
             edital.setComprador(comprador);
             edital.setIdentificacao("Pregao no. 1", new Codigo("123456"), new Codigo("45343"), new CNPJ("04.239.747/0001-58"));
-            sistema.addEdital(edital);
+            PersistenceUtilities.persist(edital);
 
-            editais = sistema.getEditais();
-            assertEquals(1, editais.size());
-            assertEquals("04239747000158", editais.iterator().next().getCnpjComprador().toNormalizedString());
-            assertEquals(comprador, editais.iterator().next().getComprador());
+            editais = PersistenceUtilities.findAll(Edital.class);
+            assertEquals(size + 1, editais.size());
+            assertEquals("04239747000158", ((Edital)editais.iterator().next()).getCnpjComprador().toNormalizedString());
+            assertEquals(comprador, ((Edital)editais.iterator().next()).getComprador());
+            
+            em.remove(edital);
+            em.remove(comprador);
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
         } finally {
-            em.remove(sistema);
-            em.remove(edital);
-            em.remove(comprador);
             em.close();
         }
 
