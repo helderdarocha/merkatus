@@ -15,6 +15,17 @@ import javax.persistence.Entity;
  */
 @Entity
 public class ConsumidorFinal extends Comprador {
+    
+    public ConsumidorFinal() {
+        super("Consumidor Final Nome Curto", "Consumidor Final Nome Longo", "ConsumidorID", "www.consumidor.com");
+    }
+    public ConsumidorFinal(String nomeCurto, String nomeLongo, String identificador, String website) {
+        super(nomeCurto, nomeLongo, identificador, website);
+    }
+    public ConsumidorFinal(String identificador) {
+        super("Consumidor Final Nome Curto", "Consumidor Final Nome Longo", identificador, "www.consumidor.com");
+    }
+    
     @Override
     public String getIdCodigoComprador() {
         return "Código do comprador";

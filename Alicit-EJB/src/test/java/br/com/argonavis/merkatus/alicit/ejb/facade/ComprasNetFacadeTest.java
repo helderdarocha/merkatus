@@ -40,10 +40,8 @@ public class ComprasNetFacadeTest {
     @Test
     public void testFindAll() throws Exception {
         int count = facade.count();
-        facade.create(comprador);
         List<ComprasNet> all = facade.findAll();
-        assertEquals(count + 1, all.size());
-        facade.remove(comprador);
+        assertEquals(count, all.size());
     }
 
     @Test

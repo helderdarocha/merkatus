@@ -31,10 +31,6 @@ public class EditalFacadeTest {
         edital = new PregaoEletronico(new ComprasNet(), PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("000001"));
         edital.setNomeDisplay("TEST");
     }
-    
-    @Test 
-    public void n() {}
-
 
     @Test
     public void testCreate() throws Exception {

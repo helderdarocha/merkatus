@@ -40,7 +40,7 @@ public abstract class Comprador implements Serializable {
     private String codigo;
     private String website;
     
-    @OneToMany(mappedBy="comprador", cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy="comprador", cascade={CascadeType.ALL})
     private Set<Edital> editais;
 
     protected Comprador() {}
