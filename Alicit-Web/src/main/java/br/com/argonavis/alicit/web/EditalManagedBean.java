@@ -15,6 +15,7 @@ import br.com.argonavis.merkatus.alicit.ejb.facade.remote.DispensaLicitacaoFacad
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.EditalFacadeRemote;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.PregaoEletronicoFacadeRemote;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +44,11 @@ public class EditalManagedBean implements Serializable {
 
     //@Inject
     //private Conversation conversation;
+    
+    List<Edital> editaisFiltrados;
 
     private String idComprador;
+    private boolean showCadastrarEditalPanel = false;
     private String numeroEdital;
 
     private String nomeDisplay;
@@ -56,8 +60,8 @@ public class EditalManagedBean implements Serializable {
     private static final Map<String, String> tipoEditaisMap = new HashMap<>();
 
     static {
-        tipoEditaisMap.put("PE", "PE");
-        tipoEditaisMap.put("DL", "DL");
+        tipoEditaisMap.put("Pregão Eletrônico", "PE");
+        tipoEditaisMap.put("Dispensa de Licitação", "DL");
     }
 /*
     @PostConstruct
@@ -75,8 +79,25 @@ public class EditalManagedBean implements Serializable {
         dataAbertura = null;
         tipoPE = null;
         tipoDL = null;
+        this.showCadastrarEditalPanel = false;
     }
-    
+
+    public List<Edital> getEditaisFiltrados() {
+        return editaisFiltrados;
+    }
+
+    public void setEditaisFiltrados(List<Edital> editaisFiltrados) {
+        this.editaisFiltrados = editaisFiltrados;
+    }
+
+    public boolean isShowCadastrarEditalPanel() {
+        return showCadastrarEditalPanel;
+    }
+
+    public void setShowCadastrarEditalPanel(boolean showCadastrarEditalPanel) {
+        this.showCadastrarEditalPanel = showCadastrarEditalPanel;
+    }
+
     public Map<String, String> getTipoEditaisMap() {
         return tipoEditaisMap;
     }
@@ -181,13 +202,27 @@ public class EditalManagedBean implements Serializable {
         return "editais";
     }
     
+    public String showCadastrarEditalPanel() {
+        this.showCadastrarEditalPanel = true;
+        return null;
+    }
+    
+    public String hideCadastrarEditalPanel() {
+        resetSession();
+        return null;
+    }
+    
     public String editarEdital() {
         // validate data
-        return "editarEdital";
+        return "editarEdital?acao=editar";
     }
     
     public String exbirEdital() {
         // validate data
-        return "exibirEdital";
+        return "editarEdital?acao=exibir";
+    }
+    
+    public Collection<String> getTiposEditalValues() {
+        return tipoEditaisMap.values();
     }
 }

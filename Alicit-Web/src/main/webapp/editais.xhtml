@@ -2,92 +2,139 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Criar Edital</title>
+        <title>Cadastro de Editais</title>
         <style>
             tr:nth-child(odd) {background: rgb(90%,90%,100%)}
             table {border: solid 1px blue;}
+            fieldset select {width: 300px}
+            fieldset {width: 700px}
             * {font-family: 'Calibri'}
         </style>
     </h:head>
     <h:body>
-        <h1>Criar Edital</h1>
-        <h:form>
-            <p>
-                Selecionar comprador
-                <h:selectOneMenu value="#{editalManagedBean.idComprador}">
-                    <f:selectItem itemLabel="Selecionar comprador" itemValue=""/>
-                    <f:selectItems value="#{compradorManagedBean.compradoresMap}" />
-                    <f:ajax event="change" render="selectTipoEditalPanel"/>
-                </h:selectOneMenu>
-            </p>
+        <h1>Cadastro de Editais</h1>
+        <h:form prependId="false">
+            <h2>Editais cadastrados</h2>
+            <p:dataTable id="dataTable" value="#{editalManagedBean.editais}" var="edital"
+                         emptyMessage="Nenhum edital encontrado para os critérios selecionados" 
+                         widgetVar="editaisTable"
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
+                         rowsPerPageTemplate="5,10,15"
+                         currentPageReportTemplate="Página {currentPage} de {totalPages}">
 
-            <h:panelGroup id="selectTipoEditalPanel">
-                <h:panelGroup rendered="#{editalManagedBean.idComprador ne null}">
-                    <p>
-                        <h:outputLabel >Selecionar tipo de edital</h:outputLabel>
-                        <h:selectOneMenu value="#{editalManagedBean.tipoEdital}">
-                            <f:selectItem itemLabel="Selecionar tipo de edital" itemValue=""/>
-                            <f:selectItems value="#{editalManagedBean.tipoEditaisMap}" />
-                            <f:ajax event="change" render="createEditalPanel"/>
-                        </h:selectOneMenu>
-                    </p>
-                </h:panelGroup>
-            </h:panelGroup>
-
-
-
-            <h:panelGroup id="createEditalPanel">
-                <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'PE'}">
-                    <p>
-                        Nome <h:inputText value="#{editalManagedBean.nomeDisplay}" />
-                        <br/>Número da licitação <h:inputText value="#{editalManagedBean.numeroEdital}" />
-                    </p>
-                    <p>
-                        <h:commandButton value="Criar Pregão Eletrônico"  
-                                         action="#{editalManagedBean.criarPregaoEletronico}" />
-                    </p>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'DL'}">
-                    <p>
-                        Nome <h:inputText value="#{editalManagedBean.nomeDisplay}" />
-                        <br/>Número da licitação <h:inputText value="#{editalManagedBean.numeroEdital}" />
-                    </p>
-                    <p>
-                        <h:commandButton value="Criar Dispensa Licitação" 
-                                         action="#{editalManagedBean.criarDispensaLicitacao}" />
-                    </p>
-                </h:panelGroup>
-            </h:panelGroup>
-
-            <h1>Editais</h1>
-            <h:dataTable value="#{editalManagedBean.editais}" var="edital">
-                <h:column>
+                <p:column sortBy="identificador">
+                    <f:facet name="header">  
+                        <h:outputText value="Identificador" />  
+                    </f:facet>  
                     #{edital.comprador.identificador}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column sortBy="#{edital.numeroEdital}">
+                    <f:facet name="header">  
+                        <h:outputText value="Número" />  
+                    </f:facet>  
                     #{edital.numeroEdital}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column sortBy="nomeDisplay">
+                    <f:facet name="header">  
+                        <h:outputText value="Edital" />  
+                    </f:facet>  
                     #{edital.nomeDisplay}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column sortBy="class.simpleName">
+                    <f:facet name="header">  
+                        <h:outputText value="Tipo" />  
+                    </f:facet>  
                     #{edital.class.simpleName}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column sortBy="dataAbertura">
+                    <f:facet name="header">  
+                        <h:outputText value="Data de abertura" />  
+                    </f:facet>  
                     {edital.dataAbertura}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column sortBy="id">
+                    <f:facet name="header">  
+                        <h:outputText value="ID" />  
+                    </f:facet>  
                     #{edital.id}
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <h:commandLink action="#{editalManagedBean.exbirEdital}">Exibir</h:commandLink>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <h:commandLink action="#{editalManagedBean.editarEdital}">Editar</h:commandLink>
-                </h:column>
-            </h:dataTable>
+                </p:column>
+            </p:dataTable>
+            <p></p>
+            <h:panelGroup id="cadastrarEditalButton">
+                <p:commandButton value="Cadastrar novo edital" 
+                                 action="#{editalManagedBean.showCadastrarEditalPanel}"
+                                 rendered="#{editalManagedBean.showCadastrarEditalPanel == false}">
+                    <f:ajax render="cadastrarEdital cadastrarEditalButton"/>
+                </p:commandButton>
+            </h:panelGroup>
+
+            <h:panelGroup id="cadastrarEdital">
+                <h:panelGroup rendered="#{editalManagedBean.showCadastrarEditalPanel == true}">
+                    <p:fieldset legend="Cadastrar Novo Edital">
+                        <p>
+                            <p:selectOneMenu value="#{editalManagedBean.idComprador}">
+                                <f:selectItem itemLabel="Selecionar comprador" itemValue=""/>
+                                <f:selectItems value="#{compradorManagedBean.compradoresMap}" />
+                                <f:ajax event="change" render="selectTipoEditalPanel"/>
+                            </p:selectOneMenu>
+                        </p> 
+
+                        <h:panelGroup id="selectTipoEditalPanel">
+                            <h:panelGroup rendered="#{editalManagedBean.idComprador ne null}">
+                                <p>
+                                    <p:selectOneMenu value="#{editalManagedBean.tipoEdital}">
+                                        <f:selectItem itemLabel="Selecionar tipo de edital" itemValue=""/>
+                                        <f:selectItems value="#{editalManagedBean.tipoEditaisMap}" />
+                                        <f:ajax event="change" render="createEditalPanel"/>
+                                    </p:selectOneMenu>
+                                </p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="createEditalPanel">
+                            <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'PE'}">
+                                <p>
+                                    <p:outputLabel >Nome para identificar este pregão </p:outputLabel> 
+                                    <p:inputText value="#{editalManagedBean.nomeDisplay}" />
+                                </p><p>
+                                    <p:outputLabel >Número do pregão </p:outputLabel> 
+                                    <p:inputText value="#{editalManagedBean.numeroEdital}" />
+                                </p>
+                                <p>
+                                    <p:commandButton value="Criar Pregão Eletrônico"  
+                                                     action="#{editalManagedBean.criarPregaoEletronico}" />
+                                </p>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'DL'}">
+                                <p>
+                                    <p:outputLabel >Nome para identificar esta dispensa de licitação </p:outputLabel> 
+                                    <p:inputText value="#{editalManagedBean.nomeDisplay}" />
+                                </p><p>
+                                    <p:outputLabel >Número da dispensa de licitação</p:outputLabel> 
+                                    <p:inputText value="#{editalManagedBean.numeroEdital}" />
+                                </p>
+                                <p:commandButton value="Criar Dispensa Licitação" 
+                                                 action="#{editalManagedBean.criarDispensaLicitacao}" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <p:commandButton value="Cancelar cadastramento de novo edital" 
+                                         rendered="#{editalManagedBean.showCadastrarEditalPanel == true}"
+                                         action="#{editalManagedBean.hideCadastrarEditalPanel}">
+                            <f:ajax render="cadastrarEdital cadastrarEditalButton"/>
+                        </p:commandButton>
+                    </p:fieldset>
+                </h:panelGroup>
+            </h:panelGroup>
         </h:form>
     </h:body>
 </html>
