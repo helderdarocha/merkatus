@@ -18,6 +18,8 @@ public interface AbstractFacadeInterface<T> {
     T edit(T object);
     void remove(T object);
     T find(Object id);
+    T querySingle(String q);
+    List<T> queryList(String q);
     List<T> findAll();
     List<T> findRange(int[] range);
     int count();

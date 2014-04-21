@@ -12,7 +12,13 @@ import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
 import br.com.argonavis.merkatus.alicit.ejb.LookupService;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CompradorFacadeRemote;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.EditalFacadeRemote;
+import java.util.List;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,62 +27,61 @@ import org.junit.Test;
  * @author helderdarocha
  */
 public class EditalFacadeTest {
-    LookupService<EditalFacadeRemote> service = new LookupService<>();
-    EditalFacadeRemote facade = service.lookupBean(EditalFacade.class, EditalFacadeRemote.class);
-    
-    Edital edital;
+    LookupService<EditalFacadeRemote> editalService = new LookupService<>();
+    LookupService<CompradorFacadeRemote> compradorService = new LookupService<>();
+    EditalFacadeRemote editalFacade = editalService.lookupBean(EditalFacade.class, EditalFacadeRemote.class);
+    CompradorFacadeRemote compradorFacade = compradorService.lookupBean(CompradorFacade.class, CompradorFacadeRemote.class);
     
     @Before
-    public void setUp() {
-        edital = new PregaoEletronico(new ComprasNet(), PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("000001"));
-        edital.setNomeDisplay("TEST");
-    }
-
-    @Test
     public void testCreate() throws Exception {
-        facade.create(edital);
-        facade.remove(edital);
+        Comprador comprador = Comprador.createCompradorComprasNet();
+        compradorFacade.create(comprador);
+        Comprador found = compradorFacade.querySingle("select c from Comprador c where c.identificador = 'COMPRASNET'");
+        
+        int count = editalFacade.count();
+        Edital edital = new PregaoEletronico(found, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("000001"));
+        editalFacade.create(edital);
+        assertEquals(count + 1, editalFacade.count());
     }
-/*
-    @Test
-    public void testEdit() throws Exception {
-        edital.setNomeDisplay("TEST-TEST");
-        Edital c = facade.edit(edital);
-        String nome = c.getNomeDisplay();
-        assertEquals("TEST-TEST", nome);
-    }
-
-    @Test
+    
+    @After
     public void testRemove() throws Exception {
-        int count = facade.count();
-        facade.create(edital);
-        assertEquals(count + 1, facade.count());
-        facade.remove(edital);
-        //assertEquals(count, facade.count());
+        int count = editalFacade.count();
+        Edital found = editalFacade.querySingle("select e from Edital e where e.numeroEdital.codigo = '000001'");
+        
+        Comprador comprador = found.getComprador();
+        
+        editalFacade.remove(found);
+        compradorFacade.remove(comprador);
+        assertEquals(count - 1, editalFacade.count());
+    }
+    
+    @Test
+    public void testMerge() throws Exception {
+        Edital found = editalFacade.querySingle("select e from Edital e where e.numeroEdital.codigo = '000001'");
+        Edital merged = editalFacade.edit(found);
+        assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        facade.create(edital);
-        edital = facade.edit(edital);
-        System.out.println(edital.getId());
-        // test
-        Edital c = facade.find(edital.getId());
-        assertEquals(edital, c);
+        Edital foundQuery = editalFacade.querySingle("select e from Edital e where e.numeroEdital.codigo = '000001'");
+        System.out.println("Comprador ID: " + foundQuery.getId());
+        Edital foundGet = editalFacade.find(foundQuery.getId());
+        assertEquals(foundQuery, foundGet);
     }
-
+    
     @Test
     public void testFindAll() throws Exception {
-        int count = facade.count();
-        facade.create(edital);
-        List<Edital> all = facade.findAll();
-        assertEquals(count + 1, all.size());
+        int count = editalFacade.count();
+        List<Edital> all = editalFacade.findAll();
+        assertEquals(count, all.size());
     }
 
     @Test
     public void testCount() throws Exception {
-        facade.create(edital);
-        int elements = facade.count();
+        int elements = editalFacade.count();
         assertTrue(elements > 0);
-    } */
+    }
+    
 }

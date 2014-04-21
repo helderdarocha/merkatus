@@ -6,15 +6,12 @@
 
 package br.com.argonavis.merkatus.alicit.comprador;
 
-import br.com.argonavis.merkatus.alicit.edital.Codigo;
-import br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao;
-import br.com.argonavis.merkatus.alicit.edital.Edital;
-import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
 import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Calendar;
+import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -22,69 +19,64 @@ import static org.junit.Assert.*;
  */
 public class CompradorTest {
     
-    Comprador comprador = new BancoBrasil();
-    Edital e1 = new PregaoEletronico(comprador, PregaoEletronico.Tipo.SRP, new Codigo("123456"));
-    Edital e2 = new DispensaLicitacao(comprador, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("654321"));
-    Edital e3 = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("999999"));
-
+    Comprador bb;
+    Comprador bec;
+    Comprador cn;
+    
+    @Before
     @Test
-    public void testGetIdCodigoComprador() {
-        assertEquals("ORGAO", comprador.getIdCodigoComprador());
-    }
-
-    @Test
-    public void testGetMascara() {
-        assertEquals("\\d{8}", comprador.getMascara(null));
+    public void testCreateAndInit() {
+        bb  = new Comprador("BB");
+        bb.initComprador();
+        bec = new Comprador("BEC");
+        bec.initComprador();
+        cn  = new Comprador("COMPRASNET");
+        cn.initComprador();
     }
     
+    @Test
+    public void testFailCreate() {
+        try {
+            bb  = new Comprador("FAKE");
+            fail("Criacao de comprador invalido nao causou excecao");
+        } catch (IllegalArgumentException e) {}
+    }
+    
+    @Test
+    public void testGetIdentificador() {
+        assertEquals("Identificador BB incorreto", "BB", bb.getIdentificador());
+        assertEquals("Identificador BEC incorreto", "BEC", bec.getIdentificador());
+        assertEquals("Identificador COMPRASNET incorreto", "COMPRASNET", cn.getIdentificador());
+        
+    }
+    
+    @Test
+    public void testGetPortal() {
+        assertTrue("Portal BB incorreto", bb.getPortal() instanceof BancoBrasil);
+        assertTrue("Portal BEC incorreto", bec.getPortal() instanceof BolsaEletronicaCompras);
+        assertTrue("Portal COMPRASNET incorreto", cn.getPortal() instanceof ComprasNet);
+    }
+
     @Test
     public void testValidarCodigoComprador() {
-        assertTrue(comprador.validarCodigoComprador("12345678", null));
+        int ano = Calendar.getInstance().get(Calendar.YEAR);
+        assertTrue("Codigo BEC OC valida incorretamente", bec.validarCodigoComprador("12345678901"+ano+"OC12345", new Date()));
+        assertTrue("Codigo BB Orgao valida incorretamente", bb.validarCodigoComprador("12345678", null));
+        assertTrue("Codigo ComprasNet UASG valida incorretamente", cn.validarCodigoComprador("123456", null));
     }
 
-   @Test
-    public void testSetEditais() {
-        setupEditais();
-    }
-
-    private void setupEditais() {
-        Set<Edital> editais = new HashSet<>();
-        editais.add(e1);
-        editais.add(e2);
-        comprador.setEditais(editais);
-    }
-    
-    @Test
-    public void testGetEditais() {
-        setupEditais();
-        assertEquals(2, comprador.getEditais().size());
-    }
- 
-    @Test
-    public void testAddEdital() throws ParseException {
-        setupEditais();
-        comprador.addEdital(e3);
-        assertEquals(3, comprador.getEditais().size());
-        assertEquals(comprador, comprador.getEditais().iterator().next().getComprador());
-    }
-
-    @Test
-    public void testRemoveEdital() {
-        setupEditais();
-        comprador.removeEdital(comprador.getEditais().iterator().next());
-        assertEquals(1, comprador.getEditais().size());
-    }
-    
     @Test
     public void testEquals() {
-        Comprador comprador1 = new BancoBrasil();
-        assertEquals(comprador, comprador1);
+        assertEquals("Compradores diferentes quando nao deveriam ser: BB!", bb, Comprador.createCompradorBB());
+        assertEquals("Compradores diferentes quando nao deveriam ser: BEC!", bec, Comprador.createCompradorBEC());
+        assertEquals("Compradores diferentes quando nao deveriam ser: CN!", cn, Comprador.createCompradorComprasNet());
     }
     
     @Test
     public void testHashCode() throws ParseException {
-        Comprador comprador1 = new BancoBrasil();
-        assertEquals(comprador.hashCode(), comprador1.hashCode());
+        assertEquals("HashCode inconsistente: BB", bb.hashCode(), Comprador.createCompradorBB().hashCode());
+        assertEquals("HashCode inconsistente: BEC", bec.hashCode(), Comprador.createCompradorBEC().hashCode());
+        assertEquals("HashCode inconsistente: CN", cn.hashCode(), Comprador.createCompradorComprasNet().hashCode());
     }
     
 }

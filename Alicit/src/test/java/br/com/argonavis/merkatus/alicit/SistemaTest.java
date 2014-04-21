@@ -6,7 +6,6 @@
 package br.com.argonavis.merkatus.alicit;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
-import br.com.argonavis.merkatus.alicit.comprador.ComprasNet;
 import br.com.argonavis.merkatus.alicit.edital.CNPJ;
 import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
@@ -33,25 +32,27 @@ public class SistemaTest {
         tx.begin();
         Comprador comprador = null;
         try {
-            List compradores = PersistenceUtilities.findAll(Comprador.class);
+           List compradores = PersistenceUtilities.findAll(Comprador.class);
             assertNotNull(compradores);
             int size = compradores.size();
 
-            comprador = new ComprasNet();
+            comprador = Comprador.createCompradorBB();
             compradores.add(comprador);
             PersistenceUtilities.persist(comprador);
             
             compradores = PersistenceUtilities.findAll(Comprador.class);
             assertEquals(size + 1, compradores.size());
             
-            em.remove(comprador);
+            em.remove(comprador); 
+            assertEquals(size, compradores.size());
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
-        }
+        } 
     }
 
     @Test
@@ -67,13 +68,13 @@ public class SistemaTest {
             assertNotNull(editais);
             int size = editais.size();
 
-            comprador = new ComprasNet();
+            comprador = Comprador.createCompradorComprasNet();
             Codigo numero = new Codigo("123457");
-            edital = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA, numero);         
+            edital = new PregaoEletronico(comprador, PregaoEletronico.Tipo.COMPRA_DIRETA, numero);  
+            //PersistenceUtilities.persist(comprador);
 
-            edital.setComprador(comprador);
             edital.setIdentificacao("Pregao no. 1", new Codigo("123456"), new Codigo("45343"), new CNPJ("04.239.747/0001-58"));
-            PersistenceUtilities.persist(edital);
+            PersistenceUtilities.persist(edital); // will create new comprador by cascade persist
 
             editais = PersistenceUtilities.findAll(Edital.class);
             assertEquals(size + 1, editais.size());
@@ -81,6 +82,7 @@ public class SistemaTest {
             assertEquals(comprador, ((Edital)editais.iterator().next()).getComprador());
             
             em.remove(edital);
+            assertEquals(size, editais.size());
             em.remove(comprador);
             
             tx.commit();

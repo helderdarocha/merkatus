@@ -2,18 +2,15 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="Alicit-EJB-1.0.0-PU" transaction-type="JTA">
     <jta-data-source>jdbc/alicitdev</jta-data-source>
-    <class>br.com.argonavis.merkatus.alicit.Sistema</class>
-    <class>br.com.argonavis.merkatus.alicit.comprador.BancoBrasil</class>
-    <class>br.com.argonavis.merkatus.alicit.comprador.BolsaEletronicaCompras</class>
     <class>br.com.argonavis.merkatus.alicit.comprador.Comprador</class>
-    <class>br.com.argonavis.merkatus.alicit.comprador.ComprasNet</class>
-    <class>br.com.argonavis.merkatus.alicit.comprador.ConsumidorFinal</class>
     <class>br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao</class>
     <class>br.com.argonavis.merkatus.alicit.edital.Edital</class>
     <class>br.com.argonavis.merkatus.alicit.edital.PregaoEletronico</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>

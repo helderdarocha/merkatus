@@ -4,15 +4,14 @@ import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import java.io.Serializable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author helderdarocha
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance
 @XmlRootElement
 public abstract class Edital implements Serializable {
 
@@ -101,7 +100,7 @@ public abstract class Edital implements Serializable {
     }) 
     private Telefone telefoneCobranca;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private Comprador comprador;
 
     protected Edital() {
@@ -207,7 +206,7 @@ public abstract class Edital implements Serializable {
         this.telefoneCobranca = telefoneCobranca;
     }
 
-    public void setComprador(Comprador comprador) {
+    protected void setComprador(Comprador comprador) {
         this.comprador = comprador;
     }
 

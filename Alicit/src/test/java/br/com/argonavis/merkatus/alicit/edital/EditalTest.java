@@ -20,8 +20,8 @@ import org.junit.Test;
  */
 public class EditalTest {
     
-    Comprador comprador1 = new ComprasNet();
-    Comprador comprador2 = new BolsaEletronicaCompras();
+    Comprador comprador1 = Comprador.createCompradorComprasNet();
+    Comprador comprador2 = Comprador.createCompradorBEC();
     
     Edital pe = new PregaoEletronico(comprador1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("123999"));
     Edital dl = new DispensaLicitacao(comprador2, DispensaLicitacao.Tipo.COTACAO_ELETRONICA, new Codigo("123777"));
@@ -39,8 +39,8 @@ public class EditalTest {
         nomeDisplay2 = "Dispensa de licitação no. ABC2345";
         numeroEdital1 = new Codigo("1234567890");
         numeroEdital2 = new Codigo("ABC2345");
-        numeroEditalComprador1 = new Codigo("123456", comprador1.getMascara(null)); // Compras NET 6 digitos
-        numeroEditalComprador2 = new Codigo("12345678901"+2014+"OC12345", comprador2.getMascara(new Date())); // BEC 22 chars com validacao
+        numeroEditalComprador1 = new Codigo("123456", comprador1.getPortal().getMascaraCodigoComprador(null)); // Compras NET 6 digitos
+        numeroEditalComprador2 = new Codigo("12345678901"+2014+"OC12345", comprador2.getPortal().getMascaraCodigoComprador(new Date())); // BEC 22 chars com validacao
         cnpjComprador1 = new CNPJ("04.239.747/0001-58");
         cnpjComprador2 = new CNPJ("04857345000133");
         

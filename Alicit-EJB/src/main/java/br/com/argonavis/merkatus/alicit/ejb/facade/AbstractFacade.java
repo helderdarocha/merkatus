@@ -8,6 +8,7 @@ package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -67,6 +68,18 @@ public abstract class AbstractFacade<T> implements AbstractFacadeInterface<T> {
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+    }
+    
+    @Override
+    public T querySingle(String hql) {
+        Query query = getEntityManager().createQuery(hql, entityClass);
+        return (T)query.getSingleResult();
+    }
+
+    @Override
+    public List<T> queryList(String hql) {
+        Query query = getEntityManager().createQuery(hql, entityClass);
+        return query.getResultList();
     }
     
 }

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Criar Edital</title>
+        <style>
+            tr:nth-child(odd) {background: rgb(90%,90%,100%)}
+            table {border: solid 1px blue;}
+            * {font-family: 'Calibri'}
+        </style>
+    </h:head>
+    <h:body>
+        <h1>Criar Edital</h1>
+        <h:form>
+            <p>
+                Selecionar comprador
+                <h:selectOneMenu value="#{editalManagedBean.idComprador}">
+                    <f:selectItem itemLabel="Selecionar comprador" itemValue=""/>
+                    <f:selectItems value="#{compradorManagedBean.compradoresMap}" />
+                    <f:ajax event="change" render="selectTipoEditalPanel"/>
+                </h:selectOneMenu>
+            </p>
+
+            <h:panelGroup id="selectTipoEditalPanel">
+                <h:panelGroup rendered="#{editalManagedBean.idComprador ne null}">
+                    <p>
+                        <h:outputLabel >Selecionar tipo de edital</h:outputLabel>
+                        <h:selectOneMenu value="#{editalManagedBean.tipoEdital}">
+                            <f:selectItem itemLabel="Selecionar tipo de edital" itemValue=""/>
+                            <f:selectItems value="#{editalManagedBean.tipoEditaisMap}" />
+                            <f:ajax event="change" render="createEditalPanel"/>
+                        </h:selectOneMenu>
+                    </p>
+                </h:panelGroup>
+            </h:panelGroup>
+
+
+
+            <h:panelGroup id="createEditalPanel">
+                <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'PE'}">
+                    <p>
+                        Nome <h:inputText value="#{editalManagedBean.nomeDisplay}" />
+                        <br/>Número da licitação <h:inputText value="#{editalManagedBean.numeroEdital}" />
+                    </p>
+                    <p>
+                        <h:commandButton value="Criar Pregão Eletrônico"  
+                                         action="#{editalManagedBean.criarPregaoEletronico}" />
+                    </p>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'DL'}">
+                    <p>
+                        Nome <h:inputText value="#{editalManagedBean.nomeDisplay}" />
+                        <br/>Número da licitação <h:inputText value="#{editalManagedBean.numeroEdital}" />
+                    </p>
+                    <p>
+                        <h:commandButton value="Criar Dispensa Licitação" 
+                                         action="#{editalManagedBean.criarDispensaLicitacao}" />
+                    </p>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <h1>Editais</h1>
+            <h:dataTable value="#{editalManagedBean.editais}" var="edital">
+                <h:column>
+                    #{edital.comprador.identificador}
+                </h:column>
+                <h:column>
+                    #{edital.numeroEdital}
+                </h:column>
+                <h:column>
+                    #{edital.nomeDisplay}
+                </h:column>
+                <h:column>
+                    #{edital.class.simpleName}
+                </h:column>
+                <h:column>
+                    {edital.dataAbertura}
+                </h:column>
+                <h:column>
+                    #{edital.id}
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{editalManagedBean.exbirEdital}">Exibir</h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{editalManagedBean.editarEdital}">Editar</h:commandLink>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

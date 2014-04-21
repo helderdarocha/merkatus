@@ -24,7 +24,7 @@ public class DispensaLicitacaoFacade extends AbstractFacade<DispensaLicitacao> i
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 

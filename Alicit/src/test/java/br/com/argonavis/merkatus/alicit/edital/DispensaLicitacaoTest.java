@@ -22,7 +22,7 @@ public class DispensaLicitacaoTest {
         DispensaLicitacao d1 = new DispensaLicitacao();
         assertNull(d1.getComprador());
         
-        Comprador c1 = new BancoBrasil();
+        Comprador c1 = Comprador.createCompradorComprasNet();
         DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("123456"));
         assertEquals(c1, d2.getComprador());
         
@@ -35,7 +35,7 @@ public class DispensaLicitacaoTest {
         DispensaLicitacao d1 = new DispensaLicitacao();
         assertNull(d1.getTipo());
         
-        Comprador c1 = new BancoBrasil();
+        Comprador c1 = Comprador.createCompradorBB();
         DispensaLicitacao d2 = new DispensaLicitacao(c1, DispensaLicitacao.Tipo.COMPRA_DIRETA, new Codigo("123459"));
         assertEquals(DispensaLicitacao.Tipo.COMPRA_DIRETA, d2.getTipo());
         

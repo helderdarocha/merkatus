@@ -3,32 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.argonavis.merkatus.alicit.comprador;
 
-import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author helderdarocha
  */
-@Entity
-@XmlRootElement
-public class BancoBrasil extends Comprador {
-    public BancoBrasil() {
-        super("Portal BB", "Portal de Compras Banco do Brasil", "BB", "www.licitacoes-e.com.br");
+public class BancoBrasil extends Portal {
+
+    public static Portal criar() {
+        return getPortal("BB");
     }
-    
+
+    protected BancoBrasil() {
+        super("Portal BB", "Portal de Compras Banco do Brasil", "www.licitacoes-e.com.br");
+    }
+
     @Override
     public String getIdCodigoComprador() {
         return "ORGAO";
     }
 
     @Override
-    public String getMascara(Date dataEdital) {
+    public String getMascaraCodigoComprador(Date dataEdital) {
         return "\\d{8}";
     }
 }

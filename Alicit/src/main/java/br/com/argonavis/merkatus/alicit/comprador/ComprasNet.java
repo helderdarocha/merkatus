@@ -7,21 +7,19 @@
 package br.com.argonavis.merkatus.alicit.comprador;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author helderdarocha
  */
-@Entity
-@XmlRootElement
-public class ComprasNet extends Comprador {
+public class ComprasNet extends Portal {
     
-    private String mascara;
+    public static Portal criar() {
+        return getPortal("COMPRASNET");
+    }
 
-    public ComprasNet() {
-        super("Portal ComprasNET", "Portal de Compras do Governo Federal", "ComprasNET", "www.comprasnet.gov.br");
+    protected ComprasNet() {
+        super("Portal ComprasNET", "Portal de Compras do Governo Federal", "www.comprasnet.gov.br");
     }
 
     @Override
@@ -30,7 +28,7 @@ public class ComprasNet extends Comprador {
     }
 
     @Override
-    public String getMascara(Date dataEdital) {
+    public String getMascaraCodigoComprador(Date dataEdital) {
         return "\\d{6}";
     }
 

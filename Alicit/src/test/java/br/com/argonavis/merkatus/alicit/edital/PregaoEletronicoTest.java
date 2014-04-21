@@ -22,7 +22,7 @@ public class PregaoEletronicoTest {
         PregaoEletronico d1 = new PregaoEletronico();
         assertNull(d1.getComprador());
         
-        Comprador c1 = new BancoBrasil();
+        Comprador c1 = Comprador.createCompradorBB();
         PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("223777"));
         assertEquals(c1, d2.getComprador());
         
@@ -35,7 +35,7 @@ public class PregaoEletronicoTest {
         PregaoEletronico d1 = new PregaoEletronico();
         assertNull(d1.getTipo());
         
-        Comprador c1 = new BancoBrasil();
+        Comprador c1 = Comprador.createCompradorBB();
         PregaoEletronico d2 = new PregaoEletronico(c1, PregaoEletronico.Tipo.COMPRA_DIRETA, new Codigo("323777"));
         assertEquals(PregaoEletronico.Tipo.COMPRA_DIRETA, d2.getTipo());
         

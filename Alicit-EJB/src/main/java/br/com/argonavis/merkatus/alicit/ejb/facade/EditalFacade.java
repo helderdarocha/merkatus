@@ -24,7 +24,7 @@ public class EditalFacade extends AbstractFacade<Edital> implements EditalFacade
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 
