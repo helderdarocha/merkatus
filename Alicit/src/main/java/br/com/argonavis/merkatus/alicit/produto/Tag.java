@@ -22,6 +22,12 @@ public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String nome;
+    
+    public Tag() {}
+    public Tag(String nome) {
+        this.nome = nome;
+    }
 
     public Long getId() {
         return id;

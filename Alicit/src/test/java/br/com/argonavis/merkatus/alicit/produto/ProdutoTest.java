@@ -6,6 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.produto;
 
+import br.com.argonavis.merkatus.alicit.proposta.ResultadoLicitacao;
 import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +33,7 @@ public class ProdutoTest {
         Tag t1 = new Tag("produto");
         p.addTag(t1);
         p.setPreco(new BigDecimal(123));
+        
     }
     
     @After

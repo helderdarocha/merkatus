@@ -6,10 +6,10 @@
 
 package br.com.argonavis.merkatus.alicit.produto;
 
+import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -28,9 +28,9 @@ public class CategoriaTest {
         sub2.addSubCategoria(ss);
         Categoria p = ss.getParent();
         Categoria parent = ss.getParent().getParent();
-        Categoria root = ss.getRootCategoria();
-        Set<Categoria> children = cat.getChildren();
-        Categoria removed = sub2.removeCategoria("ss");
+        Categoria root = ss.getRoot();
+        Set<Categoria> children = cat.getSubCategorias();
+        Categoria removed = sub2.detachSubCategoria("ss");
         
     }
     

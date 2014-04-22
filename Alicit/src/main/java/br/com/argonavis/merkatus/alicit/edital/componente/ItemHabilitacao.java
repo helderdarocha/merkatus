@@ -17,11 +17,14 @@ import javax.persistence.Id;
  * @author helderdarocha
  */
 @Entity
-public class ItemHabilitacao implements Serializable {
+public class ItemHabilitacao implements Serializable, ItemEdital {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String codigo;
+    private String descricao;
 
     public Long getId() {
         return id;
@@ -54,6 +57,22 @@ public class ItemHabilitacao implements Serializable {
     @Override
     public String toString() {
         return "br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao[ id=" + id + " ]";
+    }
+    
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
     
 }

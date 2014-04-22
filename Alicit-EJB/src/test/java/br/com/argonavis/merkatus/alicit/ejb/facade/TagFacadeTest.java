@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.com.argonavis.merkatus.alicit.proposta;
+package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,13 +15,13 @@ import static org.junit.Assert.*;
  *
  * @author helderdarocha
  */
-public class ResultadoLicitacaoTest {
-   
+public class TagFacadeTest {
+    
+    public TagFacadeTest() {
+    }
     
     @Before
     public void setUp() {
-        ResultadoLicitacao res = new ResultadoLicitacao();
-        res.setPosicao(1);
     }
     
     @After
@@ -29,7 +29,7 @@ public class ResultadoLicitacaoTest {
     }
 
     @Test
-    public void testSomeMethod() {
+    public void testGetEntityManager() {
     }
     
 }

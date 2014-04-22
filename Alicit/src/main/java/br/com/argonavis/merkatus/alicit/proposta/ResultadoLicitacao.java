@@ -12,4 +12,13 @@ package br.com.argonavis.merkatus.alicit.proposta;
  */
 public class ResultadoLicitacao {
     private int posicao;
+
+    public int getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
+    }
+    
 }

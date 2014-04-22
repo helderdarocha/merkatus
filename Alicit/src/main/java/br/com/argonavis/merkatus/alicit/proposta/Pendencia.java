@@ -6,7 +6,9 @@
 
 package br.com.argonavis.merkatus.alicit.proposta;
 
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +24,11 @@ public class Pendencia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private boolean concluida;
+    private boolean opcional;
+    private boolean urgente;
+    private String descricao;
+    private List<ItemEdital> itens;
 
     public Long getId() {
         return id;
@@ -54,6 +61,54 @@ public class Pendencia implements Serializable {
     @Override
     public String toString() {
         return "br.com.argonavis.merkatus.alicit.proposta.Pendencia[ id=" + id + " ]";
+    }
+
+    public boolean isConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(boolean concluida) {
+        this.concluida = concluida;
+    }
+
+    public boolean isOpcional() {
+        return opcional;
+    }
+
+    public void setOpcional(boolean opcional) {
+        this.opcional = opcional;
+    }
+
+    public boolean isUrgente() {
+        return urgente;
+    }
+
+    public void setUrgente(boolean urgente) {
+        this.urgente = urgente;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<ItemEdital> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemEdital> itens) {
+        this.itens = itens;
+    }
+    
+    public void addItem(ItemEdital item) {
+        this.itens.add(item);
+    }
+    
+    public void removeItem(ItemEdital item) {
+        this.itens.remove(item);
     }
     
 }

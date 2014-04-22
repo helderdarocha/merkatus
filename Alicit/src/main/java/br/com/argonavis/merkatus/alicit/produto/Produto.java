@@ -6,7 +6,10 @@
 
 package br.com.argonavis.merkatus.alicit.produto;
 
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +20,16 @@ import javax.persistence.Id;
  * @author helderdarocha
  */
 @Entity
-public class Produto implements Serializable {
+public class Produto implements Serializable, ItemEdital {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String codigo;
+    private String nome;
+    private Categoria categoria;
+    private Set<Tag> tags;
+    private BigDecimal preco;
 
     public Long getId() {
         return id;
@@ -54,6 +62,64 @@ public class Produto implements Serializable {
     @Override
     public String toString() {
         return "br.com.argonavis.merkatus.alicit.produto.Produto[ id=" + id + " ]";
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+    
+    public void addTag(Tag t) {
+        this.tags.add(t);
+    }
+    
+    public void removeTag(Tag t) {
+        this.tags.remove(t);
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    @Override
+    public void setDescricao(String descricao) {
+        setNome(descricao);
+    }
+
+    @Override
+    public String getDescricao() {
+        return nome;
     }
     
 }

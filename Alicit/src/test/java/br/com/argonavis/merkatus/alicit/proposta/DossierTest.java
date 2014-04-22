@@ -7,8 +7,10 @@
 package br.com.argonavis.merkatus.alicit.proposta;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
+import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +28,10 @@ public class DossierTest {
         dossier.setEdital(e);
         dossier.gerarCheckList();
         List<Pendencia> pendencias = dossier.getPendencias();
-        dossier.setStatus(StatusProposta.NOVO);
+        dossier.setStatus(StatusDossier.NOVO);
         Pendencia p1 = pendencias.iterator().next();
-        p1.getDescricao();
-        p1.marcarConcluida();
-        p1.marcarUrgente();
-        p1.marcarOpcional();
-        dossier.adicionarPendencia(p1);
-        
+        dossier.addPendencia(p1);
+        dossier.setResultado(new ResultadoLicitacao());
     }
     
     @After
