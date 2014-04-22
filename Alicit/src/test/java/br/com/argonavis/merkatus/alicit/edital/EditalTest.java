@@ -6,9 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.edital;
 
-import br.com.argonavis.merkatus.alicit.comprador.BolsaEletronicaCompras;
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
-import br.com.argonavis.merkatus.alicit.comprador.ComprasNet;
 import java.text.ParseException;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
@@ -33,6 +31,9 @@ public class EditalTest {
     Endereco e1, e2, e3;
     Email email1, email2;
     Telefone t1, t2;
+    
+    long now = new Date().getTime();
+    long tomorrow = new Date().getTime() + (86400000);
     
     public EditalTest() throws ParseException {
         nomeDisplay1 = "Pregao eletronico CN no. 1234567890";
@@ -63,6 +64,9 @@ public class EditalTest {
         
         pe.setContatos(e1, e2, email1, t1, t1);
         dl.setContatos(e2, e3, email2, t1, t2);
+        
+        pe.setDataAbertura(now);
+        dl.setDataAbertura(tomorrow);
     }
 
     @org.junit.Test

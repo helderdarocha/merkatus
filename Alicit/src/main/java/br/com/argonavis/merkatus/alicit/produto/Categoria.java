@@ -7,6 +7,7 @@
 package br.com.argonavis.merkatus.alicit.produto;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,14 +28,21 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nome;
+    
     @ManyToOne
     private Categoria parent ;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
-    private Set<Categoria> subCategorias;
+    private Set<Categoria> subCategorias = new HashSet<>();
     
     public Categoria() {}
     public Categoria(String nome) {
         this.nome = nome;
+        this.parent = null;
+    }
+    public Categoria(String nome, Categoria parent) {
+        this.nome = nome;
+        this.parent = parent;
     }
 
     public Long getId() {
@@ -48,26 +56,31 @@ public class Categoria implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (nome != null ? nome.hashCode() : 0);
+        hash += (parent != null ? parent.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Categoria)) {
             return false;
         }
         Categoria other = (Categoria) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        
+        boolean parentSame = (this.parent == null && other.parent == null) || (this.parent != null && this.parent.equals(other.parent));
+        boolean nameSame   = (this.nome == null && other.nome == null) || (this.nome != null && this.nome.equals(other.nome));
+        
+        return parentSame && nameSame;
     }
 
     @Override
     public String toString() {
-        return "br.com.argonavis.merkatus.alicit.produto.Categoria[ id=" + id + " ]";
+        String p = "";
+        if (parent != null) {
+            p = parent.toString();
+        }
+        return p + "/" + nome;
     }
 
     public String getNome() {
@@ -102,9 +115,10 @@ public class Categoria implements Serializable {
     public Categoria detachSubCategoria(String nome) {
         for(Categoria found : this.subCategorias) {
             if(found.getNome().equals(nome)) {
-                this.subCategorias.remove(found);
                 found.parent = null;
-                return found;
+                if (this.subCategorias.remove(found)) {
+                    return found;
+                }
             }
         }
         return null;

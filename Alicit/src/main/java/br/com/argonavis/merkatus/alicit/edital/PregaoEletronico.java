@@ -17,10 +17,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class PregaoEletronico extends Edital {
+
+    @Override
+    public String getTipoEdital() {
+        return "Pregão Eletrônico";
+    }
+    
     public enum Tipo {
-        COMPRA_DIRETA,
-        SRP,
-        SRP_CARONA; 
+        COMPRA_DIRETA("Compra Direta"),
+        SRP("Sistema de Registro de Preços"),
+        SRP_CARONA("Carona do Sistema de Registro de Preços"); 
+        private final String descricao;
+        Tipo(String descricao) {this.descricao = descricao;}
+        @Override
+        public String toString() {
+            return descricao;
+        }
     }
     
     private Tipo tipo;

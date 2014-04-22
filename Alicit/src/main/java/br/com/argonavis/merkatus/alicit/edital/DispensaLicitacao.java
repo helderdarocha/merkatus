@@ -17,10 +17,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class DispensaLicitacao extends Edital {
+
+    @Override
+    public String getTipoEdital() {
+        return "Dispensa de Licitação";
+    }
+    
     public enum Tipo {
-        CONVITE_ELETRONICO,
-        COTACAO_ELETRONICA,
-        COMPRA_DIRETA;
+        CONVITE_ELETRONICO("Convite Eletrônico"),
+        COTACAO_ELETRONICA("Cotação Eletrônica"),
+        COMPRA_DIRETA("Compra Direta");
+        private final String descricao;
+        Tipo(String descricao) {this.descricao = descricao;}
+        @Override
+        public String toString() {
+            return descricao;
+        }
     }
     private Tipo tipo;
 

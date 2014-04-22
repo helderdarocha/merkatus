@@ -30,7 +30,8 @@ public abstract class Edital implements Serializable {
     private Long id;
 
     private String nomeDisplay;
-    
+    private long dataAbertura;
+
     @Embedded
     @AttributeOverrides({ 
        @AttributeOverride(name="codigo", column=@Column(name="NUMERO_EDITAL"))
@@ -125,6 +126,8 @@ public abstract class Edital implements Serializable {
         this.telefoneEntrega = telefoneEntrega;
         this.telefoneCobranca = telefoneCobranca;
     }
+    
+    public abstract String getTipoEdital();
 
     public Long getId() {
         return id;
@@ -212,6 +215,14 @@ public abstract class Edital implements Serializable {
 
     public Comprador getComprador() {
         return comprador;
+    }
+
+    public long getDataAbertura() {
+        return dataAbertura;
+    }
+
+    public void setDataAbertura(long dataAbertura) {
+        this.dataAbertura = dataAbertura;
     }
     
     @Override
