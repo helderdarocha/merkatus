@@ -17,37 +17,30 @@ import static org.junit.Assert.*;
  */
 public class TagTest {
     
-    public TagTest() {
-    }
+    Tag t = new Tag("tag");
+  
     
-    @Before
-    public void setUp() {
-        Tag t = new Tag("tag");
-        
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
+   
     @Test
-    public void testGetId() {
-    }
-
-    @Test
-    public void testSetId() {
+    public void testGetNome() {
+        assertEquals("tag", t.getNome());
     }
 
     @Test
     public void testHashCode() {
+        Tag t1 = new Tag("tag");
+        assertEquals(t1.hashCode(), t.hashCode());
     }
 
     @Test
     public void testEquals() {
+        Tag t1 = new Tag("tag");
+        assertEquals(t1, t);
     }
 
     @Test
     public void testToString() {
+        assertEquals("tag", t.toString());
     }
     
 }

@@ -8,6 +8,7 @@ package br.com.argonavis.merkatus.alicit.proposta;
 
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Dossier implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Edital edital;
-    private List<Pendencia> pendencias;
+    private List<Pendencia> pendencias = new ArrayList<>();
     private StatusDossier status;
     private ResultadoLicitacao resultado;
 

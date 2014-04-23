@@ -6,9 +6,8 @@
 
 package br.com.argonavis.merkatus.alicit.produto;
 
-import br.com.argonavis.merkatus.alicit.proposta.ResultadoLicitacao;
 import java.math.BigDecimal;
-import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,46 +17,65 @@ import org.junit.Test;
  */
 public class ProdutoTest {
     
-    public ProdutoTest() {
-    }
+    Produto p = new Produto("P123", "Produto X");
     
     @Before
     public void setUp() {
-        Produto p = new Produto();
-        p.setCodigo("P123");
-        p.setNome("Produto X");
-        Categoria c = new Categoria("Categoria");
-        Categoria s = new Categoria("SubCategoria");
-        c.addSubCategoria(s);
-        p.setCategoria(s);
+        Categoria cat = new Categoria("Categoria", CategoriaBase.COMPUTADORES.getCategoria());
+        p.setCategoria(cat);
         Tag t1 = new Tag("produto");
+        Tag t2 = new Tag("item");
+        Tag t3 = new Tag("coisa");
         p.addTag(t1);
+        p.addTag(t2);
+        p.addTag(t3);
         p.setPreco(new BigDecimal(123));
-        
     }
     
-    @After
-    public void tearDown() {
+    @Test
+    public void testGetPreco() {
+        assertEquals(BigDecimal.valueOf(123), p.getPreco());
     }
 
     @Test
-    public void testGetId() {
+    public void testGetTags() {
+        assertEquals(3, p.getTags().size());
+        p.getTags().remove(new Tag("item"));
+        p.getTags().remove(new Tag("coisa"));
+        assertEquals(1, p.getTags().size());
+        assertEquals("produto", p.getTags().iterator().next().toString());
     }
 
     @Test
-    public void testSetId() {
+    public void testGetCategoria() {
+        assertEquals(new Categoria("Categoria", CategoriaBase.COMPUTADORES.getCategoria()), p.getCategoria());
+    }
+    
+    @Test
+    public void testGetNome() {
+        assertEquals("Produto X", p.getNome());
+    }
+    
+    @Test
+    public void testGetCodigo() {
+        assertEquals("P123", p.getCodigo());
     }
 
     @Test
     public void testHashCode() {
+        Produto p2 = new Produto("P123", "Produto X");
+        assertEquals(p.hashCode(), p2.hashCode());
     }
 
     @Test
     public void testEquals() {
+        Produto p2 = new Produto("P123", "Produto X");
+        assertEquals(p, p2);
     }
 
     @Test
     public void testToString() {
+        assertEquals("P123 Produto X", p.toString());
     }
     
 }

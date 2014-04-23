@@ -10,6 +10,12 @@ import br.com.argonavis.merkatus.alicit.edital.CNPJ;
 import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
+import br.com.argonavis.merkatus.alicit.produto.Categoria;
+import br.com.argonavis.merkatus.alicit.produto.CategoriaBase;
+import br.com.argonavis.merkatus.alicit.produto.Produto;
+import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.text.ParseException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -45,6 +51,126 @@ public class SistemaTest {
             
             em.remove(comprador); 
             assertEquals(size, compradores.size());
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            em.close();
+        } 
+    }
+    
+    @Test
+    public void testGetItensEdital() {
+        EntityManager em = PersistenceUtilities.emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        ItemEdital item = null;
+        try {
+           List itens = PersistenceUtilities.findAll(ItemEdital.class);
+            assertNotNull(itens);
+            int size = itens.size();
+
+            item = new ItemHabilitacao("IH999", "Certidao Negativa XYZ");
+            itens.add(item);
+            PersistenceUtilities.persist(item);
+            
+            itens = PersistenceUtilities.findAll(ItemEdital.class);
+            assertEquals(size + 1, itens.size());
+            
+            em.remove(item); 
+            assertEquals(size, itens.size());
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            em.close();
+        } 
+    }
+    
+    @Test
+    public void testGetCategorias() {
+        EntityManager em = PersistenceUtilities.emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        Categoria cat = null;
+        try {
+            List<Categoria> categorias = PersistenceUtilities.findAll(Categoria.class);
+            assertNotNull(categorias);
+            int size = categorias.size();
+
+            cat = CategoriaBase.COMPUTADORES.getCategoria();
+            categorias.add(cat);
+            PersistenceUtilities.persist(cat);
+            
+            categorias = PersistenceUtilities.findAll(Categoria.class);
+            assertEquals(size + 1, categorias.size());
+            
+            em.remove(cat); 
+            assertEquals(size, categorias.size());
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            em.close();
+        } 
+    }
+    
+    @Test
+    public void testGetProdutos() {
+        EntityManager em = PersistenceUtilities.emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        Produto produto = null;
+        try {
+            List<Produto> produtos = PersistenceUtilities.findAll(Produto.class);
+            assertNotNull(produtos);
+            int size = produtos.size();
+
+            produto = new Produto("PXXX", "Teste");
+            produtos.add(produto);
+            PersistenceUtilities.persist(produto);
+            
+            produtos = PersistenceUtilities.findAll(Produto.class);
+            assertEquals(size + 1, produtos.size());
+            
+            em.remove(produto); 
+            assertEquals(size, produtos.size());
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            em.close();
+        } 
+    }
+    
+    @Test
+    public void testGetTags() {
+        EntityManager em = PersistenceUtilities.emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        Tag tag = null;
+        try {
+            List<Tag> tags = PersistenceUtilities.findAll(Tag.class);
+            assertNotNull(tags);
+            int size = tags.size();
+
+            tag = new Tag("teste");
+            tags.add(tag);
+            PersistenceUtilities.persist(tag);
+            
+            tags = PersistenceUtilities.findAll(Tag.class);
+            assertEquals(size + 1, tags.size());
+            
+            em.remove(tag); 
+            assertEquals(size, tags.size());
             
             tx.commit();
         } catch (Exception e) {

@@ -6,10 +6,16 @@
 
 package br.com.argonavis.merkatus.alicit.ejb.facade;
 
+import br.com.argonavis.merkatus.alicit.ejb.LookupService;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.TagFacadeRemote;
+import br.com.argonavis.merkatus.alicit.produto.Tag;
+import java.util.List;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -17,19 +23,51 @@ import static org.junit.Assert.*;
  */
 public class TagFacadeTest {
     
-    public TagFacadeTest() {
-    }
+    LookupService<TagFacadeRemote> service = new LookupService<>();
+    TagFacadeRemote facade = service.lookupBean(TagFacade.class, TagFacadeRemote.class);
     
     @Before
-    public void setUp() {
+    public void testCreate() throws Exception {
+        Tag tag = new Tag("produto");
+        int count = facade.count();
+        facade.create(tag);
+        assertEquals(count + 1, facade.count());
     }
     
     @After
-    public void tearDown() {
+    public void testRemove() throws Exception {
+        int count = facade.count();
+        Tag found = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        facade.remove(found);
+        assertEquals(count - 1, facade.count());
+    }
+    
+    @Test
+    public void testMerge() throws Exception {
+        Tag found = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        Tag merged = facade.edit(found);
+        assertNotNull(merged);
     }
 
     @Test
-    public void testGetEntityManager() {
+    public void testFind() throws Exception {
+        Tag foundQuery = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        System.out.println("Tag ID: " + foundQuery.getId());
+        Tag foundGet = facade.find(foundQuery.getId());
+        assertEquals(foundQuery, foundGet);
+    }
+
+    @Test
+    public void testFindAll() throws Exception {
+        int count = facade.count();
+        List<Tag> all = facade.findAll();
+        assertEquals(count, all.size());
+    }
+
+    @Test
+    public void testCount() throws Exception {
+        int elements = facade.count();
+        assertTrue(elements > 0);
     }
     
 }

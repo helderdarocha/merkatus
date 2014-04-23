@@ -7,7 +7,6 @@
 package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
-import br.com.argonavis.merkatus.alicit.comprador.ComprasNet;
 import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;

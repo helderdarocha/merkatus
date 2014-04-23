@@ -29,6 +29,14 @@ public class Tag implements Serializable {
         this.nome = nome;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,7 +48,7 @@ public class Tag implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (nome != null ? nome.hashCode() : 0);
         return hash;
     }
 
@@ -51,7 +59,7 @@ public class Tag implements Serializable {
             return false;
         }
         Tag other = (Tag) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.nome == null && other.nome != null) || (this.nome != null && !this.nome.equals(other.nome))) {
             return false;
         }
         return true;
@@ -59,7 +67,7 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.argonavis.merkatus.alicit.produto.Tag[ id=" + id + " ]";
+        return nome;
     }
     
 }

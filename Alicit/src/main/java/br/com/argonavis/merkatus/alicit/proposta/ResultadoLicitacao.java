@@ -6,11 +6,13 @@
 
 package br.com.argonavis.merkatus.alicit.proposta;
 
+import java.io.Serializable;
+
 /**
  *
  * @author helderdarocha
  */
-public class ResultadoLicitacao {
+public class ResultadoLicitacao implements Serializable {
     private int posicao;
 
     public int getPosicao() {

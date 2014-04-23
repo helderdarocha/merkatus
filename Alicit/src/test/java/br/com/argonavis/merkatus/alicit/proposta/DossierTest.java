@@ -29,7 +29,7 @@ public class DossierTest {
         dossier.gerarCheckList();
         List<Pendencia> pendencias = dossier.getPendencias();
         dossier.setStatus(StatusDossier.NOVO);
-        Pendencia p1 = pendencias.iterator().next();
+        Pendencia p1 = new Pendencia();
         dossier.addPendencia(p1);
         dossier.setResultado(new ResultadoLicitacao());
     }

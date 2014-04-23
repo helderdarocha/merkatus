@@ -8,6 +8,8 @@ package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +17,8 @@ import javax.persistence.PersistenceContext;
  *
  * @author helderdarocha
  */
+@Stateless
+@Remote(ProdutoFacadeRemote.class)
 public class ProdutoFacade extends AbstractFacade<Produto> implements ProdutoFacadeRemote {
     @PersistenceContext(unitName = "Alicit-EJB-1.0.0-PU")
     private EntityManager em;

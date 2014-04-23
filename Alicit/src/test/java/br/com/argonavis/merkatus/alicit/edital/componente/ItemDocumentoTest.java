@@ -6,7 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.edital.componente;
 
-import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,38 +16,39 @@ import org.junit.Test;
  */
 public class ItemDocumentoTest {
     
-    public ItemDocumentoTest() {
-    }
+    ItemDocumento id = new ItemDocumento();
     
     @Before
     public void setUp() {
-        ItemDocumento id = new ItemDocumento();
-        id.setCodigo("IHPRXYZ");
-        id.setDescricao("Prova de regularidade XYZ");
+        id.setCodigo("PDGSKD");
+        id.setDescricao("Documento XYZ");
     }
     
-    @After
-    public void tearDown() {
-    }
-
     @Test
-    public void testGetId() {
+    public void testGetDescricao() {
+        assertEquals("Documento XYZ", id.getDescricao());
     }
-
+    
     @Test
-    public void testSetId() {
+    public void testGetCodigo() {
+        assertEquals("PDGSKD", id.getCodigo());
     }
 
     @Test
     public void testHashCode() {
+        ItemDocumento id2 = new ItemDocumento("PDGSKD", "Documento XYZ");
+        assertEquals(id.hashCode(), id2.hashCode());
     }
 
     @Test
     public void testEquals() {
+        ItemDocumento id2 = new ItemDocumento("PDGSKD", "Documento XYZ");
+        assertEquals(id, id2);
     }
 
     @Test
     public void testToString() {
+        assertEquals("Documento PDGSKD Documento XYZ", id.toString());
     }
     
 }

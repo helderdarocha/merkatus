@@ -6,38 +6,30 @@
 
 package br.com.argonavis.merkatus.alicit.edital.componente;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
  * @author helderdarocha
  */
 @Entity
-public class ItemHabilitacao implements Serializable, ItemEdital {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class ItemHabilitacao extends ItemEdital {
     
     private String codigo;
     private String descricao;
-
-    public Long getId() {
-        return id;
+    
+    public ItemHabilitacao() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public ItemHabilitacao(String codigo, String descricao) {
+        this.codigo = codigo;
+        this.descricao = descricao;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -48,7 +40,7 @@ public class ItemHabilitacao implements Serializable, ItemEdital {
             return false;
         }
         ItemHabilitacao other = (ItemHabilitacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -56,7 +48,7 @@ public class ItemHabilitacao implements Serializable, ItemEdital {
 
     @Override
     public String toString() {
-        return "br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao[ id=" + id + " ]";
+        return "Habilitacao " + codigo + " " + descricao;
     }
     
     public void setCodigo(String codigo) {

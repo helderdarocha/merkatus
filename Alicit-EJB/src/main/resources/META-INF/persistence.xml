@@ -6,6 +6,12 @@
     <class>br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao</class>
     <class>br.com.argonavis.merkatus.alicit.edital.Edital</class>
     <class>br.com.argonavis.merkatus.alicit.edital.PregaoEletronico</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemAmostra</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemDocumento</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao</class>
+    <class>br.com.argonavis.merkatus.alicit.produto.Categoria</class>
+    <class>br.com.argonavis.merkatus.alicit.produto.Produto</class>
+    <class>br.com.argonavis.merkatus.alicit.produto.Tag</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

@@ -7,42 +7,40 @@
 package br.com.argonavis.merkatus.alicit.produto;
 
 import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author helderdarocha
  */
 @Entity
-public class Produto implements Serializable, ItemEdital {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Produto extends ItemEdital {
     private String codigo;
     private String nome;
+    
+    @ManyToOne
     private Categoria categoria;
-    private Set<Tag> tags;
+    
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private Set<Tag> tags = new HashSet<>();
     private BigDecimal preco;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    
+    public Produto() {}
+    public Produto(String codigo, String nome) {
+        this.nome = nome;
+        this.codigo = codigo;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -53,7 +51,7 @@ public class Produto implements Serializable, ItemEdital {
             return false;
         }
         Produto other = (Produto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -61,7 +59,7 @@ public class Produto implements Serializable, ItemEdital {
 
     @Override
     public String toString() {
-        return "br.com.argonavis.merkatus.alicit.produto.Produto[ id=" + id + " ]";
+        return codigo + " " + nome;
     }
 
     public String getCodigo() {

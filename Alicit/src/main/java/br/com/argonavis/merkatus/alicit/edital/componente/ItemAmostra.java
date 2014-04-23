@@ -3,40 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.argonavis.merkatus.alicit.edital.componente;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
  * @author helderdarocha
  */
 @Entity
-public class ItemAmostra implements Serializable, ItemEdital {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class ItemAmostra extends ItemEdital {
+
     private String codigo;
     private String descricao;
 
-    public Long getId() {
-        return id;
+    public ItemAmostra() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public ItemAmostra(String codigo, String descricao) {
+        this.codigo = codigo;
+        this.descricao = descricao;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -47,7 +39,7 @@ public class ItemAmostra implements Serializable, ItemEdital {
             return false;
         }
         ItemAmostra other = (ItemAmostra) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -55,7 +47,7 @@ public class ItemAmostra implements Serializable, ItemEdital {
 
     @Override
     public String toString() {
-        return "br.com.argonavis.merkatus.alicit.edital.componente.ItemAmostra[ id=" + id + " ]";
+        return "Amostra " + codigo + " " + descricao;
     }
 
     public void setCodigo(String codigo) {
@@ -73,6 +65,5 @@ public class ItemAmostra implements Serializable, ItemEdital {
     public String getDescricao() {
         return descricao;
     }
-    
-    
+
 }

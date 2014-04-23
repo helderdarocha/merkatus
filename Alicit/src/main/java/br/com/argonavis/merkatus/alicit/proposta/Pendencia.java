@@ -8,6 +8,7 @@ package br.com.argonavis.merkatus.alicit.proposta;
 
 import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Pendencia implements Serializable {
     private boolean opcional;
     private boolean urgente;
     private String descricao;
-    private List<ItemEdital> itens;
+    private List<ItemEdital> itens = new ArrayList<>();
 
     public Long getId() {
         return id;

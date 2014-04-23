@@ -6,7 +6,6 @@
 
 package br.com.argonavis.merkatus.alicit.edital.componente;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,38 +16,40 @@ import static org.junit.Assert.*;
  */
 public class ItemHabilitacaoTest {
     
-    public ItemHabilitacaoTest() {
-    }
+    ItemHabilitacao ih = new ItemHabilitacao();
     
     @Before
     public void setUp() {
-        ItemHabilitacao ih = new ItemHabilitacao();
-        ih.setCodigo("IHPRXYZ");
+        
+        ih.setCodigo("PRUSOF");
         ih.setDescricao("Prova de regularidade XYZ");
     }
     
-    @After
-    public void tearDown() {
-    }
-
     @Test
-    public void testGetId() {
+    public void testGetNome() {
+        assertEquals("Prova de regularidade XYZ", ih.getDescricao());
     }
-
+    
     @Test
-    public void testSetId() {
+    public void testGetCodigo() {
+        assertEquals("PRUSOF", ih.getCodigo());
     }
 
     @Test
     public void testHashCode() {
+        ItemHabilitacao ih2 = new ItemHabilitacao("PRUSOF", "Prova de regularidade XYZ");
+        assertEquals(ih.hashCode(), ih2.hashCode());
     }
 
     @Test
     public void testEquals() {
+        ItemHabilitacao ih2 = new ItemHabilitacao("PRUSOF", "Prova de regularidade XYZ");
+        assertEquals(ih, ih2);
     }
 
     @Test
     public void testToString() {
+        assertEquals("Habilitacao PRUSOF Prova de regularidade XYZ", ih.toString());
     }
     
 }
