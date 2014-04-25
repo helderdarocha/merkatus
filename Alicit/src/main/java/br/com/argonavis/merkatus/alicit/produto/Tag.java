@@ -7,6 +7,7 @@
 package br.com.argonavis.merkatus.alicit.produto;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(unique=true)
     private String nome;
     
     public Tag() {}

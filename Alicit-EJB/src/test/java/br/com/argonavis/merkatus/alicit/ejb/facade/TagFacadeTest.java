@@ -37,21 +37,21 @@ public class TagFacadeTest {
     @After
     public void testRemove() throws Exception {
         int count = facade.count();
-        Tag found = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        Tag found = facade.getByNome("produto");
         facade.remove(found);
         assertEquals(count - 1, facade.count());
     }
     
     @Test
     public void testMerge() throws Exception {
-        Tag found = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        Tag found = facade.getByNome("produto");
         Tag merged = facade.edit(found);
         assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        Tag foundQuery = facade.querySingle("select t from Tag t where t.nome = 'produto'");
+        Tag foundQuery = facade.getByNome("produto");
         System.out.println("Tag ID: " + foundQuery.getId());
         Tag foundGet = facade.find(foundQuery.getId());
         assertEquals(foundQuery, foundGet);

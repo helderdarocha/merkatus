@@ -14,57 +14,25 @@ import javax.persistence.Entity;
  */
 @Entity
 public class ItemHabilitacao extends ItemEdital {
-    
-    private String codigo;
-    private String descricao;
-    
+
     public ItemHabilitacao() {
     }
 
     public ItemHabilitacao(String codigo, String descricao) {
-        this.codigo = codigo;
-        this.descricao = descricao;
+        super(codigo, descricao);
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (codigo != null ? codigo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemHabilitacao)) {
+    public boolean equals(Object o) {
+        if (!(o instanceof ItemHabilitacao)) {
             return false;
         }
-        ItemHabilitacao other = (ItemHabilitacao) object;
-        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
-            return false;
-        }
-        return true;
+        return super.equals(o);
     }
 
     @Override
     public String toString() {
-        return "Habilitacao " + codigo + " " + descricao;
-    }
-    
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public String getDescricao() {
-        return descricao;
+        return "Habilitacao " + super.toString();
     }
     
 }

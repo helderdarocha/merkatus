@@ -8,10 +8,17 @@ package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
+import br.com.argonavis.merkatus.alicit.produto.Produto_;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -30,5 +37,22 @@ public class ProdutoFacade extends AbstractFacade<Produto> implements ProdutoFac
 
     public ProdutoFacade() {
         super(Produto.class);
+    }
+    
+    @Override
+    public Produto getByCodigo(String codigo) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Produto> cq = cb.createQuery(Produto.class);
+        Root<Produto> root = cq.from(Produto.class);
+        Predicate condition = cb.equal(root.get(Produto_.codigo), codigo);
+        cq.where(condition);
+        TypedQuery<Produto> q = getEntityManager().createQuery(cq);
+        try {
+            Produto p = q.getSingleResult();
+            p.getTags().size(); // prefetch tags collection
+            return p;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

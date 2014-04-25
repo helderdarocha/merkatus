@@ -7,9 +7,11 @@
 package br.com.argonavis.merkatus.alicit.produto;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,22 +29,28 @@ public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String nome;
+    
+    @Column(unique=true)
+    private String canonicalName;
     
     @ManyToOne
     private Categoria parent ;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "parent")
     private Set<Categoria> subCategorias = new HashSet<>();
     
     public Categoria() {}
     public Categoria(String nome) {
         this.nome = nome;
         this.parent = null;
+        updateCanonicalName();
     }
     public Categoria(String nome, Categoria parent) {
         this.nome = nome;
         this.parent = parent;
+        updateCanonicalName();
     }
 
     public Long getId() {
@@ -81,6 +89,36 @@ public class Categoria implements Serializable {
             p = parent.toString();
         }
         return p + "/" + nome;
+    }
+    
+    private void updateCanonicalName() {
+        if (getParent() != null) {
+            canonicalName = getParent().getCanonicalName() + "/" + getNome();
+        } else {
+            canonicalName = getNome();
+        }
+    }
+
+    public String getCanonicalName() {
+        if (canonicalName == null) {
+            updateCanonicalName();
+        }
+        return canonicalName;
+    }
+
+    public void setCanonicalName(String canonicalName) throws ParseException {
+        this.canonicalName = canonicalName;
+        int lastSlash = canonicalName.lastIndexOf("/");
+        if (parent == null) {
+            if(lastSlash >= 0) 
+                throw new ParseException("Invalid canonical name - parent category is null - name must not have slash", lastSlash);
+            this.setNome(canonicalName);
+        } else {
+            if(lastSlash < 0) 
+                throw new ParseException("Invalid canonical name - parent category must be separated by slash", lastSlash);
+            this.setNome(canonicalName.substring(lastSlash));
+            parent.setCanonicalName(canonicalName.substring(0, lastSlash));
+        }
     }
 
     public String getNome() {

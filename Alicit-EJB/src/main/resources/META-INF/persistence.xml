@@ -12,6 +12,7 @@
     <class>br.com.argonavis.merkatus.alicit.produto.Categoria</class>
     <class>br.com.argonavis.merkatus.alicit.produto.Produto</class>
     <class>br.com.argonavis.merkatus.alicit.produto.Tag</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

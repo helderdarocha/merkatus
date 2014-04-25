@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro de Produtos</title>
+        <style>
+            tr:nth-child(odd) {background: rgb(90%,90%,100%)}
+            table {border: solid 1px blue;}
+            fieldset select {width: 300px}
+            fieldset {width: 700px}
+            * {font-family: 'Calibri'}
+        </style>
+    </h:head>
+    <h:body>
+        <h1>Cadastro de Produtos</h1>
+        <h:form prependId="false">
+            <h2>Produtos cadastrados</h2>
+            <p:dataTable id="dataTable" value="#{produtoManagedBean.produtos}" var="produto"
+                         emptyMessage="Nenhum produto encontrada para os critérios selecionados" 
+                         widgetVar="produtosTable"
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
+                         rowsPerPageTemplate="5,10,15"
+                         currentPageReportTemplate="Página {currentPage} de {totalPages}">
+
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Nome" />  
+                    </f:facet>  
+                    #{produto.nome}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Código" />  
+                    </f:facet> 
+                    #{produto.codigo}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Preço" />  
+                    </f:facet> 
+                    #{produto.preco}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="ID" />  
+                    </f:facet>
+                    #{produto.id}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Categoria" />  
+                    </f:facet>
+                    #{produto.categoria.canonicalName}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Tags" />  
+                    </f:facet>
+                    Tag #1 #{produto.tags}
+                </p:column>
+
+            </p:dataTable>
+            <p></p>
+            <h:panelGroup id="cadastrarProdutoButton">
+                <p:commandButton value="Cadastrar nova produto" 
+                                 action="#{produtoManagedBean.showCadastrarProdutoPanel}"
+                                 rendered="#{produtoManagedBean.showCadastrarProdutoPanel == false}">
+                    <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
+                </p:commandButton>
+            </h:panelGroup>
+
+            <h:panelGroup id="cadastrarProduto">
+                <h:panelGroup rendered="#{produtoManagedBean.showCadastrarProdutoPanel == true}">
+                    <p:fieldset legend="Cadastrar Nova Produto">
+                        <p>
+                            <p:outputLabel >Código do produto </p:outputLabel> 
+                            <p:inputText value="#{produtoManagedBean.codigoProduto}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Nome do produto </p:outputLabel> 
+                            <p:inputText value="#{produtoManagedBean.nomeProduto}" />
+                        </p>
+                        <p>
+                            <p:outputLabel>Categoria </p:outputLabel> 
+                            <p:selectOneMenu value="#{produtoManagedBean.idCategoria}">
+                                <f:selectItem itemLabel="Selecionar categoria" itemValue=""/>
+                                <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
+                                <f:ajax render="criarButton"/>
+                            </p:selectOneMenu>
+                        </p>
+                        <p>
+                            <p:outputLabel >Tags (separados por vírgula)</p:outputLabel> 
+                            <p:inputText value="#{produtoManagedBean.tagNames}" />
+                        </p>
+                        <p>
+                            <p:commandButton value="Criar Produto #{produtoManagedBean.idCategoria}"  
+                                             action="#{produtoManagedBean.criar}"
+                                             id="criarButton">
+                                <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
+                            </p:commandButton>
+                        </p>
+
+                        <p:commandButton value="Cancelar cadastramento de nova produto" 
+                                         rendered="#{produtoManagedBean.showCadastrarProdutoPanel == true}"
+                                         action="#{produtoManagedBean.hideCadastrarProdutoPanel}">
+                            <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
+                        </p:commandButton>
+                    </p:fieldset>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </h:body>
+</html>
+

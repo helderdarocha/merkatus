@@ -15,4 +15,7 @@ import javax.ejb.Remote;
  * @author helderdarocha
  */
 @Remote
-public interface TagFacadeRemote extends AbstractFacadeInterface<Tag> {}
+public interface TagFacadeRemote extends AbstractFacadeInterface<Tag> {
+
+    public Tag getByNome(String nome);
+}

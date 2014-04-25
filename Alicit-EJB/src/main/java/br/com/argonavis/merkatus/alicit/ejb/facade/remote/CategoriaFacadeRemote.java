@@ -15,4 +15,9 @@ import javax.ejb.Remote;
  * @author helderdarocha
  */
 @Remote
-public interface CategoriaFacadeRemote extends AbstractFacadeInterface<Categoria> {}
+public interface CategoriaFacadeRemote extends AbstractFacadeInterface<Categoria> {
+
+    public Categoria getByNomeAndParent(String nome, String nomeParent);
+
+    public Categoria getByNome(String nome);
+}

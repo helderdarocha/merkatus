@@ -75,7 +75,7 @@ public class ProdutoTest {
 
     @Test
     public void testToString() {
-        assertEquals("P123 Produto X", p.toString());
+        assertEquals("Produto P123 Produto X", p.toString());
     }
     
 }

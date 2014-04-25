@@ -15,4 +15,7 @@ import javax.ejb.Remote;
  * @author helderdarocha
  */
 @Remote
-public interface ProdutoFacadeRemote extends AbstractFacadeInterface<Produto> {}
+public interface ProdutoFacadeRemote extends AbstractFacadeInterface<Produto> {
+
+    public Produto getByCodigo(String codigo);
+}

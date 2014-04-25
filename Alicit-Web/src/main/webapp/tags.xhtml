@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro de Tags</title>
+        <style>
+            tr:nth-child(odd) {background: rgb(90%,90%,100%)}
+            table {border: solid 1px blue;}
+            fieldset select {width: 300px}
+            fieldset {width: 700px}
+            * {font-family: 'Calibri'}
+        </style>
+    </h:head>
+        <h:body>
+        <h1>Cadastro de Tags</h1>
+        <h:form prependId="false">
+            <h2>Tags cadastradas</h2>
+            <p:dataTable id="dataTable" value="#{tagManagedBean.tags}" var="tag"
+                         emptyMessage="Nenhum tag encontrada para os critérios selecionados" 
+                         widgetVar="tagsTable"
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
+                         rowsPerPageTemplate="5,10,15"
+                         currentPageReportTemplate="Página {currentPage} de {totalPages}">
+
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Nome" />  
+                    </f:facet>  
+                    #{tag.nome}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Marcar remover" />  
+                    </f:facet>  
+                    <p:selectBooleanCheckbox />
+                </p:column>
+
+            </p:dataTable>
+            <p></p>
+            <h:panelGroup id="cadastrarTagButton">
+                <p:commandButton value="Cadastrar nova tag" 
+                                 action="#{tagManagedBean.showCadastrarTagPanel}"
+                                 rendered="#{tagManagedBean.showCadastrarTagPanel == false}">
+                    <f:ajax render="cadastrarTag cadastrarTagButton"/>
+                </p:commandButton>
+            </h:panelGroup>
+
+            <h:panelGroup id="cadastrarTag">
+                <h:panelGroup rendered="#{tagManagedBean.showCadastrarTagPanel == true}">
+                    <p:fieldset legend="Cadastrar Nova Tag">
+                        <p>
+                            <p:outputLabel >Nome da tag </p:outputLabel> 
+                            <p:inputText value="#{tagManagedBean.nomeTag}" />
+                        </p>
+                        <p>
+                            <p:commandButton value="Criar Tag"  
+                                             action="#{tagManagedBean.criar}">
+                                <f:ajax render="cadastrarTag cadastrarTagButton"/>
+                            </p:commandButton>
+                        </p>
+
+                        <p:commandButton value="Cancelar cadastramento de nova tag" 
+                                         rendered="#{tagManagedBean.showCadastrarTagPanel == true}"
+                                         action="#{tagManagedBean.hideCadastrarTagPanel}">
+                            <f:ajax render="cadastrarTag cadastrarTagButton"/>
+                        </p:commandButton>
+                    </p:fieldset>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </h:body>
+</html>
+

@@ -6,7 +6,6 @@
 
 package br.com.argonavis.merkatus.alicit.ejb.facade;
 
-import br.com.argonavis.merkatus.alicit.comprador.Comprador;
 import br.com.argonavis.merkatus.alicit.ejb.LookupService;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
@@ -39,21 +38,32 @@ public class CategoriaFacadeTest {
     @After
     public void testRemove() throws Exception {
         int count = facade.count();
-        Categoria found = facade.querySingle("select c from Categoria c where c.nome = 'Energia'");
+        Categoria found = facade.getByNome("Energia");
         facade.remove(found);
         assertEquals(count - 1, facade.count());
     }
     
     @Test
+    public void testCategoriaWithParent() throws Exception {
+        Categoria subCat = new Categoria("Solar", facade.getByNome("Energia"));
+        facade.create(subCat);
+        Categoria found = facade.getByNomeAndParent("Solar", "Energia");
+        assertEquals("Energia/Solar", found.getCanonicalName());
+        found.getSubCategorias().clear();
+        subCat.setParent(null);
+        facade.remove(found);
+    }
+    
+    @Test
     public void testMerge() throws Exception {
-        Categoria found = facade.querySingle("select c from Categoria c where c.nome = 'Energia'");
+        Categoria found = facade.getByNome("Energia");
         Categoria merged = facade.edit(found);
         assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        Categoria foundQuery = facade.querySingle("select c from Categoria c where c.nome = 'Energia'");
+        Categoria foundQuery = facade.getByNome("Energia");
         System.out.println("Categoria ID: " + foundQuery.getId());
         Categoria foundGet = facade.find(foundQuery.getId());
         assertEquals(foundQuery, foundGet);

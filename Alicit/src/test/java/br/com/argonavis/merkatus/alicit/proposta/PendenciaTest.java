@@ -6,7 +6,6 @@
 
 package br.com.argonavis.merkatus.alicit.proposta;
 
-import br.com.argonavis.merkatus.alicit.produto.Produto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,8 @@ public class PendenciaTest {
     public void setUp() {
         Pendencia p1 = new Pendencia();
         p1.setDescricao("Pendencia x");
-        p1.addItem(new Produto());
+        //p1.addItem(new Produto());
+        //p1.addProduto(new Produto());
         p1.getDescricao();
         p1.setConcluida(true);
         p1.setUrgente(true);
