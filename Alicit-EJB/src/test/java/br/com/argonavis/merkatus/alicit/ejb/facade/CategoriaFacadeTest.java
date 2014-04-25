@@ -47,10 +47,10 @@ public class CategoriaFacadeTest {
     public void testCategoriaWithParent() throws Exception {
         Categoria subCat = new Categoria("Solar", facade.getByNome("Energia"));
         facade.create(subCat);
-        Categoria found = facade.getByNomeAndParent("Solar", "Energia");
-        assertEquals("Energia/Solar", found.getCanonicalName());
+        Categoria found = facade.getByNomeAndContexto("Solar", "Energia");
+        assertEquals("Energia/Solar", found.getNomeAbsoluto());
         found.getSubCategorias().clear();
-        subCat.setParent(null);
+        subCat.setContexto(null);
         facade.remove(found);
     }
     

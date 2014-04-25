@@ -28,16 +28,33 @@
 
                 <p:column>
                     <f:facet name="header">  
+                        <h:outputText value="ID" />  
+                    </f:facet>  
+                    #{categoria.id}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
                         <h:outputText value="Nome sem contexto" />  
                     </f:facet>  
                     #{categoria.nome}
                 </p:column>
-
                 <p:column>
                     <f:facet name="header">  
                         <h:outputText value="Contexto" />  
                     </f:facet> 
-                    #{categoria.parent}
+                    #{categoria.contexto}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Root" />  
+                    </f:facet> 
+                    #{categoria.root}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Nome absoluto" />  
+                    </f:facet> 
+                    #{categoria.nomeAbsoluto}
                 </p:column>
                 <p:column>
                     <f:facet name="header">  
@@ -45,45 +62,24 @@
                     </f:facet> 
                     #{categoria}
                 </p:column>
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="Subcategorias" />  
+                    </f:facet>  
+                    #{categoria.subCategorias}
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Remover tag" action="#{categoriaManagedBean.editarCategoria(categoria.nome, categoria.contexto.id)}" />
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Visualizar tag" action="#{categoriaManagedBean.exibirCategoria(categoria.nome, categoria.contexto.id)}" />
+                </p:column>
 
             </p:dataTable>
-            <p></p>
-            <h:panelGroup id="cadastrarCategoriaButton">
-                <p:commandButton value="Cadastrar nova categoria" 
-                                 action="#{categoriaManagedBean.showCadastrarCategoriaPanel}"
-                                 rendered="#{categoriaManagedBean.showCadastrarCategoriaPanel == false}">
-                    <f:ajax render="cadastrarCategoria cadastrarCategoriaButton"/>
-                </p:commandButton>
-            </h:panelGroup>
-
-            <h:panelGroup id="cadastrarCategoria">
-                <h:panelGroup rendered="#{categoriaManagedBean.showCadastrarCategoriaPanel == true}">
-                    <p:fieldset legend="Cadastrar Nova Categoria">
-                        <p>
-                            <p:outputLabel >Nome da categoria </p:outputLabel> 
-                            <p:inputText value="#{categoriaManagedBean.nomeCategoria}" />
-                        </p><p>
-                            <p:outputLabel >Contexto </p:outputLabel> 
-                            <p:selectOneMenu value="#{categoriaManagedBean.idParent}">
-                                <f:selectItem itemLabel="Selecionar categoria pai" itemValue=""/>
-                                <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
-                            </p:selectOneMenu>
-                        </p>
-                        <p>
-                            <p:commandButton value="Criar Categoria"  
-                                             action="#{categoriaManagedBean.criar}">
-                                <f:ajax render="cadastrarCategoria cadastrarCategoriaButton"/>
-                            </p:commandButton>
-                        </p>
-
-                        <p:commandButton value="Cancelar cadastramento de nova categoria" 
-                                         rendered="#{categoriaManagedBean.showCadastrarCategoriaPanel == true}"
-                                         action="#{categoriaManagedBean.hideCadastrarCategoriaPanel}">
-                            <f:ajax render="cadastrarCategoria cadastrarCategoriaButton"/>
-                        </p:commandButton>
-                    </p:fieldset>
-                </h:panelGroup>
-            </h:panelGroup>
+            <p>
+            <p:commandButton value="Cadastrar nova categoria" 
+                             action="#{categoriaManagedBean.cadastrarNovaCategoria}"/>
+            </p>
         </h:form>
     </h:body>
 </html>

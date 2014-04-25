@@ -33,24 +33,24 @@ public class Categoria implements Serializable {
     private String nome;
     
     @Column(unique=true)
-    private String canonicalName;
+    private String nomeAbsoluto;
     
     @ManyToOne
-    private Categoria parent ;
+    private Categoria contexto ;
     
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "parent")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "contexto")
     private Set<Categoria> subCategorias = new HashSet<>();
     
     public Categoria() {}
     public Categoria(String nome) {
         this.nome = nome;
-        this.parent = null;
-        updateCanonicalName();
+        this.contexto = null;
+        updateNomeAbsoluto();
     }
     public Categoria(String nome, Categoria parent) {
         this.nome = nome;
-        this.parent = parent;
-        updateCanonicalName();
+        this.contexto = parent;
+        updateNomeAbsoluto();
     }
 
     public Long getId() {
@@ -65,7 +65,7 @@ public class Categoria implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (nome != null ? nome.hashCode() : 0);
-        hash += (parent != null ? parent.hashCode() : 0);
+        hash += (contexto != null ? contexto.hashCode() : 0);
         return hash;
     }
 
@@ -76,7 +76,7 @@ public class Categoria implements Serializable {
         }
         Categoria other = (Categoria) object;
         
-        boolean parentSame = (this.parent == null && other.parent == null) || (this.parent != null && this.parent.equals(other.parent));
+        boolean parentSame = (this.contexto == null && other.contexto == null) || (this.contexto != null && this.contexto.equals(other.contexto));
         boolean nameSame   = (this.nome == null && other.nome == null) || (this.nome != null && this.nome.equals(other.nome));
         
         return parentSame && nameSame;
@@ -85,39 +85,33 @@ public class Categoria implements Serializable {
     @Override
     public String toString() {
         String p = "";
-        if (parent != null) {
-            p = parent.toString();
+        if (contexto != null) {
+            p = contexto.toString();
         }
         return p + "/" + nome;
     }
     
-    private void updateCanonicalName() {
-        if (getParent() != null) {
-            canonicalName = getParent().getCanonicalName() + "/" + getNome();
+    private void updateNomeAbsoluto() {
+        if (getContexto() != null) {
+            nomeAbsoluto = getContexto().getNomeAbsoluto() + "/" + getNome();
         } else {
-            canonicalName = getNome();
+            nomeAbsoluto = getNome();
         }
     }
 
-    public String getCanonicalName() {
-        if (canonicalName == null) {
-            updateCanonicalName();
+    public String getNomeAbsoluto() {
+        if (nomeAbsoluto == null) {
+            updateNomeAbsoluto();
         }
-        return canonicalName;
+        return nomeAbsoluto;
     }
 
-    public void setCanonicalName(String canonicalName) throws ParseException {
-        this.canonicalName = canonicalName;
-        int lastSlash = canonicalName.lastIndexOf("/");
-        if (parent == null) {
-            if(lastSlash >= 0) 
-                throw new ParseException("Invalid canonical name - parent category is null - name must not have slash", lastSlash);
-            this.setNome(canonicalName);
-        } else {
-            if(lastSlash < 0) 
-                throw new ParseException("Invalid canonical name - parent category must be separated by slash", lastSlash);
-            this.setNome(canonicalName.substring(lastSlash));
-            parent.setCanonicalName(canonicalName.substring(0, lastSlash));
+    public void setNomeAbsoluto(String nomeAbsoluto) throws ParseException {
+        this.nomeAbsoluto = nomeAbsoluto;
+        String[] splitNome = splitNomeCategoria(nomeAbsoluto);
+        this.nome = splitNome[0];
+        if (this.contexto != null) {
+            this.contexto.setNomeAbsoluto(splitNome[1]);
         }
     }
 
@@ -129,12 +123,12 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public Categoria getParent() {
-        return parent;
+    public Categoria getContexto() {
+        return contexto;
     }
 
-    public void setParent(Categoria parent) {
-        this.parent = parent;
+    public void setContexto(Categoria contexto) {
+        this.contexto = contexto;
     }
 
     public Set<Categoria> getSubCategorias() {
@@ -147,13 +141,13 @@ public class Categoria implements Serializable {
     
     public void addSubCategoria(Categoria subCategoria) {
         this.subCategorias.add(subCategoria);
-        subCategoria.parent = this;
+        subCategoria.contexto = this;
     }
     
     public Categoria detachSubCategoria(String nome) {
         for(Categoria found : this.subCategorias) {
             if(found.getNome().equals(nome)) {
-                found.parent = null;
+                found.contexto = null;
                 if (this.subCategorias.remove(found)) {
                     return found;
                 }
@@ -164,10 +158,32 @@ public class Categoria implements Serializable {
     
     public Categoria getRoot() {
         Categoria root = this;
-        while(root.parent != null) {
-           root = root.parent;
+        while(root.contexto != null) {
+           root = root.contexto;
         }
         return root;
+    }
+    
+    /**
+     * Returns array containing [0] relative name of category, 
+     * @param nomeAbsolutoContexto
+     * @return
+     * @throws ParseException 
+     */
+    public static String[] splitNomeCategoria(String nomeAbsolutoContexto) throws ParseException {
+        int lastSlash = nomeAbsolutoContexto.lastIndexOf("/");
+        String[] nomeArray = new String[2];
+        if(lastSlash < 0) { // no slash, only set name
+            nomeArray[0] = nomeAbsolutoContexto;
+        } else {
+            nomeArray[0] = nomeAbsolutoContexto.substring(lastSlash); // everything after the slash
+            nomeArray[1] = nomeAbsolutoContexto.substring(0, lastSlash); // everything before (contexto)
+            
+            if (nomeArray[0].contains("/")) {
+                throw new ParseException("Nome relativo de categoria nao pode incluir '/'", 0);
+            }
+        }
+        return nomeArray;
     }
     
 }

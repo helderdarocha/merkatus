@@ -14,18 +14,22 @@
             * {font-family: 'Calibri'}
         </style>
     </h:head>
-        <h:body>
+    <h:body>
         <h1>Cadastro de Tags</h1>
         <h:form prependId="false">
             <h2>Tags cadastradas</h2>
             <p:dataTable id="dataTable" value="#{tagManagedBean.tags}" var="tag"
                          emptyMessage="Nenhum tag encontrada para os critérios selecionados" 
-                         widgetVar="tagsTable"
                          paginator="true" rows="10"  
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
                          rowsPerPageTemplate="5,10,15"
                          currentPageReportTemplate="Página {currentPage} de {totalPages}">
-
+                <p:column>
+                    <f:facet name="header">  
+                        <h:outputText value="ID" />  
+                    </f:facet>  
+                    #{tag.id}
+                </p:column>
                 <p:column>
                     <f:facet name="header">  
                         <h:outputText value="Nome" />  
@@ -33,44 +37,15 @@
                     #{tag.nome}
                 </p:column>
                 <p:column>
-                    <f:facet name="header">  
-                        <h:outputText value="Marcar remover" />  
-                    </f:facet>  
-                    <p:selectBooleanCheckbox />
+                    <p:commandButton value="Remover tag" action="#{tagManagedBean.editarTag(tag.nome)}" />
                 </p:column>
-
+                <p:column>
+                    <p:commandButton value="Visualizar tag" action="#{tagManagedBean.exibirTag(tag.nome)}" />
+                </p:column>
             </p:dataTable>
-            <p></p>
-            <h:panelGroup id="cadastrarTagButton">
-                <p:commandButton value="Cadastrar nova tag" 
-                                 action="#{tagManagedBean.showCadastrarTagPanel}"
-                                 rendered="#{tagManagedBean.showCadastrarTagPanel == false}">
-                    <f:ajax render="cadastrarTag cadastrarTagButton"/>
-                </p:commandButton>
-            </h:panelGroup>
-
-            <h:panelGroup id="cadastrarTag">
-                <h:panelGroup rendered="#{tagManagedBean.showCadastrarTagPanel == true}">
-                    <p:fieldset legend="Cadastrar Nova Tag">
-                        <p>
-                            <p:outputLabel >Nome da tag </p:outputLabel> 
-                            <p:inputText value="#{tagManagedBean.nomeTag}" />
-                        </p>
-                        <p>
-                            <p:commandButton value="Criar Tag"  
-                                             action="#{tagManagedBean.criar}">
-                                <f:ajax render="cadastrarTag cadastrarTagButton"/>
-                            </p:commandButton>
-                        </p>
-
-                        <p:commandButton value="Cancelar cadastramento de nova tag" 
-                                         rendered="#{tagManagedBean.showCadastrarTagPanel == true}"
-                                         action="#{tagManagedBean.hideCadastrarTagPanel}">
-                            <f:ajax render="cadastrarTag cadastrarTagButton"/>
-                        </p:commandButton>
-                    </p:fieldset>
-                </h:panelGroup>
-            </h:panelGroup>
+            <p>
+                <p:commandButton value="Cadastrar nova tag" action="#{tagManagedBean.cadastrarNovaTag}" />
+            </p>
         </h:form>
     </h:body>
 </html>

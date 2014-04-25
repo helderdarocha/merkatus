@@ -33,8 +33,8 @@ public class CategoriaTest {
 
     @Test
     public void testGetParent() {
-        Categoria p1 = ss.getParent();
-        Categoria p2 = ss.getParent().getParent();
+        Categoria p1 = ss.getContexto();
+        Categoria p2 = ss.getContexto().getContexto();
         assertEquals(p1, sub2);
         assertEquals(p2, cat);
     }
@@ -59,7 +59,7 @@ public class CategoriaTest {
         }
         int size = children.size();
         Categoria removed = sub2.detachSubCategoria("Sub categoria 3");
-        assertTrue(removed.getParent() == null);
+        assertTrue(removed.getContexto() == null);
         children = sub2.getSubCategorias();
         for(Categoria c: children) {
             System.out.println(c);
@@ -73,7 +73,7 @@ public class CategoriaTest {
         Categoria m = new Categoria("moo", cat);
         int h1 = m.hashCode();
         Categoria n = new Categoria("moo");
-        n.setParent(cat);
+        n.setContexto(cat);
         int h2 = m.hashCode();
         Categoria o = new Categoria("moo");
         cat.addSubCategoria(o);
@@ -88,7 +88,7 @@ public class CategoriaTest {
     public void testEquals() {
         Categoria m = new Categoria("moo", cat);
         Categoria n = new Categoria("moo");
-        n.setParent(cat);
+        n.setContexto(cat);
         assertEquals(m, n);
         
         Categoria o = new Categoria("moo");

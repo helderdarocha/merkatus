@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.argonavis.alicit.web;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
+import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -23,82 +24,48 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class CategoriaManagedBean implements Serializable {
-    @EJB CategoriaFacadeRemote categoriaFacade;
-    
+
+    @EJB
+    CategoriaFacadeRemote categoriaFacade;
+    @Inject
+    CurrentCategoriaManagedBean currentCategoriaManagedBean;
+
     private List<Categoria> categorias;
     Map<String, Long> categoriasMap;
-    
-    private boolean showCadastrarCategoriaPanel = false;
-    private String nomeCategoria;
-    private Long idParent;
-    
+
     public List<Categoria> getCategorias() {
-        if (categorias == null) {
-            categorias = categoriaFacade.findAll();
-        }
         return categorias;
     }
-    
+
     public Map<String, Long> getCategoriasMap() {
         if (categoriasMap == null) {
             categoriasMap = new HashMap<>();
-            for(Categoria c: getCategorias()) {
-                categoriasMap.put(c.toString(), c.getId());
-            }
+        }
+        categoriasMap.clear();
+        for (Categoria c : getCategorias()) {
+            categoriasMap.put(c.getNomeAbsoluto(), c.getId());
         }
         return categoriasMap;
     }
-    
-    public void resetSession() {
-        nomeCategoria = null;
-        idParent = null;
-        this.showCadastrarCategoriaPanel = false;
+
+    public String exibirCategoria(String categoriaNome, Long idCategoriaContexto) {
+        currentCategoriaManagedBean.setCategoriaNome(categoriaNome);
+        currentCategoriaManagedBean.setIdCategoriaContexto(idCategoriaContexto);
+        currentCategoriaManagedBean.setCurrentCategoria();
+        return "categoriasExibir";
     }
 
-    public boolean isShowCadastrarCategoriaPanel() {
-        return showCadastrarCategoriaPanel;
+    public String cadastrarNovaCategoria() {
+        currentCategoriaManagedBean.setCategoriaNome(null);
+        currentCategoriaManagedBean.setIdCategoriaContexto(null);
+        currentCategoriaManagedBean.unsetCurrentCategoria();
+        return "categoriasCriar";
     }
 
-    public void setShowCadastrarCategoriaPanel(boolean showCadastrarCategoriaPanel) {
-        this.showCadastrarCategoriaPanel = showCadastrarCategoriaPanel;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public void setNomeCategoria(String nomeCategoria) {
-        this.nomeCategoria = nomeCategoria;
-    }
-
-    public Long getIdParent() {
-        return idParent;
-    }
-
-    public void setIdParent(Long idParent) {
-        this.idParent = idParent;
-    }
-    
-    public String showCadastrarCategoriaPanel() {
-        this.showCadastrarCategoriaPanel = true;
-        return null;
-    }
-    
-    public String hideCadastrarCategoriaPanel() {
-        resetSession();
-        return null;
-    }
-    
-    public String criar() {
-        Categoria categoria = null;
-        if (this.idParent == null) {
-            categoria = new Categoria(this.nomeCategoria);
-        } else {
-            Categoria pai = categoriaFacade.find(this.idParent);
-            categoria = new Categoria(this.nomeCategoria, pai);
-        }
-        categoriaFacade.create(categoria);
-        resetSession();
-        return "categorias";
+    public String editarCategoria(String categoriaNome, Long idCategoriaContexto) {
+        currentCategoriaManagedBean.setCategoriaNome(categoriaNome);
+        currentCategoriaManagedBean.setIdCategoriaContexto(idCategoriaContexto);
+        currentCategoriaManagedBean.setCurrentCategoria();
+        return "categoriasEditar";
     }
 }
