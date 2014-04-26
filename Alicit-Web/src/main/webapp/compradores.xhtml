@@ -1,26 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
     </h:head>
     <h:body>
-        <h1>Compradores</h1>
-        <h:dataTable value="#{compradorManagedBean.compradores}" var="comprador">
-            <h:column>
-                #{comprador.identificador}
-            </h:column>
-            <h:column>
-                #{comprador.portal.nomeCurto}
-            </h:column>
-            <h:column>
-                #{comprador.portal.nomeLongo}
-            </h:column>
-            <h:column>
-                #{comprador.portal.website}
-            </h:column>
-        </h:dataTable>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>Compradores</h1>
+                <h:dataTable value="#{compradorManagedBean.compradores}" var="comprador">
+                    <h:column>
+                        #{comprador.identificador}
+                    </h:column>
+                    <h:column>
+                        #{comprador.portal.nomeCurto}
+                    </h:column>
+                    <h:column>
+                        #{comprador.portal.nomeLongo}
+                    </h:column>
+                    <h:column>
+                        #{comprador.portal.website}
+                    </h:column>
+                </h:dataTable>
+
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
-

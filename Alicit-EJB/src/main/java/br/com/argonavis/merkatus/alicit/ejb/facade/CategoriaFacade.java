@@ -43,6 +43,13 @@ public class CategoriaFacade extends AbstractFacade<Categoria> implements Catego
     }
     
     @Override
+    public Categoria find(Object id) {
+        Categoria cat = super.find(id);
+        cat.getSubCategorias().size(); // pre-fetch
+        return cat;
+    }
+    
+    @Override
     public Categoria getByNome(String nome) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Categoria> cq = cb.createQuery(Categoria.class);

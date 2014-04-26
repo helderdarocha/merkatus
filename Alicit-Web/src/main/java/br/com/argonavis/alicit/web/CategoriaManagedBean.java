@@ -7,13 +7,12 @@ package br.com.argonavis.alicit.web;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
-import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +21,7 @@ import javax.inject.Named;
  * @author helderdarocha
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class CategoriaManagedBean implements Serializable {
 
     @EJB
@@ -30,11 +29,11 @@ public class CategoriaManagedBean implements Serializable {
     @Inject
     CurrentCategoriaManagedBean currentCategoriaManagedBean;
 
-    private List<Categoria> categorias;
     Map<String, Long> categoriasMap;
+    private Long categoriaId;
 
     public List<Categoria> getCategorias() {
-        return categorias;
+        return categoriaFacade.findAll(); // lazy!
     }
 
     public Map<String, Long> getCategoriasMap() {
@@ -48,9 +47,16 @@ public class CategoriaManagedBean implements Serializable {
         return categoriasMap;
     }
 
-    public String exibirCategoria(String categoriaNome, Long idCategoriaContexto) {
-        currentCategoriaManagedBean.setCategoriaNome(categoriaNome);
-        currentCategoriaManagedBean.setIdCategoriaContexto(idCategoriaContexto);
+    public Long getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
+    public String exibirCategoria() {
+        currentCategoriaManagedBean.setCategoriaId(categoriaId);
         currentCategoriaManagedBean.setCurrentCategoria();
         return "categoriasExibir";
     }
@@ -62,9 +68,8 @@ public class CategoriaManagedBean implements Serializable {
         return "categoriasCriar";
     }
 
-    public String editarCategoria(String categoriaNome, Long idCategoriaContexto) {
-        currentCategoriaManagedBean.setCategoriaNome(categoriaNome);
-        currentCategoriaManagedBean.setIdCategoriaContexto(idCategoriaContexto);
+    public String editarCategoria() {
+        currentCategoriaManagedBean.setCategoriaId(categoriaId);
         currentCategoriaManagedBean.setCurrentCategoria();
         return "categoriasEditar";
     }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,7 +21,7 @@ import javax.inject.Named;
  * @author helderdarocha
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class TagManagedBean implements Serializable {
 
     @EJB
@@ -30,6 +30,8 @@ public class TagManagedBean implements Serializable {
     CurrentTagManagedBean currentTagManagedBean;
 
     Map<String, String> tagsMap;
+
+    private String currentTagNome;
 
     public List<Tag> getTags() {
         return tagFacade.findAll();
@@ -45,9 +47,17 @@ public class TagManagedBean implements Serializable {
         }
         return tagsMap;
     }
-    
-    public String exibirTag(String tagNome) {
-        currentTagManagedBean.setTagNome(tagNome);
+
+    public String getCurrentTagNome() {
+        return currentTagNome;
+    }
+
+    public void setCurrentTagNome(String currentTagNome) {
+        this.currentTagNome = currentTagNome;
+    }
+
+    public String exibirTag() {
+        currentTagManagedBean.setTagNome(currentTagNome);
         currentTagManagedBean.setCurrentTag();
         return "tagsExibir";
     }
@@ -58,11 +68,10 @@ public class TagManagedBean implements Serializable {
         return "tagsCriar";
     }
 
-    public String editarTag(String tagNome) {
-        currentTagManagedBean.setTagNome(tagNome);
+    public String editarTag() {
+        currentTagManagedBean.setTagNome(currentTagNome);
         currentTagManagedBean.setCurrentTag();
         return "tagsEditar";
     }
-
 
 }

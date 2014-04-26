@@ -9,11 +9,8 @@ package br.com.argonavis.alicit.web;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.TagFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
@@ -22,7 +19,7 @@ import javax.persistence.NoResultException;
  * @author helderdarocha
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class CurrentTagManagedBean implements Serializable {
     @EJB TagFacadeRemote tagFacade;
     
@@ -73,6 +70,8 @@ public class CurrentTagManagedBean implements Serializable {
      * @return false if no tag is set.
      */
     public boolean setCurrentTag() {
+        System.out.println("Current: "  + currentTag);
+        System.out.println("Tag Nome: " + this.tagNome);
         if (currentTag != null) {
             return true;
         } else if (this.tagNome != null) {

@@ -2,45 +2,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Edital no. #{currentEditalManagedBean.numeroEdital}</title>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
     </h:head>
-    <h:body><h:form>
-        <h1>#{currentEditalManagedBean.id} #{currentEditalManagedBean.tipo} no. #{currentEditalManagedBean.numeroEdital}</h1>
-        
-        <p>Comprador <p:inputText />
-        <br/>Nome <p:inputText />
-        <br/>Data de abertura <p:calendar />
-        <br/>Valor total: #{currentEditalManagedBean.valorTotal}
-        </p>
-        
-        <h3>Lista de itens de habilitação</h3> 
-        <p:dataTable>
-            <p:column>Remover</p:column>
-        </p:dataTable>
-        Adicionar
-        
-        <h3>Lista de documentos</h3>
-        <p:dataTable>
-            <p:column>Remover</p:column>
-        </p:dataTable>
-        Adicionar
-        
-        <h3>Lista de Amostras</h3>
-        <p:dataTable>
-            <p:column>Remover</p:column>
-        </p:dataTable>
-        Adicionar
-        
-        <h3>Produtos</h3>
-        <p:dataTable>
-            <p:column>Remover</p:column>
-        </p:dataTable>
-        Adicionar
-        
-        
-        </h:form>
+    <h:body>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>#{currentEditalManagedBean.id} #{currentEditalManagedBean.tipo} no. #{currentEditalManagedBean.numeroEdital}</h1>
+
+                <p>Comprador <p:inputText />
+                    <br/>Nome <p:inputText />
+                    <br/>Data de abertura <p:calendar />
+                    <br/>Valor total: #{currentEditalManagedBean.valorTotal}
+                </p>
+
+                <h3>Lista de itens de habilitação</h3> 
+                <p:dataTable>
+                    <p:column>Remover</p:column>
+                </p:dataTable>
+                Adicionar
+
+                <h3>Lista de documentos</h3>
+                <p:dataTable>
+                    <p:column>Remover</p:column>
+                </p:dataTable>
+                Adicionar
+
+                <h3>Lista de Amostras</h3>
+                <p:dataTable>
+                    <p:column>Remover</p:column>
+                </p:dataTable>
+                Adicionar
+
+                <h3>Produtos</h3>
+                <p:dataTable>
+                    <p:column>Remover</p:column>
+                </p:dataTable>
+                Adicionar
+
+
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
-

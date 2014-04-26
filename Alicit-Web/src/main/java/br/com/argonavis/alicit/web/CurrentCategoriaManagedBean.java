@@ -10,7 +10,7 @@ import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
@@ -19,13 +19,22 @@ import javax.persistence.NoResultException;
  * @author helderdarocha
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class CurrentCategoriaManagedBean implements Serializable {
     @EJB CategoriaFacadeRemote categoriaFacade;
     
     private Categoria currentCategoria;
     private String categoriaNome;
+    private Long categoriaId;
     private Long idCategoriaContexto;
+
+    public Long getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
+    }
  
     /**
      * Get current categoria.
@@ -73,16 +82,18 @@ public class CurrentCategoriaManagedBean implements Serializable {
     public boolean setCurrentCategoria() {
         if (currentCategoria != null) {
             return true;
-        } else if (this.categoriaNome != null) {
+        } else {
             try {
-                Categoria categoria = categoriaFacade.getByNomeAndIdContexto(categoriaNome, idCategoriaContexto);
+                Categoria categoria = categoriaFacade.find(categoriaId);
+                
+                System.out.println(categoria.getSubCategorias().size()); // test for lazy initialization
+                
                 this.setCurrentCategoria(categoria);
                 return categoria != null;
             } catch (NoResultException e) {
                 return false;
             }
         }
-        return false;
     }
 
     /**
@@ -102,12 +113,16 @@ public class CurrentCategoriaManagedBean implements Serializable {
     }
     
     /**
-     * Removes current tag from database.
+     * Removes current categoria from database.
      * @return navigation key
      */
     public String remover() {
-        // No need to confirm before removing individual tags
+        // No need to confirm before removing individual categoria
         if (this.setCurrentCategoria()) {
+            for(Categoria sub: currentCategoria.getSubCategorias()) {
+                sub.setContexto(null);
+                categoriaFacade.edit(sub);
+            }
             currentCategoria.getSubCategorias().clear();
             currentCategoria.setContexto(null);
             categoriaFacade.remove(currentCategoria);
