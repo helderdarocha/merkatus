@@ -71,17 +71,86 @@
                             UF <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.uf}" /><br/>
                             CEP <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cep}" /><br/>
                         </p>
-                        <p>
-                            <p:outputLabel >Produtos </p:outputLabel> 
-                            (marcar para remover, botão para adicionar/editar)
+                        <p><p:outputLabel >Itens de habilitação</p:outputLabel> 
+                            <h:dataTable width="100%" id="itemTable" value="#{currentEditalManagedBean.currentEdital.itensHabilitacao}" var="itemHabilitacao">
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="ID" />  
+                                    </f:facet>  
+                                    #{itemHabilitacao.id}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Código" />  
+                                    </f:facet>  
+                                    #{itemHabilitacao.codigo}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Descrição" />  
+                                    </f:facet>  
+                                    #{itemHabilitacao.descricao}
+                                </h:column>
+                                <h:column>
+                                    <h:commandLink value="Remover"/>
+                                </h:column>
+                            </h:dataTable>
+                            <p:commandButton value="Adicionar item" action="#{currentEditalManagedBean.addItemHabilitacao}" >
+                                <f:ajax render="itemTable" />
+                            </p:commandButton>
                         </p>
-                        <p>
-                            <p:outputLabel >Itens de habilitação</p:outputLabel> 
-                            (marcar para remover, botão para adicionar/editar)
+
+                        <p><p:outputLabel >Produtos</p:outputLabel> 
+                            <h:dataTable width="100%" id="produtoTable" value="#{currentEditalManagedBean.currentEdital.itensProduto}" var="itemProduto">
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Código" />  
+                                    </f:facet>  
+                                    #{itemProduto.produto.codigo}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Nome" />  
+                                    </f:facet>  
+                                    #{itemProduto.produto.nome}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Preço" />  
+                                    </f:facet>  
+                                    #{itemProduto.produto.preco}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Quantidade" />  
+                                    </f:facet>  
+                                    <p:inputText value="#{itemProduto.quantidade}" size="5"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Subtotal" />  
+                                    </f:facet>  
+                                    R$ #{itemProduto.valorTotal}
+                                </h:column>
+                                <h:column>
+                                    <h:commandLink value="Remover"/>
+                                </h:column>
+                            </h:dataTable>
+                            <p:commandButton value="Adicionar Produto" action="#{currentEditalManagedBean.addProduto}" >
+                                <f:ajax render="produtoTable" />
+                            </p:commandButton>
+                            <p:commandButton value="Atualizar quantidades" action="#{currentEditalManagedBean.atualizarQuantidades}" >
+                                <f:ajax render="produtoTable" />
+                            </p:commandButton>
                         </p>
-                        <p:commandButton value="Atualizar edital" action="#{currentEditalManagedBean.atualizar}"/>
-                        <p:commandButton value="Remover edital" action="#{currentEditalManagedBean.remover}"/>
-                        <p:commandButton value="Cancelar" action="editais"/>
+                        
+                        <p>Valor total: <h:outputText value="R$ #{currentEditalManagedBean.currentEdital.valorTotal}"/></p>
+
+                        <p>
+                            <p:commandButton value="Atualizar edital" action="#{currentEditalManagedBean.atualizar}"/>
+                            <p:commandButton value="Remover edital" action="#{currentEditalManagedBean.remover}"/>
+                            <p:commandButton value="Cancelar" action="editais"/>
+                        </p>
                     </p:fieldset>
                 </h:form>
 

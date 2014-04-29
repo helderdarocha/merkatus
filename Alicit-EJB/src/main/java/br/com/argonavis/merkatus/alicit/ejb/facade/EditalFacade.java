@@ -10,6 +10,7 @@ import br.com.argonavis.merkatus.alicit.edital.Codigo;
 import br.com.argonavis.merkatus.alicit.edital.Edital;
 import br.com.argonavis.merkatus.alicit.edital.Edital_;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.EditalFacadeRemote;
+import br.com.argonavis.merkatus.alicit.produto.Categoria;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,6 +39,14 @@ public class EditalFacade extends AbstractFacade<Edital> implements EditalFacade
 
     public EditalFacade() {
         super(Edital.class);
+    }
+    
+    @Override
+    public Edital find(Object id) {
+        Edital c = super.find(id);
+        c.getItensHabilitacao().size(); // pre-fetch
+        c.getItensProduto().size();
+        return c;
     }
     
     @Override

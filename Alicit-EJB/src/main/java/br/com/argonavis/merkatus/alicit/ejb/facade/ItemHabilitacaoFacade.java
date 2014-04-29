@@ -13,6 +13,7 @@ import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemHabilitacaoFacadeR
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -47,6 +48,10 @@ public class ItemHabilitacaoFacade extends AbstractFacade<ItemHabilitacao> imple
         Predicate condition = cb.equal(root.get(ItemHabilitacao_.codigo), codigo);
         cq.where(condition);
         TypedQuery<ItemHabilitacao> q = getEntityManager().createQuery(cq);
-        return q.getSingleResult();
+        try {
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

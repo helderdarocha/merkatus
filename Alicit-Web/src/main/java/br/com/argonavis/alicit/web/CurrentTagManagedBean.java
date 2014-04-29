@@ -70,8 +70,6 @@ public class CurrentTagManagedBean implements Serializable {
      * @return false if no tag is set.
      */
     public boolean setCurrentTag() {
-        System.out.println("Current: "  + currentTag);
-        System.out.println("Tag Nome: " + this.tagNome);
         if (currentTag != null) {
             return true;
         } else if (this.tagNome != null) {

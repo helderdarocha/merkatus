@@ -18,10 +18,9 @@
 
                 <h1>Cadastro de Itens de Habilitação</h1>
                 <h:form prependId="false">
-                    <h2>Itens cadastrados</h2>
-                    <p:dataTable id="dataTable" value="#{itemHabilitacaoManagedBean.itens}" var="item"
-                                 emptyMessage="Nenhum item encontrada para os critérios selecionados" 
-                                 widgetVar="itensTable"
+                    <h2>Itens de Habilitação cadastrados</h2>
+                    <p:dataTable id="dataTable" value="#{itemHabilitacaoManagedBean.itensHabilitacao}" var="itemHabilitacao"
+                                 emptyMessage="Nenhum item encontrado para os critérios selecionados" 
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
                                  rowsPerPageTemplate="5,10,15"
@@ -30,65 +29,38 @@
                             <f:facet name="header">  
                                 <h:outputText value="ID" />  
                             </f:facet>  
-                            #{item.id}
+                            #{itemHabilitacao.id}
                         </p:column>
                         <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="Código" />  
                             </f:facet>  
-                            #{item.codigo}
+                            #{itemHabilitacao.codigo}
                         </p:column>
                         <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="Descrição" />  
                             </f:facet>  
-                            #{item.descricao}
+                            #{itemHabilitacao.descricao}
                         </p:column>
                         <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Marcar remover" />  
-                            </f:facet>  
-                            <p:selectBooleanCheckbox />
+                            <p:commandLink value="Remover" action="#{itemHabilitacaoManagedBean.editarItemHabilitacao}" >
+                                <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
+                            </p:commandLink>
                         </p:column>
-
+                        <p:column>
+                            <p:commandLink value="Visualizar" action="#{itemHabilitacaoManagedBean.exibirItemHabilitacao}">
+                                <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
+                            </p:commandLink>
+                        </p:column>
                     </p:dataTable>
-                    <p></p>
-                    <h:panelGroup id="cadastrarItemButton">
-                        <p:commandButton value="Cadastrar novo item" 
-                                         action="#{itemManagedBean.showCadastrarItemPanel}"
-                                         rendered="#{itemManagedBean.showCadastrarItemPanel == false}">
-                            <f:ajax render="cadastrarItem cadastrarItemButton"/>
+                    <p>
+                        <p:commandButton value="Cadastrar novo item" action="#{itemHabilitacaoManagedBean.cadastrarNovoItemHabilitacao}">
+                            <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
                         </p:commandButton>
-                    </h:panelGroup>
-
-                    <h:panelGroup id="cadastrarItem">
-                        <h:panelGroup rendered="#{itemManagedBean.showCadastrarItemPanel == true}">
-                            <p:fieldset legend="Cadastrar Nova Item">
-                                <p>
-                                    <p:outputLabel >Nome do item </p:outputLabel> 
-                                    <p:inputText value="#{itemManagedBean.nomeItem}" />
-                                </p>
-                                <p>
-                                    <p:outputLabel >Código do item </p:outputLabel> 
-                                    <p:inputText value="#{itemManagedBean.codigoItem}" />
-                                </p>
-                                <p>
-                                    <p:commandButton value="Criar Item"  
-                                                     action="#{itemManagedBean.criar}">
-                                        <f:ajax render="cadastrarItem cadastrarItemButton"/>
-                                    </p:commandButton>
-                                </p>
-
-                                <p:commandButton value="Cancelar cadastramento de novo item" 
-                                                 rendered="#{itemManagedBean.showCadastrarItemPanel == true}"
-                                                 action="#{itemManagedBean.hideCadastrarItemPanel}">
-                                    <f:ajax render="cadastrarItem cadastrarItemButton"/>
-                                </p:commandButton>
-                            </p:fieldset>
-                        </h:panelGroup>
-                    </h:panelGroup>
+                    </p>
                 </h:form>
-
+                
             </ui:define>
         </ui:composition>
     </h:body>

@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -20,78 +21,57 @@ import javax.inject.Named;
  * @author helderdarocha
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class ItemHabilitacaoManagedBean implements Serializable {
 
     @EJB
-    ItemHabilitacaoFacadeRemote itemFacade;
+    ItemHabilitacaoFacadeRemote itemHabilitacaoFacade;
+    @Inject
+    CurrentItemHabilitacaoManagedBean currentItemHabilitacaoManagedBean;
 
-    private boolean showCadastrarItemPanel = false;
-    private String descricaoItem;
-    private String codigoItem;
+    Map<String, String> itemHabilitacaoMap;
 
-    private List<ItemHabilitacao> itens;
-    Map<String, String> itensMap;
+    private String currentItemHabilitacaoCodigo;
 
-    public List<ItemHabilitacao> getItens() {
-        if (itens == null) {
-            itens = itemFacade.findAll();
+    public List<ItemHabilitacao> getItensHabilitacao() {
+        return itemHabilitacaoFacade.findAll();
+    }
+
+    public Map<String, String> getItemHabilitacaoMap() {
+        if (itemHabilitacaoMap == null) {
+            itemHabilitacaoMap = new HashMap<>();
         }
-        return itens;
-    }
-
-    public Map<String, String> getItensMap() {
-        if (itensMap == null) {
-            itensMap = new HashMap<>();
-            for (ItemHabilitacao c : getItens()) {
-                itensMap.put(c.getCodigo(), c.getDescricao());
-            }
+        itemHabilitacaoMap.clear();
+        for (ItemHabilitacao c : getItensHabilitacao()) {
+            itemHabilitacaoMap.put(c.getCodigo(), c.getCodigo());
         }
-        return itensMap;
+        return itemHabilitacaoMap;
     }
 
-    public void resetSession() {
-        this.showCadastrarItemPanel = false;
+    public String getCurrentItemHabilitacaoCodigo() {
+        return currentItemHabilitacaoCodigo;
     }
 
-    public boolean isShowCadastrarItemPanel() {
-        return showCadastrarItemPanel;
+    public void setCurrentItemHabilitacaoCodigo(String currentItemHabilitacaoCodigo) {
+        this.currentItemHabilitacaoCodigo = currentItemHabilitacaoCodigo;
     }
 
-    public void setShowCadastrarItemPanel(boolean showCadastrarItemPanel) {
-        this.showCadastrarItemPanel = showCadastrarItemPanel;
+    public String exibirItemHabilitacao() {
+        currentItemHabilitacaoManagedBean.setItemHabilitacaoCodigo(currentItemHabilitacaoCodigo);
+        currentItemHabilitacaoManagedBean.setCurrentItemHabilitacao();
+        return "itensHabilitacaoExibir";
     }
 
-    public String getCodigoItem() {
-        return codigoItem;
+    public String cadastrarNovoItemHabilitacao() {
+        currentItemHabilitacaoManagedBean.setItemHabilitacaoCodigo(null);
+        currentItemHabilitacaoManagedBean.unsetCurrentItemHabilitacao();
+        return "itensHabilitacaoCriar";
     }
 
-    public void setCodigoItem(String codigoItem) {
-        this.codigoItem = codigoItem;
+    public String editarItemHabilitacao() {
+        currentItemHabilitacaoManagedBean.setItemHabilitacaoCodigo(currentItemHabilitacaoCodigo);
+        currentItemHabilitacaoManagedBean.setCurrentItemHabilitacao();
+        return "itensHabilitacaoEditar";
     }
 
-    public String getDescricaoItem() {
-        return descricaoItem;
-    }
-
-    public void setDescricaoItem(String descricaoItem) {
-        this.descricaoItem = descricaoItem;
-    }
-
-    public String showCadastrarItemPanel() {
-        this.showCadastrarItemPanel = true;
-        return null;
-    }
-
-    public String hideCadastrarItemPanel() {
-        resetSession();
-        return null;
-    }
-
-    public String criar() {
-        ItemHabilitacao item = new ItemHabilitacao(this.codigoItem, this.descricaoItem);
-        itemFacade.create(item);
-        resetSession();
-        return "itens";
-    }
 }

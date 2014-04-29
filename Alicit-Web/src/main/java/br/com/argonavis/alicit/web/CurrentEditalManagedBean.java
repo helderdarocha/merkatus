@@ -14,9 +14,16 @@ import br.com.argonavis.merkatus.alicit.edital.Email;
 import br.com.argonavis.merkatus.alicit.edital.Endereco;
 import br.com.argonavis.merkatus.alicit.edital.PregaoEletronico;
 import br.com.argonavis.merkatus.alicit.edital.Telefone;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemProduto;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CompradorFacadeRemote;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.EditalFacadeRemote;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemHabilitacaoFacadeRemote;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemProdutoFacadeRemote;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
+import br.com.argonavis.merkatus.alicit.produto.Produto;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,6 +48,12 @@ public class CurrentEditalManagedBean implements Serializable {
     EditalFacadeRemote editalFacade;
     @EJB
     CompradorFacadeRemote compradorFacade;
+    @EJB
+    ItemProdutoFacadeRemote itemProdutoFacade;
+    @EJB
+    ProdutoFacadeRemote produtoFacade;
+    @EJB
+    ItemHabilitacaoFacadeRemote itemHabilitacaoFacade;
 
     private Edital currentEdital;
 
@@ -387,5 +400,45 @@ public class CurrentEditalManagedBean implements Serializable {
             this.unsetCurrentEdital();
         }
         return "editais";
+    }
+    
+    public String addProduto() {
+        ItemProduto item1 = new ItemProduto();
+        Produto p1 = produtoFacade.getByCodigo("F100");
+        p1.setPreco(BigDecimal.valueOf(35.00));
+        produtoFacade.edit(p1);
+        //itemProdutoFacade.create(item1);
+        item1 = itemProdutoFacade.edit(item1);
+        item1.setProduto(p1);
+        item1.setQuantidade(5);
+        itemProdutoFacade.edit(item1);
+        this.currentEdital.addItemProduto(item1);
+        
+        ItemProduto item2 = new ItemProduto();
+        Produto p2 = produtoFacade.getByCodigo("C234");
+        p2.setPreco(BigDecimal.valueOf(83.00));
+        produtoFacade.edit(p2);
+        //itemProdutoFacade.create(item2);
+        item2 = itemProdutoFacade.edit(item2);
+        item2.setProduto(p2);
+        item2.setQuantidade(3);
+        itemProdutoFacade.edit(item2);
+        this.currentEdital.addItemProduto(item2);
+        
+        editalFacade.edit(currentEdital);
+        
+        return null;
+    }
+    
+    public String addItemHabilitacao() {
+        ItemHabilitacao item1 = itemHabilitacaoFacade.getByCodigo("IH123");
+        this.currentEdital.addItemHabilitacao(item1);
+        editalFacade.edit(currentEdital);
+        return null;
+    }
+    
+    public String atualizarQuantidades() {
+        editalFacade.edit(currentEdital);
+        return null;
     }
 }
