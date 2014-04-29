@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>Cadastro de Editais</h1>
+                <h:form prependId="false">
+                    <p:fieldset legend="Cadastrar Novo Edital">
+                        <p>
+                            <p:selectOneMenu value="#{currentEditalManagedBean.editalCompradorId}">
+                                <f:selectItem itemLabel="Selecionar comprador" itemValue=""/>
+                                <f:selectItems value="#{compradorManagedBean.compradoresMap}" />
+                                <f:ajax event="change" render="selectTipoEditalPanel"/>
+                            </p:selectOneMenu>
+                        </p> 
+
+                        <h:panelGroup id="selectTipoEditalPanel">
+                            <h:panelGroup rendered="#{currentEditalManagedBean.editalCompradorId ne null}">
+                                <p>
+                                    <p:selectOneMenu value="#{currentEditalManagedBean.editalTipo}">
+                                        <f:selectItem itemLabel="Selecionar tipo de edital" itemValue=""/>
+                                        <f:selectItems value="#{currentEditalManagedBean.tipoEditaisMap}" />
+                                        <f:ajax event="change" render="selectSubTipoEditalPanel" />
+                                    </p:selectOneMenu>
+                                </p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="selectSubTipoEditalPanel">
+                            <h:panelGroup rendered="#{currentEditalManagedBean.editalTipo == 'PE'}">
+                                <p>
+                                    <p:selectOneMenu value="#{currentEditalManagedBean.tipoPE}">
+                                        <f:selectItem itemLabel="Selecionar tipo de Pregão Eletrônico" itemValue=""/>
+                                        <f:selectItems value="#{currentEditalManagedBean.tipoPEMap}" />
+                                        <f:ajax event="change" render="createEditalPanel" listener="#{currentEditalManagedBean.criarEditalTemp}"/>
+                                    </p:selectOneMenu>
+                                </p>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{currentEditalManagedBean.editalTipo == 'DL'}">
+                                <p>
+                                    <p:selectOneMenu value="#{currentEditalManagedBean.tipoDL}" >
+                                        <f:selectItem itemLabel="Selecionar tipo de Dispensa de Licitação" itemValue=""/>
+                                        <f:selectItems value="#{currentEditalManagedBean.tipoDLMap}" />
+                                        <f:ajax event="change" render="createEditalPanel" listener="#{currentEditalManagedBean.criarEditalTemp}" />
+                                    </p:selectOneMenu>
+                                </p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="createEditalPanel">
+                            <h:panelGroup rendered="#{currentEditalManagedBean.editalTipo == 'PE'}">
+                                <p>
+                                    <p:outputLabel >Nome para identificar este edital </p:outputLabel> 
+                                    <p:inputText value="#{currentEditalManagedBean.currentEdital.nomeDisplay}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Número do edital </p:outputLabel> 
+                                    <p:inputText value="#{currentEditalManagedBean.editalNumero}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Número #{currentEditalManagedBean.comprador.portal.idCodigoComprador} </p:outputLabel> 
+                                    <p:inputText value="#{currentEditalManagedBean.editalNumeroEditalComprador}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Cnpj do comprador </p:outputLabel> 
+                                    <p:inputText value="#{currentEditalManagedBean.editalCnpjComprador}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Data de abertura </p:outputLabel> 
+                                    <p:calendar value="#{currentEditalManagedBean.editalDataAbertura}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Email </p:outputLabel> 
+                                    <p:inputText value="#{currentEditalManagedBean.editalEmail}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Telefone entrega</p:outputLabel> 
+                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaDdd}" size="2" />)<p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaNumero}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Telefone cobrança</p:outputLabel> 
+                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaDdd}" size="2" />)<p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaNumero}" />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Endereço entrega</p:outputLabel> 
+                                    Endereço <p:inputText value="#{currentEditalManagedBean.editalEnderecoEntregaEndereco}" /><br />
+                                    Cidade <p:inputText value="#{currentEditalManagedBean.editalEnderecoEntregaCidade}" /><br />
+                                    UF <p:inputText value="#{currentEditalManagedBean.editalEnderecoEntregaUf}" /><br />
+                                    CEP <p:inputText value="#{currentEditalManagedBean.editalEnderecoEntregaCep}" /><br />
+                                </p>
+                                <p>
+                                    <p:outputLabel >Endereço envio de documentação</p:outputLabel> 
+                                    Endereço <p:inputText value="#{currentEditalManagedBean.editalEnderecoEnvioDocumentacaoEndereco}" /><br/>
+                                    Cidade <p:inputText value="#{currentEditalManagedBean.editalEnderecoEnvioDocumentacaoCidade}" /><br/>
+                                    UF <p:inputText value="#{currentEditalManagedBean.editalEnderecoEnvioDocumentacaoUf}" /><br/>
+                                    CEP <p:inputText value="#{currentEditalManagedBean.editalEnderecoEnvioDocumentacaoCep}" /><br/>
+                                </p>
+                                <p>
+                                    <p:commandButton value="Criar Edital" action="#{currentEditalManagedBean.criarEdital}" />
+                                </p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <p:commandButton value="Cancelar" action="editais" />
+                    </p:fieldset>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
