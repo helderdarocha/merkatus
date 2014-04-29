@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>Cadastro de Editais</h1>
+                <h:form prependId="false">
+                    <p:fieldset legend="Edição de Edital">
+                        <p>
+                            <p:outputLabel >ID do edital </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.id}" readonly="true" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Número do edital </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.numeroEdital}" readonly="true" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Nome para identificar este edital </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.nomeDisplay}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Número #{currentEditalManagedBean.currentEdital.comprador.portal.idCodigoComprador} </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.numeroEditalComprador.value}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Cnpj do comprador </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.cnpjComprador.value}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Data de abertura </p:outputLabel> 
+                            <p:outputLabel value="#{currentEditalManagedBean.currentEdital.dataAbertura}"/>
+                        </p>
+                        <p>
+                            <p:outputLabel >Email </p:outputLabel> 
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.email.value}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Telefone entrega</p:outputLabel> 
+                            +55(<p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.ddd}" size="2" />)
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.numero}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Telefone cobrança</p:outputLabel> 
+                            +55(<p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.ddd}" size="2" />)
+                            <p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.numero}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Endereço entrega</p:outputLabel> 
+                            Endereço <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.endereco}" /><br />
+                            Cidade <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cidade}" /><br />
+                            UF <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.uf}" /><br />
+                            CEP <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cep}" /><br />
+                        </p>
+                        <p>
+                            <p:outputLabel >Endereço envio de documentação</p:outputLabel> 
+                            Endereço <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.endereco}" /><br/>
+                            Cidade <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cidade}" /><br/>
+                            UF <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.uf}" /><br/>
+                            CEP <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cep}" /><br/>
+                        </p>
+                        <p>
+                            <p:outputLabel >Produtos </p:outputLabel> 
+                            (marcar para remover, botão para adicionar/editar)
+                        </p>
+                        <p>
+                            <p:outputLabel >Itens de habilitação</p:outputLabel> 
+                            (marcar para remover, botão para adicionar/editar)
+                        </p>
+                        <p:commandButton value="Atualizar edital" action="#{currentEditalManagedBean.atualizar}"/>
+                        <p:commandButton value="Remover edital" action="#{currentEditalManagedBean.remover}"/>
+                        <p:commandButton value="Cancelar" action="editais"/>
+                    </p:fieldset>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

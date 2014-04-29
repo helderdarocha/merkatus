@@ -26,116 +26,65 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
                                  rowsPerPageTemplate="5,10,15"
                                  currentPageReportTemplate="Página {currentPage} de {totalPages}">
-
-                        <p:column sortBy="identificador">
-                            <f:facet name="header">  
-                                <h:outputText value="Identificador" />  
-                            </f:facet>  
-                            #{edital.comprador.identificador}
-                        </p:column>
-                        <p:column sortBy="#{edital.numeroEdital}">
-                            <f:facet name="header">  
-                                <h:outputText value="Número" />  
-                            </f:facet>  
-                            #{edital.numeroEdital}
-                        </p:column>
-                        <p:column sortBy="nomeDisplay">
-                            <f:facet name="header">  
-                                <h:outputText value="Edital" />  
-                            </f:facet>  
-                            #{edital.nomeDisplay}
-                        </p:column>
-                        <p:column sortBy="class.simpleName">
-                            <f:facet name="header">  
-                                <h:outputText value="Tipo" />  
-                            </f:facet>  
-                            #{edital.class.simpleName}
-                        </p:column>
-                        <p:column sortBy="dataAbertura">
-                            <f:facet name="header">  
-                                <h:outputText value="Data de abertura" />  
-                            </f:facet>  
-                            {edital.dataAbertura}
-                        </p:column>
-                        <p:column sortBy="id">
+                        <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="ID" />  
                             </f:facet>  
                             #{edital.id}
                         </p:column>
+                        
                         <p:column>
-                            <h:commandLink action="#{editalManagedBean.exbirEdital}">Exibir</h:commandLink>
+                            <f:facet name="header">  
+                                <h:outputText value="Portal" />  
+                            </f:facet>  
+                            #{edital.comprador.identificador}
                         </p:column>
                         <p:column>
-                            <h:commandLink action="#{editalManagedBean.editarEdital}">Editar</h:commandLink>
+                            <f:facet name="header">  
+                                <h:outputText value="UASG/OC/Orgao"/>  
+                            </f:facet>  
+                            #{edital.comprador.portal.idCodigoComprador}: #{edital.numeroEditalComprador}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="Número" />  
+                            </f:facet>  
+                            #{edital.numeroEdital}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="Edital" />  
+                            </f:facet>  
+                            #{edital.nomeDisplay}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="Tipo" />  
+                            </f:facet>  
+                            #{edital.class.simpleName}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="Data de abertura" />  
+                            </f:facet>  
+                            <p:calendar value="#{edital.dataAbertura}" readonly="true" styleClass="dateDisplay" />
+                        </p:column>
+
+                        <p:column>
+                            <p:commandLink action="#{editalManagedBean.exibirEdital}" value="Exibir">
+                                <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                            </p:commandLink>
+                        </p:column>
+                        <p:column>
+                            <p:commandLink action="#{editalManagedBean.editarEdital}" value="Editar">
+                                <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <p></p>
-                    <h:panelGroup id="cadastrarEditalButton">
-                        <p:commandButton value="Cadastrar novo edital" 
-                                         action="#{editalManagedBean.showCadastrarEditalPanel}"
-                                         rendered="#{editalManagedBean.showCadastrarEditalPanel == false}">
-                            <f:ajax render="cadastrarEdital cadastrarEditalButton"/>
-                        </p:commandButton>
-                    </h:panelGroup>
 
-                    <h:panelGroup id="cadastrarEdital">
-                        <h:panelGroup rendered="#{editalManagedBean.showCadastrarEditalPanel == true}">
-                            <p:fieldset legend="Cadastrar Novo Edital">
-                                <p>
-                                    <p:selectOneMenu value="#{editalManagedBean.idComprador}">
-                                        <f:selectItem itemLabel="Selecionar comprador" itemValue=""/>
-                                        <f:selectItems value="#{compradorManagedBean.compradoresMap}" />
-                                        <f:ajax event="change" render="selectTipoEditalPanel"/>
-                                    </p:selectOneMenu>
-                                </p> 
-
-                                <h:panelGroup id="selectTipoEditalPanel">
-                                    <h:panelGroup rendered="#{editalManagedBean.idComprador ne null}">
-                                        <p>
-                                            <p:selectOneMenu value="#{editalManagedBean.tipoEdital}">
-                                                <f:selectItem itemLabel="Selecionar tipo de edital" itemValue=""/>
-                                                <f:selectItems value="#{editalManagedBean.tipoEditaisMap}" />
-                                                <f:ajax event="change" render="createEditalPanel"/>
-                                            </p:selectOneMenu>
-                                        </p>
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup id="createEditalPanel">
-                                    <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'PE'}">
-                                        <p>
-                                            <p:outputLabel >Nome para identificar este pregão </p:outputLabel> 
-                                            <p:inputText value="#{editalManagedBean.nomeDisplay}" />
-                                        </p><p>
-                                            <p:outputLabel >Número do pregão </p:outputLabel> 
-                                            <p:inputText value="#{editalManagedBean.numeroEdital}" />
-                                        </p>
-                                        <p>
-                                            <p:commandButton value="Criar Pregão Eletrônico"  
-                                                             action="#{editalManagedBean.criarPregaoEletronico}" />
-                                        </p>
-                                    </h:panelGroup>
-                                    <h:panelGroup rendered="#{editalManagedBean.tipoEdital == 'DL'}">
-                                        <p>
-                                            <p:outputLabel >Nome para identificar esta dispensa de licitação </p:outputLabel> 
-                                            <p:inputText value="#{editalManagedBean.nomeDisplay}" />
-                                        </p><p>
-                                            <p:outputLabel >Número da dispensa de licitação</p:outputLabel> 
-                                            <p:inputText value="#{editalManagedBean.numeroEdital}" />
-                                        </p>
-                                        <p:commandButton value="Criar Dispensa Licitação" 
-                                                         action="#{editalManagedBean.criarDispensaLicitacao}" />
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                                <p:commandButton value="Cancelar cadastramento de novo edital" 
-                                                 rendered="#{editalManagedBean.showCadastrarEditalPanel == true}"
-                                                 action="#{editalManagedBean.hideCadastrarEditalPanel}">
-                                    <f:ajax render="cadastrarEdital cadastrarEditalButton"/>
-                                </p:commandButton>
-                            </p:fieldset>
-                        </h:panelGroup>
-                    </h:panelGroup>
+                    <p:commandButton value="Cadastrar novo edital" 
+                                     action="#{editalManagedBean.cadastrarNovoEdital}"/>
                 </h:form>
 
             </ui:define>

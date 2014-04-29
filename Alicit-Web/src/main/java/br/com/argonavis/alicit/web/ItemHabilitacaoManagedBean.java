@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.argonavis.alicit.web;
 
-import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
 import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
-import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemEditalFacadeRemote;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemHabilitacaoFacadeRemote;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -24,33 +22,35 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class ItemHabilitacaoManagedBean implements Serializable {
-    @EJB ItemEditalFacadeRemote itemFacade;
-    
+
+    @EJB
+    ItemHabilitacaoFacadeRemote itemFacade;
+
     private boolean showCadastrarItemPanel = false;
     private String descricaoItem;
     private String codigoItem;
-    
-    private List<ItemEdital> itens;
+
+    private List<ItemHabilitacao> itens;
     Map<String, String> itensMap;
-    
-    public List<ItemEdital> getItens() {
+
+    public List<ItemHabilitacao> getItens() {
         if (itens == null) {
             itens = itemFacade.findAll();
         }
         return itens;
     }
-    
+
     public Map<String, String> getItensMap() {
         if (itensMap == null) {
             itensMap = new HashMap<>();
-            for(ItemEdital c: getItens()) {
+            for (ItemHabilitacao c : getItens()) {
                 itensMap.put(c.getCodigo(), c.getDescricao());
             }
         }
         return itensMap;
     }
-    
-        public void resetSession() {
+
+    public void resetSession() {
         this.showCadastrarItemPanel = false;
     }
 
@@ -77,19 +77,19 @@ public class ItemHabilitacaoManagedBean implements Serializable {
     public void setDescricaoItem(String descricaoItem) {
         this.descricaoItem = descricaoItem;
     }
-    
+
     public String showCadastrarItemPanel() {
         this.showCadastrarItemPanel = true;
         return null;
     }
-    
+
     public String hideCadastrarItemPanel() {
         resetSession();
         return null;
     }
-    
+
     public String criar() {
-        ItemEdital item = new ItemHabilitacao(this.codigoItem, this.descricaoItem);
+        ItemHabilitacao item = new ItemHabilitacao(this.codigoItem, this.descricaoItem);
         itemFacade.create(item);
         resetSession();
         return "itens";

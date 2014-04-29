@@ -30,6 +30,7 @@ public class PortalTest {
         keySet.add("BB");
         keySet.add("BEC");
         keySet.add("COMPRASNET");
+        keySet.add("TEST");
         assertEquals("Base de portais incompleta ou inconsistente", keySet, Portal.getPortais().keySet());
     }
 

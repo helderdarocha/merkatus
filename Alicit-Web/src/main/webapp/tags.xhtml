@@ -38,14 +38,14 @@
                             #{tag.nome}
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Remover tag" action="#{tagManagedBean.editarTag}" >
+                            <p:commandLink value="Remover" action="#{tagManagedBean.editarTag}" >
                                 <f:setPropertyActionListener target="#{tagManagedBean.currentTagNome}" value="#{tag.nome}" />
-                            </p:commandButton>
+                            </p:commandLink>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Visualizar tag" action="#{tagManagedBean.exibirTag}">
+                            <p:commandLink value="Visualizar" action="#{tagManagedBean.exibirTag}">
                                 <f:setPropertyActionListener target="#{tagManagedBean.currentTagNome}" value="#{tag.nome}" />
-                            </p:commandButton>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <p>

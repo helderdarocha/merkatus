@@ -6,10 +6,9 @@
 
 package br.com.argonavis.merkatus.alicit.ejb.facade;
 
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
 import br.com.argonavis.merkatus.alicit.ejb.LookupService;
-import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
-import br.com.argonavis.merkatus.alicit.produto.Categoria;
-import br.com.argonavis.merkatus.alicit.produto.CategoriaBase;
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemHabilitacaoFacadeRemote;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -22,57 +21,53 @@ import org.junit.Test;
  *
  * @author helderdarocha
  */
-public class CategoriaFacadeTest {
+public class ItemHabilitacaoFacadeTest {
     
-    LookupService<CategoriaFacadeRemote> service = new LookupService<>();
-    CategoriaFacadeRemote facade = service.lookupBean(CategoriaFacade.class, CategoriaFacadeRemote.class);
-
+    LookupService<ItemHabilitacaoFacadeRemote> service = new LookupService<>();
+    ItemHabilitacaoFacadeRemote facade = service.lookupBean(ItemHabilitacaoFacade.class, ItemHabilitacaoFacadeRemote.class);
+    
     @Before
     public void testCreate() throws Exception {
-        Categoria categoria = CategoriaBase.ENERGIA.getCategoria();
+        ItemHabilitacao ie = new ItemHabilitacao("IH121", "Certidão negativa 123");
         int count = facade.count();
-        facade.create(categoria);
+        facade.create(ie);
         assertEquals(count + 1, facade.count());
     }
     
     @After
     public void testRemove() throws Exception {
         int count = facade.count();
-        Categoria found = facade.getByNome("Energia");
+        ItemHabilitacao found = facade.querySingle("select ih from ItemHabilitacao ih where ih.codigo = 'IH121'");
         facade.remove(found);
         assertEquals(count - 1, facade.count());
     }
     
     @Test
-    public void testCategoriaWithParent() throws Exception {
-        Categoria subCat = new Categoria("Solar", facade.getByNome("Energia"));
-        facade.create(subCat);
-        Categoria found = facade.getByNomeAndContexto("Solar", "Energia");
-        assertEquals("Energia/Solar", found.getNomeAbsoluto());
-        found.getSubCategorias().clear();
-        subCat.setContexto(null);
-        facade.remove(found);
+    public void testEquals() {
+        ItemHabilitacao ih2 = new ItemHabilitacao("IH121", "Certidão negativa 123");
+        ItemHabilitacao found = facade.querySingle("select ih from ItemHabilitacao ih where ih.codigo = 'IH121'");
+        assertEquals(ih2, found);
     }
     
     @Test
     public void testMerge() throws Exception {
-        Categoria found = facade.getByNome("Energia");
-        Categoria merged = facade.edit(found);
+        ItemHabilitacao found = facade.querySingle("select ih from ItemHabilitacao ih where ih.codigo = 'IH121'");
+        ItemHabilitacao merged = facade.edit(found);
         assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        Categoria foundQuery = facade.getByNome("Energia");
-        System.out.println("Categoria ID: " + foundQuery.getId());
-        Categoria foundGet = facade.find(foundQuery.getId());
+        ItemHabilitacao foundQuery = facade.querySingle("select ih from ItemHabilitacao ih where ih.codigo = 'IH121'");
+        System.out.println("ItemEdital ID: " + foundQuery.getId());
+        ItemHabilitacao foundGet = facade.find(foundQuery.getId());
         assertEquals(foundQuery, foundGet);
     }
 
     @Test
     public void testFindAll() throws Exception {
         int count = facade.count();
-        List<Categoria> all =  facade.findAll();
+        List<ItemHabilitacao> all = facade.findAll();
         assertEquals(count, all.size());
     }
 

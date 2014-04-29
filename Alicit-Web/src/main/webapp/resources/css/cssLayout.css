@@ -1,7 +1,7 @@
 
 #top {
     position: relative;
-    background-color: #036fab;
+    background-color: #002b5b;
     color: white;
     padding: 5px;
     margin: 0px 0px 10px 0px;
@@ -53,7 +53,7 @@
 }
 
 #top a:link:hover, #top a:visited:hover  {
-  color: black;
+  color: yellow;
   font-weight : bold;
   text-decoration : underline;
 }

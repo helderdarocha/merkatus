@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.argonavis.alicit.web;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
@@ -23,25 +22,25 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class CompradorManagedBean implements Serializable {
-    @EJB CompradorFacadeRemote compradorFacade;
-    
-    private List<Comprador> compradores;
-    Map<String, String> compradoresMap;
-    
+
+    @EJB
+    CompradorFacadeRemote compradorFacade;
+
+    Map<String, Long> compradoresMap;
+
     public List<Comprador> getCompradores() {
-        if (compradores == null) {
-            compradores = compradorFacade.findAll();
-        }
-        return compradores;
+        return compradorFacade.findAll();
     }
-    
-    public Map<String, String> getCompradoresMap() {
+
+    public Map<String, Long> getCompradoresMap() {
         if (compradoresMap == null) {
             compradoresMap = new HashMap<>();
-            for(Comprador c: getCompradores()) {
-                compradoresMap.put(c.getIdentificador(), c.getIdentificador());
-            }
         }
+        compradoresMap.clear();
+        for (Comprador c : getCompradores()) {
+            compradoresMap.put(c.getIdentificador(), c.getId());
+        }
+
         return compradoresMap;
     }
 }

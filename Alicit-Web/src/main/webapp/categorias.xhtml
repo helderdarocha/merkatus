@@ -64,14 +64,14 @@
                             #{categoria}
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Remover" action="#{categoriaManagedBean.editarCategoria}">
+                            <p:commandLink value="Remover" action="#{categoriaManagedBean.editarCategoria}">
                                 <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
-                            </p:commandButton>
+                            </p:commandLink>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Visualizar" action="#{categoriaManagedBean.exibirCategoria}">
+                            <p:commandLink value="Visualizar" action="#{categoriaManagedBean.exibirCategoria}">
                                 <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
-                            </p:commandButton>
+                            </p:commandLink>
                         </p:column>
 
                     </p:dataTable>

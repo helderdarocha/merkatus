@@ -23,10 +23,10 @@ fieldset {width: 700px;
     font-family: 'Calibri';
 }
 
-ul {
+ul.menu {
     text-align: center; 
 }
-li {
+ul.menu li {
     display: inline-block;
     font-variant: small-caps;
     margin: 0 20px 0 20px;
@@ -36,4 +36,37 @@ li {
 .appmain {
     font-size: 160pt !important;
     text-align: center;
+}
+
+.menubar {
+    overflow: hidden;
+    padding: 0;
+}
+#logo .name {
+    font-weight: bold;
+    font-family: helvetica;
+    color:yellow; 
+    text-align: center; 
+    font-size: 40px;
+    display: inline-block;
+}
+#logo .capital {
+    color: bisque; 
+    font-size: 68px;
+    font-weight: normal; 
+    font-style:italic;
+    font-family: baskerville;
+}
+.menu, #logo {
+    display: inline-block;
+}
+
+.dateDisplay input {
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.result {
+    font-weight: bold !important;
 }

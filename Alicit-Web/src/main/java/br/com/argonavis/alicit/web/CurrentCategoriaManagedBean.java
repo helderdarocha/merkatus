@@ -85,9 +85,7 @@ public class CurrentCategoriaManagedBean implements Serializable {
         } else {
             try {
                 Categoria categoria = categoriaFacade.find(categoriaId);
-                
                 System.out.println(categoria.getSubCategorias().size()); // test for lazy initialization
-                
                 this.setCurrentCategoria(categoria);
                 return categoria != null;
             } catch (NoResultException e) {
@@ -107,8 +105,9 @@ public class CurrentCategoriaManagedBean implements Serializable {
             } else {
                 categoriaFacade.create(new Categoria(this.categoriaNome, categoriaFacade.find(idCategoriaContexto)));
             }
-            this.setCurrentCategoria(categoriaFacade.getByNomeAndIdContexto(categoriaNome, idCategoriaContexto));
+            //this.setCurrentCategoria(categoriaFacade.getByNomeAndIdContexto(categoriaNome, idCategoriaContexto));
         }
+        //this.unsetCurrentCategoria();
         return "categorias";
     }
     

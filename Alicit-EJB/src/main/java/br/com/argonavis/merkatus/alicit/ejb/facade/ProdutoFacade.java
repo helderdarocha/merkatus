@@ -7,6 +7,7 @@
 package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
+import br.com.argonavis.merkatus.alicit.produto.Categoria;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
 import br.com.argonavis.merkatus.alicit.produto.Produto_;
 import javax.ejb.Remote;
@@ -37,6 +38,13 @@ public class ProdutoFacade extends AbstractFacade<Produto> implements ProdutoFac
 
     public ProdutoFacade() {
         super(Produto.class);
+    }
+    
+    @Override
+    public Produto find(Object id) {
+        Produto p = super.find(id);
+        p.getTags().size(); // pre-fetch
+        return p;
     }
     
     @Override

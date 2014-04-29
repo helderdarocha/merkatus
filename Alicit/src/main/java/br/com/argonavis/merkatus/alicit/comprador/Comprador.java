@@ -89,4 +89,8 @@ public class Comprador implements Serializable {
     public static Comprador createCompradorBB() {
         return createComprador("BB");
     }
+    
+    public static Comprador createCompradorForTest() {
+        return createComprador("TEST");
+    }
 }

@@ -1,11 +1,15 @@
 package br.com.argonavis.merkatus.alicit.edital;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemProduto;
+import br.com.argonavis.merkatus.alicit.produto.Produto;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,6 +33,12 @@ public abstract class Edital implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToMany
+    private Set<ItemProduto>     itensProduto;
+    
+    @OneToMany
+    private Set<ItemHabilitacao> itensHabilitacao;
 
     private String nomeDisplay;
     private long dataAbertura;
@@ -209,7 +220,7 @@ public abstract class Edital implements Serializable {
         this.telefoneCobranca = telefoneCobranca;
     }
 
-    protected void setComprador(Comprador comprador) {
+    public void setComprador(Comprador comprador) {
         this.comprador = comprador;
     }
 
@@ -225,6 +236,14 @@ public abstract class Edital implements Serializable {
         this.dataAbertura = dataAbertura;
     }
     
+    public BigDecimal getValorTotal() {
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        for(ItemProduto item: itensProduto) {
+            valorTotal = valorTotal.add(item.getValorTotal());
+        }
+        return valorTotal;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Edital)) return false;
@@ -235,6 +254,49 @@ public abstract class Edital implements Serializable {
     @Override
     public int hashCode() {
         return (this.numeroEdital).hashCode();
+    }
+
+    public Set<ItemProduto> getItensProduto() {
+        return itensProduto;
+    }
+
+    public void setItensProduto(Set<ItemProduto> itensProduto) {
+        this.itensProduto = itensProduto;
+    }
+
+    public Set<ItemHabilitacao> getItensHabilitacao() {
+        return itensHabilitacao;
+    }
+
+    public void setItensHabilitacao(Set<ItemHabilitacao> itensHabilitacao) {
+        this.itensHabilitacao = itensHabilitacao;
+    }
+
+    public void addItemProduto(ItemProduto item) {
+        this.itensProduto.add(item);
+    }
+
+    public ItemProduto getItemProduto(String codigoProduto) {
+        for(ItemProduto i : this.getItensProduto()) {
+            Produto p = i.getProduto();
+            if(p.getCodigo().equals(codigoProduto)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public void addItemHabilitacao(ItemHabilitacao item) {
+        this.itensHabilitacao.add(item);
+    }
+    
+    public ItemHabilitacao getItemHabilitacao(String codigoItem) {
+        for(ItemHabilitacao i : this.getItensHabilitacao()) {
+            if(i.getCodigo().equals(codigoItem)) {
+                return i;
+            }
+        }
+        return null;
     }
 
 }

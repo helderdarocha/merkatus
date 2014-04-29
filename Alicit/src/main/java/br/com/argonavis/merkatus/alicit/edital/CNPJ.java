@@ -45,6 +45,16 @@ public class CNPJ implements Serializable {
         }
     }
     
+    public void setValue(String cnpj) throws ParseException {
+        validar(cnpj);
+    }
+    public String getValue() {
+        return formattedCnpj;
+    }
+    public String getValueNormalized() {
+        return normalizedCnpj;
+    }
+    
     // formata número
     private String format() {
         String suffix = normalizedCnpj.substring(8,12);

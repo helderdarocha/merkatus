@@ -39,7 +39,7 @@ public class ProdutoFacadeTest {
     
     @Before
     public void testCreate() throws Exception {
-        Produto produto = new Produto("P123", "Produto XYZ");
+        Produto produto = new Produto("P86758", "Produto Teste");
         int count = facade.count();
         facade.create(produto);
         assertEquals(count + 1, facade.count());
@@ -48,17 +48,17 @@ public class ProdutoFacadeTest {
     @After
     public void testRemove() throws Exception {
         int count = facade.count();
-        Produto found = facade.getByCodigo("P123");
+        Produto found = facade.getByCodigo("P86758");
         facade.remove(found);
         assertEquals(count - 1, facade.count());
     }
     
     @Test
     public void testWithCategory() throws Exception {
-        Produto found = facade.getByCodigo("P123");
-        Categoria cat = new Categoria(CategoriaBase.GAMES.toString());
+        Produto found = facade.getByCodigo("P86758");
+        Categoria cat = new Categoria("TESTE");
         catFacade.create(cat);
-        Categoria foundCat = catFacade.getByNome("Games");
+        Categoria foundCat = catFacade.getByNome("TESTE");
         found.setCategoria(foundCat);
         assertEquals(cat, found.getCategoria());
         found.setCategoria(null);
@@ -67,35 +67,35 @@ public class ProdutoFacadeTest {
     
     @Test
     public void testWithTags() throws Exception {
-        Produto found = facade.getByCodigo("P123");
-        Tag t1 = new Tag("teste");
-        Tag t2 = new Tag("coisa");
+        Produto found = facade.getByCodigo("P86758");
+        Tag t1 = new Tag("tag-37482832");
+        Tag t2 = new Tag("tag-25475108");
         tagFacade.create(t1);
         tagFacade.create(t2);
         Set<Tag> tags = new HashSet<>();
         tags.add(t1);
         tags.add(t2);
-        found.addTag(tagFacade.getByNome("coisa"));
-        found.addTag(tagFacade.getByNome("teste"));
+        found.addTag(tagFacade.getByNome("tag-25475108"));
+        found.addTag(tagFacade.getByNome("tag-37482832"));
         assertEquals(2, found.getTags().size());
         assertEquals(tags, found.getTags());
-        found.removeTag(tagFacade.getByNome("coisa"));
-        assertEquals("teste", found.getTags().iterator().next().getNome());
+        found.removeTag(tagFacade.getByNome("tag-25475108"));
+        assertEquals("tag-37482832", found.getTags().iterator().next().getNome());
         found.getTags().clear();
-        tagFacade.remove(tagFacade.getByNome("coisa"));
-        tagFacade.remove(tagFacade.getByNome("teste"));
+        tagFacade.remove(tagFacade.getByNome("tag-25475108"));
+        tagFacade.remove(tagFacade.getByNome("tag-37482832"));
     }
     
     @Test
     public void testMerge() throws Exception {
-        Produto found = facade.getByCodigo("P123");
+        Produto found = facade.getByCodigo("P86758");
         Produto merged = facade.edit(found);
         assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        Produto foundQuery = facade.getByCodigo("P123");
+        Produto foundQuery = facade.getByCodigo("P86758");
         System.out.println("Produto ID: " + foundQuery.getId());
         Produto foundGet = facade.find(foundQuery.getId());
         assertEquals(foundQuery, foundGet);

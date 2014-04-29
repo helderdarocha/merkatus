@@ -30,6 +30,7 @@ public class SetupManagedBean implements Serializable {
     private boolean installed = false;
 
     public String setup() { 
+        checkInstallation();
         if (!this.installed) {
             try {
                 facade.create(Comprador.createCompradorBB());
@@ -46,8 +47,8 @@ public class SetupManagedBean implements Serializable {
             } catch (EJBException e) {
                 Logger.getGlobal().fine(e.getMessage());
             }
-            checkInstallation();
         } 
+        checkInstallation();
         return "setup";
     }
 
@@ -75,6 +76,7 @@ public class SetupManagedBean implements Serializable {
     }
 
     public boolean isInstalled() {
+        checkInstallation();
         return installed;
     }
     

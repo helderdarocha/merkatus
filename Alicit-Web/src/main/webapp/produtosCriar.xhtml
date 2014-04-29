@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>Cadastro de Produtos</h1>
+                <h:form prependId="false">
+                    <p:fieldset legend="Cadastrar Novo Produto">
+                        <p>
+                            <p:outputLabel >Código do produto </p:outputLabel> 
+                            <p:inputText value="#{currentProdutoManagedBean.produtoCodigo}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Nome do produto </p:outputLabel> 
+                            <p:inputText value="#{currentProdutoManagedBean.produtoNome}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Categoria </p:outputLabel> 
+                            <p:selectOneMenu value="#{currentProdutoManagedBean.produtoCategoriaId}">
+                                <f:selectItem itemLabel="Selecionar categoria" itemValue=""/>
+                                <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
+                            </p:selectOneMenu>
+                        </p>
+                        <p>
+                            <p:outputLabel >Tags (separados por vírgula)</p:outputLabel> 
+                            <p:inputText value="#{currentProdutoManagedBean.produtoNomesTag}" />
+                        </p>
+                        <p:commandButton value="Cadastrar produto" action="#{currentProdutoManagedBean.criar}"/>
+                        <p:commandButton value="Cancelar" action="produtos"/>
+                    </p:fieldset>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

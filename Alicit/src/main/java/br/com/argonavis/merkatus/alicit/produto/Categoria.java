@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,10 +39,10 @@ public class Categoria implements Serializable {
     @ManyToOne
     private Categoria contexto ;
     
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "contexto")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "contexto", fetch = FetchType.EAGER)
     private Set<Categoria> subCategorias = new HashSet<>();
     
-    public Categoria() {}
+    protected Categoria() {}
     public Categoria(String nome) {
         this.nome = nome;
         this.contexto = null;

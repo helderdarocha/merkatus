@@ -30,6 +30,14 @@ public class Email implements Serializable {
         }
         throw new ParseException("Email com formato invalido.", 0);
     }
+    
+    public void setValue(String email) throws ParseException {
+        this.email = validate(email, mascara);
+    }
+    public String getValue() {
+        return this.email;
+    }
+    
     @Override
     public String toString() {
         return email;

@@ -94,7 +94,7 @@ public class CurrentTagManagedBean implements Serializable {
         if (this.tagNome != null) {
             Tag tag = new Tag(this.tagNome);
             tagFacade.create(tag);
-            this.setCurrentTag(tagFacade.getByNome(this.tagNome));
+            //this.setCurrentTag(tagFacade.getByNome(this.tagNome));
         }
         return "tags";
     }

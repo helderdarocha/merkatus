@@ -7,14 +7,10 @@
     <class>br.com.argonavis.merkatus.alicit.edital.DispensaLicitacao</class>
     <class>br.com.argonavis.merkatus.alicit.edital.PregaoEletronico</class>
     <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao</class>
-    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemDocumento</class>
-    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemAmostra</class>
     <class>br.com.argonavis.merkatus.alicit.produto.Produto</class>
-    <class>br.com.argonavis.merkatus.alicit.proposta.Dossier</class>
     <class>br.com.argonavis.merkatus.alicit.produto.Categoria</class>
     <class>br.com.argonavis.merkatus.alicit.produto.Tag</class>
-    <class>br.com.argonavis.merkatus.alicit.proposta.Pendencia</class>
-    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital</class>
+    <class>br.com.argonavis.merkatus.alicit.edital.componente.ItemProduto</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/alicitdev?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="alicitdev"/>

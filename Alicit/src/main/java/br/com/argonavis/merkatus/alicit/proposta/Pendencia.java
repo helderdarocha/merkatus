@@ -6,7 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.proposta;
 
-import br.com.argonavis.merkatus.alicit.edital.componente.ItemEdital;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemHabilitacao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Pendencia implements Serializable {
     private boolean opcional;
     private boolean urgente;
     private String descricao;
-    private List<ItemEdital> itens = new ArrayList<>();
+    private List<ItemHabilitacao> itens = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -96,19 +96,19 @@ public class Pendencia implements Serializable {
         this.descricao = descricao;
     }
 
-    public List<ItemEdital> getItens() {
+    public List<ItemHabilitacao> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemEdital> itens) {
+    public void setItens(List<ItemHabilitacao> itens) {
         this.itens = itens;
     }
     
-    public void addItem(ItemEdital item) {
+    public void addItem(ItemHabilitacao item) {
         this.itens.add(item);
     }
     
-    public void removeItem(ItemEdital item) {
+    public void removeItem(ItemHabilitacao item) {
         this.itens.remove(item);
     }
     

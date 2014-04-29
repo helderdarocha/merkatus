@@ -43,7 +43,7 @@
                             <f:facet name="header">  
                                 <h:outputText value="Preço" />  
                             </f:facet> 
-                            #{produto.preco}
+                            R$#{produto.preco}
                         </p:column>
                         <p:column>
                             <f:facet name="header">  
@@ -55,64 +55,23 @@
                             <f:facet name="header">  
                                 <h:outputText value="Categoria" />  
                             </f:facet>
-                            #{produto.categoria.canonicalName}
+                            #{produto.categoria.nomeAbsoluto}
                         </p:column>
                         <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Tags" />  
-                            </f:facet>
-                            Tag #1 #{produto.tags}
+                            <p:commandLink value="Editar" action="#{produtoManagedBean.editarProduto}">
+                                <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                            </p:commandLink>
                         </p:column>
-
+                        <p:column>
+                            <p:commandLink value="Visualizar" action="#{produtoManagedBean.exibirProduto}">
+                                <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                            </p:commandLink>
+                        </p:column>
                     </p:dataTable>
                     <p></p>
-                    <h:panelGroup id="cadastrarProdutoButton">
-                        <p:commandButton value="Cadastrar nova produto" 
-                                         action="#{produtoManagedBean.showCadastrarProdutoPanel}"
-                                         rendered="#{produtoManagedBean.showCadastrarProdutoPanel == false}">
-                            <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
-                        </p:commandButton>
-                    </h:panelGroup>
+                        <p:commandButton value="Cadastrar novo produto" 
+                                         action="#{produtoManagedBean.cadastrarNovoProduto}" />
 
-                    <h:panelGroup id="cadastrarProduto">
-                        <h:panelGroup rendered="#{produtoManagedBean.showCadastrarProdutoPanel == true}">
-                            <p:fieldset legend="Cadastrar Nova Produto">
-                                <p>
-                                    <p:outputLabel >Código do produto </p:outputLabel> 
-                                    <p:inputText value="#{produtoManagedBean.codigoProduto}" />
-                                </p>
-                                <p>
-                                    <p:outputLabel >Nome do produto </p:outputLabel> 
-                                    <p:inputText value="#{produtoManagedBean.nomeProduto}" />
-                                </p>
-                                <p>
-                                    <p:outputLabel>Categoria </p:outputLabel> 
-                                    <p:selectOneMenu value="#{produtoManagedBean.idCategoria}">
-                                        <f:selectItem itemLabel="Selecionar categoria" itemValue=""/>
-                                        <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
-                                        <f:ajax render="criarButton"/>
-                                    </p:selectOneMenu>
-                                </p>
-                                <p>
-                                    <p:outputLabel >Tags (separados por vírgula)</p:outputLabel> 
-                                    <p:inputText value="#{produtoManagedBean.tagNames}" />
-                                </p>
-                                <p>
-                                    <p:commandButton value="Criar Produto #{produtoManagedBean.idCategoria}"  
-                                                     action="#{produtoManagedBean.criar}"
-                                                     id="criarButton">
-                                        <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
-                                    </p:commandButton>
-                                </p>
-
-                                <p:commandButton value="Cancelar cadastramento de nova produto" 
-                                                 rendered="#{produtoManagedBean.showCadastrarProdutoPanel == true}"
-                                                 action="#{produtoManagedBean.hideCadastrarProdutoPanel}">
-                                    <f:ajax render="cadastrarProduto cadastrarProdutoButton"/>
-                                </p:commandButton>
-                            </p:fieldset>
-                        </h:panelGroup>
-                    </h:panelGroup>
                 </h:form>
 
             </ui:define>

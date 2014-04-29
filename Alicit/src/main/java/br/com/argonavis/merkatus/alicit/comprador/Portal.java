@@ -22,6 +22,13 @@ public abstract class Portal implements Serializable {
         portais.put("BEC", new BolsaEletronicaCompras());
         portais.put("BB", new BancoBrasil());
         portais.put("COMPRASNET", new ComprasNet());
+        
+        // TEST CASE
+        portais.put("TEST", new Portal("TEST", "TEST", "www.test.com"){
+            public String getIdCodigoComprador() {return "TCODE";}
+            public String getMascaraCodigoComprador(Date dataEdital) {return "\\d*";}
+        });
+        // TEST CASE
     }
 
     public static Map<String, Portal> getPortais() {

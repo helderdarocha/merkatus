@@ -17,7 +17,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Codigo implements Serializable {
     private String codigo;
-    
+
     protected Codigo() {}
     
     /**
@@ -45,7 +45,19 @@ public class Codigo implements Serializable {
         }
         throw new ParseException("Codigo incorreto: " + codigo + " deve combinar com : " + mascara, 0);
     }
-    
+
+    public String getValue() {
+        return codigo;
+    }
+
+    public void setValue(String codigo) {
+        try {
+           this.codigo = validate(codigo, null);
+        } catch (ParseException e) {
+            assert false : "ParseException will never happen.";
+        }
+    }
+
     /**
      * Retorna o código.
      * @return 

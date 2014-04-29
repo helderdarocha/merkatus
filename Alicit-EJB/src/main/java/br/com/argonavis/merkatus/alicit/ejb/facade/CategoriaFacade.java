@@ -57,7 +57,13 @@ public class CategoriaFacade extends AbstractFacade<Categoria> implements Catego
         Predicate condition =  cb.equal(root.get(Categoria_.nome), nome);
         cq.where(condition);
         TypedQuery<Categoria> q = getEntityManager().createQuery(cq);
-        return q.getSingleResult();
+        try {
+            Categoria c = q.getSingleResult();
+            c.getSubCategorias().size(); // pre-fetch
+            return c;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     @Override

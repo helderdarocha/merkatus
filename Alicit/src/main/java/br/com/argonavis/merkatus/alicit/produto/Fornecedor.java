@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 
-package br.com.argonavis.merkatus.alicit.edital.componente;
+package br.com.argonavis.merkatus.alicit.produto;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,24 +17,15 @@ import javax.persistence.Id;
  * @author helderdarocha
  */
 @Entity
-public class ItemHabilitacao implements Serializable {
+public class Fornecedor implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(unique = true)
+    private String nome;
     private String codigo;
-    private String descricao;
 
-    public ItemHabilitacao() {
-    }
-
-    public ItemHabilitacao(String codigo, String descricao) {
-        this.codigo = codigo;
-        this.descricao = descricao;
-    }
- 
     public Long getId() {
         return id;
     }
@@ -43,42 +33,46 @@ public class ItemHabilitacao implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCodigo() {
         return codigo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-@Override
+    @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codigo != null ? codigo.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof ItemHabilitacao)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Fornecedor)) {
             return false;
         }
-        ItemHabilitacao other = (ItemHabilitacao) object;
-        return (this.codigo != null || other.codigo == null) && (this.codigo == null || this.codigo.equals(other.codigo));
+        Fornecedor other = (Fornecedor) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
-    
+
     @Override
     public String toString() {
-        return "Habilitacao " + codigo + " " + descricao;
+        return "br.com.argonavis.merkatus.alicit.produto.Fornecedor[ id=" + id + " ]";
     }
     
 }

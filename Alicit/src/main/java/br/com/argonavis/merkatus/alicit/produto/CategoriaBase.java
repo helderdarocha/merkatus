@@ -27,17 +27,18 @@ public enum CategoriaBase {
     GAMES("Games"),
     ACESSORIOS("Acessórios");
     
-    private String descricao;
+    private final String descricao;
     private Categoria categoria;
 
     CategoriaBase(String descricao) {
         this.descricao = descricao;
+        this.categoria = new Categoria(descricao);
     }
 
     public String toString() {
         return descricao;
     }
     public Categoria getCategoria() {
-        return new Categoria(descricao);
+        return categoria;
     }
 }

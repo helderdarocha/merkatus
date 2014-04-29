@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h1>Cadastro de Editais</h1>
+                <h:form prependId="false">
+                    <p:fieldset legend="Detalhamento de Edital">
+                        <p>
+                            <p:outputLabel >ID do edital </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.id}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Número do edital </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.numeroEdital}"  />
+                        </p>
+                        <p>
+                            <p:outputLabel >Número #{currentEditalManagedBean.currentEdital.comprador.portal.idCodigoComprador} </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.numeroEditalComprador}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Nome do edital </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.nomeDisplay}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Cnpj comprador </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.cnpjComprador}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Comprador </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.comprador.portal.nomeLongo} (#{currentEditalManagedBean.currentEdital.comprador.portal.nomeCurto})" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Data de abertura </p:outputLabel> 
+                            <p:calendar readonly="true" styleClass="dateDisplay" value="#{currentEditalManagedBean.currentEdital.dataAbertura}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Email </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.email}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Telefone entrega </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.telefoneEntrega}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Telefone cobrança </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.telefoneCobranca}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Endereço entrega </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.enderecoEntrega}" />
+                        </p>
+                        <p>
+                            <p:outputLabel >Endereço envio de documentação </p:outputLabel> 
+                            <p:outputLabel styleClass="result" value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao}" />
+                        </p>
+                        
+                        <p>
+                            <p:outputLabel >Produtos</p:outputLabel> 
+                            (falta)
+                        </p>
+                        <p>
+                            <p:outputLabel >Itens de habilitação</p:outputLabel> 
+                            (falta)
+                        </p>
+                        <p:commandButton value="Voltar" action="editais"/>
+                    </p:fieldset>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

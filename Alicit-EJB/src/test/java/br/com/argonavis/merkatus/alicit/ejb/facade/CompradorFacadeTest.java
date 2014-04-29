@@ -25,7 +25,7 @@ public class CompradorFacadeTest {
  
     @Before
     public void testCreate() throws Exception {
-        Comprador comprador = Comprador.createCompradorBEC();
+        Comprador comprador = Comprador.createCompradorForTest();
         int count = facade.count();
         facade.create(comprador);
         assertEquals(count + 1, facade.count());
@@ -34,21 +34,21 @@ public class CompradorFacadeTest {
     @After
     public void testRemove() throws Exception {
         int count = facade.count();
-        Comprador found = facade.querySingle("select c from Comprador c where c.identificador = 'BEC'");
+        Comprador found = facade.querySingle("select c from Comprador c where c.identificador = 'TEST'");
         facade.remove(found);
         assertEquals(count - 1, facade.count());
     }
     
     @Test
     public void testMerge() throws Exception {
-        Comprador found = facade.querySingle("select c from Comprador c where c.identificador = 'BEC'");
+        Comprador found = facade.querySingle("select c from Comprador c where c.identificador = 'TEST'");
         Comprador merged = facade.edit(found);
         assertNotNull(merged);
     }
 
     @Test
     public void testFind() throws Exception {
-        Comprador foundQuery = facade.querySingle("select c from Comprador c where c.identificador = 'BEC'");
+        Comprador foundQuery = facade.querySingle("select c from Comprador c where c.identificador = 'TEST'");
         System.out.println("Comprador ID: " + foundQuery.getId());
         Comprador foundGet = facade.find(foundQuery.getId());
         assertEquals(foundQuery, foundGet);

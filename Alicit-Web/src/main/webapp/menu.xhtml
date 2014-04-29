@@ -4,26 +4,27 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Facelet Title</title>
-        <style>
-            li {
-                display: inline-block;
-                font-variant: small-caps;
-                margin: 0 20px 0 20px;
-            }
-        </style>
     </h:head>
     <h:body>
-        <h1 style="color:yellow; text-align: center; font-size: 40px"><span style="color: bisque; font-size: 55px;font-weight: normal; font-style:italic;font-family: baskerville">a</span>licit</h1>
-        <ul>
-            <li><h:link outcome="/faces/admin/setup.xhtml">admin</h:link></li>
-            <li><h:link outcome="/faces/compradores.xhtml">compradores</h:link></li>
-            <li><h:link outcome="/faces/editais.xhtml">editais</h:link></li>
-            <li><h:link outcome="/faces/tags.xhtml">tags</h:link></li>
-            <li><h:link outcome="/faces/categorias.xhtml">categorias</h:link></li>
-            <li><h:link outcome="/faces/itensHabilitacao.xhtml">itens de habilitação</h:link></li>
-            <li><h:link outcome="/faces/produtos.xhtml">produtos</h:link></li>
-            
+        <nav class="menubar">
+        <div id="logo">
+            <span class="name"><span class="capital">@</span>licit</span> <span class="version">1.0.0 Beta</span>
+        </div>
+        <ul class="menu">
+            <li><h:link outcome="/admin/setup.xhtml">admin</h:link></li>
+            <li><h:link outcome="/compradores.xhtml">compradores</h:link></li>
+            <li><h:link outcome="/editais.xhtml">editais</h:link></li>
+            <li><h:link outcome="/produtos.xhtml">produtos</h:link></li>
+            <li><h:link outcome="/tags.xhtml">tags</h:link></li>
+            <li><h:link outcome="/categorias.xhtml">categorias</h:link></li>
+            <li><h:link outcome="/itensHabilitacao.xhtml">itens de habilitação</h:link></li>
+            <li>|</li>
+            <li>dossier</li>
+            <li>calendário</li>
+            <li>login</li>
+            <li>ajuda</li>
         </ul>
+        </nav>
     </h:body>
 </html>
 

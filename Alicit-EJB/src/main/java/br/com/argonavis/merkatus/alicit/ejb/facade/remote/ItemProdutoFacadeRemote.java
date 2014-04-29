@@ -6,7 +6,7 @@
 
 package br.com.argonavis.merkatus.alicit.ejb.facade.remote;
 
-import br.com.argonavis.merkatus.alicit.edital.Edital;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemProduto;
 import br.com.argonavis.merkatus.alicit.ejb.facade.AbstractFacadeInterface;
 import javax.ejb.Remote;
 
@@ -15,7 +15,7 @@ import javax.ejb.Remote;
  * @author helderdarocha
  */
 @Remote
-public interface EditalFacadeRemote extends AbstractFacadeInterface<Edital> {
+public interface ItemProdutoFacadeRemote extends AbstractFacadeInterface<ItemProduto> {
 
-    public Edital getByNumeroEdital(String numero);
+    public ItemProduto getByCodigoProduto(String codigo);
 }

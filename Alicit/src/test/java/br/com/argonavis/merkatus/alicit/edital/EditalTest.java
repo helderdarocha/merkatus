@@ -7,9 +7,15 @@
 package br.com.argonavis.merkatus.alicit.edital;
 
 import br.com.argonavis.merkatus.alicit.comprador.Comprador;
+import br.com.argonavis.merkatus.alicit.edital.componente.ItemProduto;
+import br.com.argonavis.merkatus.alicit.produto.Produto;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
@@ -67,6 +73,41 @@ public class EditalTest {
         
         pe.setDataAbertura(now);
         dl.setDataAbertura(tomorrow);
+    }
+    
+    @Test
+    public void testItensProduto() {
+        Produto p1 = new Produto("Teste946394623", "Produto Teste 1");
+        p1.setPreco(BigDecimal.valueOf(100.00));
+        Produto p2 = new Produto("Teste334258495", "Produto Teste 2");
+        p2.setPreco(BigDecimal.valueOf(30.00));
+        
+        ItemProduto i1 = new ItemProduto();
+        i1.setProduto(p1);
+        i1.setQuantidade(5);
+        
+        ItemProduto i2 = new ItemProduto();
+        i2.setProduto(p2);
+        i2.setQuantidade(3);
+        
+        Set<ItemProduto> itensProduto = new HashSet<>();
+        itensProduto.add(i1);
+        
+        pe.setItensProduto(itensProduto);
+        
+        assertEquals(1, pe.getItensProduto().size());
+        pe.addItemProduto(i2);
+        
+        assertEquals(2, pe.getItensProduto().size());
+        
+        ItemProduto i = pe.getItemProduto("Teste334258495");
+        
+        assertNotNull("Not found!", i);
+        
+        assertEquals(i.getProduto().getCodigo(), i2.getProduto().getCodigo());
+        
+        assertEquals(BigDecimal.valueOf(590.0), pe.getValorTotal());
+
     }
 
     @org.junit.Test
