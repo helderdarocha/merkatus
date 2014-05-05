@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h5="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Alicit 1.0 Beta</title>
         <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
@@ -15,70 +16,77 @@
                 <ui:include src="menu.xhtml" />
             </ui:define>
             <ui:define name="content">
-
+                <ui:debug hotkey="x" />
                 <h1>Cadastro de Editais</h1>
                 <h:form prependId="false">
-                    <p:fieldset legend="Edição de Edital">
+                    <p:fieldset legend="Edição do Edital no. #{currentEditalManagedBean.currentEdital.numeroEdital}">
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel >Nome para identificar este edital </h:outputLabel> 
+                            <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.nomeDisplay}" />
+                            <h:outputLabel >Número #{currentEditalManagedBean.currentEdital.comprador.portal.idCodigoComprador} </h:outputLabel> 
+                            <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.numeroEditalComprador.value}" />
+                            <h:outputLabel >Cnpj do comprador </h:outputLabel> 
+                            <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.cnpjComprador.value}" />
+                            <h:outputLabel >Data de abertura </h:outputLabel> 
+                            <p:calendar styleClass="dateEdit" value="#{currentEditalManagedBean.currentEdital.dataAbertura}" pattern="dd/MM/yyyy">
+                                <f:converter converterId="DateConverter" />
+                            </p:calendar>
+                            <h:outputLabel >Email </h:outputLabel> 
+                            <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.email.value}" />
+                        </h:panelGrid>
+
+                        <!-- Telefones -->
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <h:outputLabel >Telefones</h:outputLabel>
+                            </f:facet>
+                            <h:outputLabel >Telefone entrega</h:outputLabel> 
+                            <h:panelGroup>
+                                <b>+55(</b><h:inputText style="text-align: center" value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.ddd}" size="1" /><b>)</b>
+                                <h:inputText value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.numero}" />
+                            </h:panelGroup>
+                            <h:outputLabel >Telefone cobrança</h:outputLabel> 
+                            <h:panelGroup>
+                                <b>+55(</b><h:inputText style="text-align: center" value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.ddd}" size="1" /><b>)</b>
+                                <h:inputText value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.numero}" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                        <!-- Enderecos -->
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <h:outputLabel >Endereço de entrega</h:outputLabel>
+                            </f:facet>
+                            Endereço <h:inputText size="60" value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.endereco}" />
+                            Cidade <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cidade}" />
+                            UF <h:inputText size="2" value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.uf}" />
+                            CEP <h:inputText size="10" value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cep}" />
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <h:outputLabel >Endereço de envio de documentação</h:outputLabel>
+                            </f:facet>
+                            Endereço <h:inputText size="60" value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.endereco}" />
+                            Cidade <h:inputText size="40" value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cidade}" />
+                            UF <h:inputText size="2" value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.uf}" />
+                            CEP <h:inputText size="10" value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cep}" />
+                        </h:panelGrid>
+
+                        <!-- Botoes de edição -->
                         <p>
-                            <p:outputLabel >ID do edital </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.id}" readonly="true" />
+                            <p:commandButton value="Atualizar valores" action="#{currentEditalManagedBean.atualizar}"/>
+                            <p:commandButton value="Cancelar" action="editais"/>
                         </p>
-                        <p>
-                            <p:outputLabel >Número do edital </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.numeroEdital}" readonly="true" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Nome para identificar este edital </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.nomeDisplay}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Número #{currentEditalManagedBean.currentEdital.comprador.portal.idCodigoComprador} </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.numeroEditalComprador.value}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Cnpj do comprador </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.cnpjComprador.value}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Data de abertura </p:outputLabel> 
-                            <p:outputLabel value="#{currentEditalManagedBean.currentEdital.dataAbertura}"/>
-                        </p>
-                        <p>
-                            <p:outputLabel >Email </p:outputLabel> 
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.email.value}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Telefone entrega</p:outputLabel> 
-                            +55(<p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.ddd}" size="2" />)
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneEntrega.numero}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Telefone cobrança</p:outputLabel> 
-                            +55(<p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.ddd}" size="2" />)
-                            <p:inputText value="#{currentEditalManagedBean.currentEdital.telefoneCobranca.numero}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Endereço entrega</p:outputLabel> 
-                            Endereço <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.endereco}" /><br />
-                            Cidade <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cidade}" /><br />
-                            UF <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.uf}" /><br />
-                            CEP <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEntrega.cep}" /><br />
-                        </p>
-                        <p>
-                            <p:outputLabel >Endereço envio de documentação</p:outputLabel> 
-                            Endereço <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.endereco}" /><br/>
-                            Cidade <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cidade}" /><br/>
-                            UF <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.uf}" /><br/>
-                            CEP <p:inputText value="#{currentEditalManagedBean.currentEdital.enderecoEnvioDocumentacao.cep}" /><br/>
-                        </p>
-                        <p><p:outputLabel >Itens de habilitação</p:outputLabel> 
-                            <h:dataTable width="100%" id="itemTable" value="#{currentEditalManagedBean.currentEdital.itensHabilitacao}" var="itemHabilitacao">
-                                <h:column>
-                                    <f:facet name="header">  
-                                        <h:outputText value="ID" />  
-                                    </f:facet>  
-                                    #{itemHabilitacao.id}
-                                </h:column>
+
+                        <!-- Itens de habilitação -->
+                        <h4><p:outputLabel >Incluir/remover itens de habilitação</p:outputLabel></h4>
+
+                        <p> <!-- Itens do edital -->
+                            <h:dataTable styleClass="table" width="100%" id="itemTable" 
+                                         value="#{currentEditalManagedBean.currentEdital.itensHabilitacao}" 
+                                         var="itemHabilitacao">
                                 <h:column>
                                     <f:facet name="header">  
                                         <h:outputText value="Código" />  
@@ -92,16 +100,46 @@
                                     #{itemHabilitacao.descricao}
                                 </h:column>
                                 <h:column>
-                                    <h:commandLink value="Remover"/>
+                                    <h:commandLink value="Remover" action="#{currentEditalManagedBean.removerItemHabilitacao}">
+                                        <f:setPropertyActionListener target="#{currentEditalManagedBean.currentItemHabilitacaoId}" 
+                                                                     value="#{itemHabilitacao.id}" />
+                                        <f:ajax render="@form" />
+                                    </h:commandLink>
                                 </h:column>
                             </h:dataTable>
-                            <p:commandButton value="Adicionar item" action="#{currentEditalManagedBean.addItemHabilitacao}" >
-                                <f:ajax render="itemTable" />
-                            </p:commandButton>
+                            
+                            <h:commandButton id="addIH" value="Adicionar Itens" type="button"  onclick="ihw.loadContents()"/>    
+                            <p:overlayPanel id="ihPanel" for="addIH" hideEffect="fade" dynamic="true" widgetVar="ihw">  
+                                <p:dataTable value="#{currentEditalManagedBean.itensNotInEdital}" rows="5" paginator="true" var="itemHabilitacao">
+                                    <p:column>
+                                        <f:facet name="header">  
+                                            <h:outputText value="Código" />  
+                                        </f:facet>  
+                                        #{itemHabilitacao.codigo}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">  
+                                            <h:outputText value="Descrição" />  
+                                        </f:facet>  
+                                        #{itemHabilitacao.descricao}
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandLink value="Incluir" action="#{currentEditalManagedBean.incluirItemHabilitacao}">
+                                            <f:setPropertyActionListener target="#{currentEditalManagedBean.currentItemHabilitacaoId}" 
+                                                                         value="#{itemHabilitacao.id}" />
+                                            <f:ajax render="@form" />
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:overlayPanel>  
                         </p>
 
-                        <p><p:outputLabel >Produtos</p:outputLabel> 
-                            <h:dataTable width="100%" id="produtoTable" value="#{currentEditalManagedBean.currentEdital.itensProduto}" var="itemProduto">
+                        <!-- Produtos -->
+                        <h4><p:outputLabel>Incluir/remover produtos</p:outputLabel></h4> 
+
+                        <!-- Lista de produtos do edital -->
+                        <p><h:dataTable styleClass="table"  width="100%" id="produtoTable" value="#{currentEditalManagedBean.currentEdital.itensProduto}" var="itemProduto"
+                                        columnClasses="one, two, preco, preco, preco">
                                 <h:column>
                                     <f:facet name="header">  
                                         <h:outputText value="Código" />  
@@ -118,38 +156,82 @@
                                     <f:facet name="header">  
                                         <h:outputText value="Preço" />  
                                     </f:facet>  
-                                    #{itemProduto.produto.preco}
+                                    <h:outputText value="#{itemProduto.produto.preco}">
+                                        <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                                    </h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">  
                                         <h:outputText value="Quantidade" />  
                                     </f:facet>  
-                                    <p:inputText value="#{itemProduto.quantidade}" size="5"/>
+                                    <p:spinner value="#{itemProduto.quantidade}" size="5">
+                                        <f:ajax render="subtotal @form" listener="#{currentEditalManagedBean.atualizarQuantidades}" />
+                                    </p:spinner>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">  
                                         <h:outputText value="Subtotal" />  
                                     </f:facet>  
-                                    R$ #{itemProduto.valorTotal}
+                                    <h:outputText id="subtotal" value="#{itemProduto.valorTotal}">
+                                        <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                                    </h:outputText>
                                 </h:column>
                                 <h:column>
-                                    <h:commandLink value="Remover"/>
+                                    <h:commandLink value="Remover" action="#{currentEditalManagedBean.removerProduto}">
+                                        <f:setPropertyActionListener target="#{currentEditalManagedBean.currentItemProdutoId}" 
+                                                                     value="#{itemProduto.id}" />
+                                        <f:ajax render="@form" />
+                                    </h:commandLink>
                                 </h:column>
                             </h:dataTable>
-                            <p:commandButton value="Adicionar Produto" action="#{currentEditalManagedBean.addProduto}" >
-                                <f:ajax render="produtoTable" />
-                            </p:commandButton>
-                            <p:commandButton value="Atualizar quantidades" action="#{currentEditalManagedBean.atualizarQuantidades}" >
-                                <f:ajax render="produtoTable" />
-                            </p:commandButton>
+
+                            <h:commandButton id="addProduto" value="Adicionar Produtos" type="button"  onclick="pw.loadContents()"/>    
+                            <p:overlayPanel id="produtoPanel" for="addProduto" hideEffect="fade" dynamic="true" widgetVar="pw">  
+                                <p:dataTable value="#{currentEditalManagedBean.produtosNotInEdital}" var="produto">
+                                    <p:column>
+                                        <f:facet name="header">  
+                                            <h:outputText value="Código" />  
+                                        </f:facet> 
+                                        #{produto.codigo}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">  
+                                            <h:outputText value="Nome" />  
+                                        </f:facet>  
+                                        #{produto.nome}
+                                    </p:column>
+                                    <p:column style="text-align: right">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Preço" />  
+                                        </f:facet> 
+                                        <h:outputText value="#{produto.preco}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">  
+                                            <h:outputText value="Categoria" />  
+                                        </f:facet>
+                                        #{produto.categoria.nomeAbsoluto}
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandLink value="Incluir" action="#{currentEditalManagedBean.incluirProduto}">
+                                            <f:setPropertyActionListener target="#{currentEditalManagedBean.currentProdutoId}" 
+                                                                         value="#{produto.id}" />
+                                            <f:ajax render="@form" />
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:overlayPanel> 
+
                         </p>
-                        
-                        <p>Valor total: <h:outputText value="R$ #{currentEditalManagedBean.currentEdital.valorTotal}"/></p>
+
+                        <p>Valor total: <b><h:outputText id="valorTotal" value="#{currentEditalManagedBean.currentEdital.valorTotal}">
+                                    <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                                </h:outputText></b></p>
 
                         <p>
-                            <p:commandButton value="Atualizar edital" action="#{currentEditalManagedBean.atualizar}"/>
-                            <p:commandButton value="Remover edital" action="#{currentEditalManagedBean.remover}"/>
-                            <p:commandButton value="Cancelar" action="editais"/>
+                            <p:commandButton value="Excluir este edital" action="#{currentEditalManagedBean.remover}" style="float: right"/>
                         </p>
                     </p:fieldset>
                 </h:form>

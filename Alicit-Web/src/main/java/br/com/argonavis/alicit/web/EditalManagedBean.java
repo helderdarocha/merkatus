@@ -93,6 +93,7 @@ public class EditalManagedBean implements Serializable {
     public String editarEdital() {
         currentEditalManagedBean.setEditalId(editalId);
         currentEditalManagedBean.setCurrentEdital();
+        currentEditalManagedBean.setMostrarListaProdutos(false);
         return "editaisEditar";
     }
     

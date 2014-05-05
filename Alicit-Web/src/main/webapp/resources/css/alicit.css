@@ -8,12 +8,21 @@ and open the template in the editor.
     Author     : helderdarocha
 */
 
-tr:nth-child(odd) {
-    background: rgb(90%,90%,100%)
+.table {
+    margin: 5px;
+    border: solid 1px appworkspace;
+    border-collapse:collapse;
 }
-table {
-    border: solid 1px blue;
+
+.table td {
+     border: solid 1px appworkspace;
+     padding: 2px 6px 2px 6px;
 }
+
+.table input {
+    font-size: 80%;
+}
+
 fieldset select {
     width: 300px;
 }
@@ -23,16 +32,7 @@ fieldset {width: 700px;
     font-family: 'Calibri';
 }
 
-ul.menu {
-    text-align: center; 
-}
-ul.menu li {
-    display: inline-block;
-    font-variant: small-caps;
-    margin: 0 20px 0 20px;
-    font-size: 120%;
-    text-align: center;
-}
+
 .appmain {
     font-size: 160pt !important;
     text-align: center;
@@ -61,6 +61,18 @@ ul.menu li {
     display: inline-block;
 }
 
+input[type='text'] {
+    box-shadow: none !important;
+    border: solid 1px appworkspace !important;
+    background-color: transparent !important;
+}
+
+.dateEdit input {
+    box-shadow: none !important;
+    border: solid 1px appworkspace !important;
+    background-color: transparent !important;
+}
+
 .dateDisplay input {
     box-shadow: none !important;
     border: none !important;
@@ -70,3 +82,59 @@ ul.menu li {
 .result {
     font-weight: bold !important;
 }
+
+
+
+#listaIH {
+    position: fixed;
+    background: #c2dfef;
+    top: 150px;
+    left: 100px;
+    border: solid 1px #045491;
+    box-shadow: 5px 5px 20px rgba(20%,20%,20%,0.5);
+}
+
+#listaProdutos {
+    position: fixed;
+    background: #c2dfef;
+    top: 150px;
+    left: 100px;
+    border: solid 1px #045491;
+    box-shadow: 5px 5px 20px rgba(20%,20%,20%,0.5);
+}
+
+.preco {
+    text-align: right;
+}
+.preco input {
+    text-align: right;
+}
+
+
+.ui-layout-north {
+    z-index: 2000 !important;
+    border: none !important;
+    overflow: visible !important;
+}
+
+.ui-layout-unit-content {
+    overflow:visible !important;
+    border: none !important;
+    z-index: 2000 !important;
+}
+
+.ui-menu-list {
+    background: rgb(10%,15%,30%) !important;
+    opacity: 0.95 !important;
+    z-index: 2000 !important;
+}
+
+.ui-menu {
+    border: none !important;
+    z-index: 2000 !important;
+}
+
+.ui-menuitem-text {
+    font-weight: normal !important;
+}
+

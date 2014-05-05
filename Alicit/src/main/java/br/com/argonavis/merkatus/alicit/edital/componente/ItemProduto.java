@@ -62,6 +62,9 @@ public class ItemProduto implements Serializable {
     }
     
     public BigDecimal getValorTotal() {
+        if (this.produto == null) {
+            return BigDecimal.ZERO;
+        }
         return produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
     }
 

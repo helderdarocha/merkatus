@@ -23,16 +23,18 @@ import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ItemProdutoFacadeRemot
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
@@ -56,6 +58,9 @@ public class CurrentEditalManagedBean implements Serializable {
     ItemHabilitacaoFacadeRemote itemHabilitacaoFacade;
 
     private Edital currentEdital;
+    private Long currentProdutoId;
+    private Long currentItemProdutoId;
+    private Long currentItemHabilitacaoId;
 
     private long editalId;
     private Long editalCompradorId;
@@ -84,6 +89,8 @@ public class CurrentEditalManagedBean implements Serializable {
 
     private String tipoPE;
     private DispensaLicitacao.Tipo tipoDL;
+    
+    private boolean mostrarListaProdutos;
 
     private static final Map<String, String> tipoEditaisMap = new HashMap<>();
 
@@ -118,6 +125,38 @@ public class CurrentEditalManagedBean implements Serializable {
 
     public Map<String, DispensaLicitacao.Tipo> getTipoDLMap() {
         return tipoDLMap;
+    }
+
+    public boolean isMostrarListaProdutos() {
+        return mostrarListaProdutos;
+    }
+
+    public void setMostrarListaProdutos(boolean mostrarListaProdutos) {
+        this.mostrarListaProdutos = mostrarListaProdutos;
+    }
+
+    public Long getCurrentItemHabilitacaoId() {
+        return currentItemHabilitacaoId;
+    }
+
+    public void setCurrentItemHabilitacaoId(Long currentItemHabilitacaoId) {
+        this.currentItemHabilitacaoId = currentItemHabilitacaoId;
+    }
+
+    public Long getCurrentItemProdutoId() {
+        return currentItemProdutoId;
+    }
+
+    public void setCurrentItemProdutoId(Long currentItemProdutoId) {
+        this.currentItemProdutoId = currentItemProdutoId;
+    }
+
+    public Long getCurrentProdutoId() {
+        return currentProdutoId;
+    }
+
+    public void setCurrentProdutoId(Long currentProdutoId) {
+        this.currentProdutoId = currentProdutoId;
     }
 
     public Long getEditalCompradorId() {
@@ -357,8 +396,8 @@ public class CurrentEditalManagedBean implements Serializable {
             Edital edital = editalFacade.find(editalId);
 
             try {
-                //System.out.println(edital.getProdutos().size()); // test for lazy initialization
-                //System.out.println(edital.getIhs().size()); // test for lazy initialization
+                System.out.println(edital.getItensProduto().size()); // test for lazy initialization
+                System.out.println(edital.getItensHabilitacao().size()); // test for lazy initialization
             } catch (Exception ex) {
                 Logger.getLogger(CurrentEditalManagedBean.class.getName()).log(Level.SEVERE, "Framework error: must pre-fetch collections in select Edital", ex);
             }
@@ -394,51 +433,79 @@ public class CurrentEditalManagedBean implements Serializable {
 
     public String remover() {
         if (this.setCurrentEdital()) {
-            //currentEdital.getProdutos().clear();
-            //currentEdital.getIhs().clear();
+            currentEdital.getItensProduto().clear(); 
+            currentEdital.getItensHabilitacao().clear();
             editalFacade.remove(this.currentEdital);
             this.unsetCurrentEdital();
         }
         return "editais";
     }
     
-    public String addProduto() {
-        ItemProduto item1 = new ItemProduto();
-        Produto p1 = produtoFacade.getByCodigo("F100");
-        p1.setPreco(BigDecimal.valueOf(35.00));
-        produtoFacade.edit(p1);
-        //itemProdutoFacade.create(item1);
-        item1 = itemProdutoFacade.edit(item1);
-        item1.setProduto(p1);
-        item1.setQuantidade(5);
-        itemProdutoFacade.edit(item1);
-        this.currentEdital.addItemProduto(item1);
-        
-        ItemProduto item2 = new ItemProduto();
-        Produto p2 = produtoFacade.getByCodigo("C234");
-        p2.setPreco(BigDecimal.valueOf(83.00));
-        produtoFacade.edit(p2);
-        //itemProdutoFacade.create(item2);
-        item2 = itemProdutoFacade.edit(item2);
-        item2.setProduto(p2);
-        item2.setQuantidade(3);
-        itemProdutoFacade.edit(item2);
-        this.currentEdital.addItemProduto(item2);
-        
+    
+    
+    public String incluirItemHabilitacao() {
+        ItemHabilitacao item = itemHabilitacaoFacade.find(this.currentItemHabilitacaoId);
+        this.currentEdital.addItemHabilitacao(item);
         editalFacade.edit(currentEdital);
-        
+        this.currentItemHabilitacaoId = null;
         return null;
     }
-    
-    public String addItemHabilitacao() {
-        ItemHabilitacao item1 = itemHabilitacaoFacade.getByCodigo("IH123");
-        this.currentEdital.addItemHabilitacao(item1);
+    public void removerItemHabilitacao() {
+        ItemHabilitacao item = itemHabilitacaoFacade.find(this.currentItemHabilitacaoId);
+        this.currentEdital.getItensHabilitacao().remove(item);
         editalFacade.edit(currentEdital);
-        return null;
+        this.currentItemHabilitacaoId = null;
+    }
+    public List<ItemHabilitacao> getItensNotInEdital() {
+        List<ItemHabilitacao> all = itemHabilitacaoFacade.findAll();
+        List<ItemHabilitacao> allButEdital = new ArrayList<>();
+        for(ItemHabilitacao item : all) {
+            if (!this.currentEdital.getItensHabilitacao().contains(item)) {
+                allButEdital.add(item);
+            }
+        }
+        return allButEdital;
+    }
+    
+    
+    
+    
+    public void atualizarQuantidades(ValueChangeEvent e) {
+        editalFacade.edit(this.currentEdital);
     }
     
     public String atualizarQuantidades() {
-        editalFacade.edit(currentEdital);
+        editalFacade.edit(this.currentEdital);
         return null;
+    }
+    public void incluirProduto() {
+        ItemProduto item = new ItemProduto();
+        Produto p = produtoFacade.find(this.currentProdutoId);
+        itemProdutoFacade.create(item);
+        item = itemProdutoFacade.edit(item);
+        item.setProduto(p);
+        item.setQuantidade(1);
+        itemProdutoFacade.edit(item);
+        this.currentEdital.addItemProduto(item);
+        editalFacade.edit(currentEdital);
+        this.currentProdutoId = null;
+    }
+    public void removerProduto() {
+        ItemProduto item = itemProdutoFacade.find(this.currentItemProdutoId);
+        this.currentEdital.getItensProduto().remove(item);
+        editalFacade.edit(currentEdital);
+        this.currentItemProdutoId = null;
+    }
+    public List<Produto> getProdutosNotInEdital() {
+        List<Produto> all = produtoFacade.findAll();
+        List<Produto> allButEdital = new ArrayList<>();
+        for(Produto p : all) {
+            ItemProduto item = new ItemProduto();
+            item.setProduto(p);
+            if (!this.currentEdital.getItensProduto().contains(item)) {
+                allButEdital.add(p);
+            }
+        }
+        return allButEdital;
     }
 }

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alicit 1.0 Beta</title>
+        <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
+    </h:head>
+    <h:body>
+        <ui:debug />
+        <ui:composition template="/resources/mainTemplate.xhtml">
+            <ui:define name="top">
+                <ui:include src="menu.xhtml" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h:form id="form">
+
+                    <p:growl id="messages" showDetail="true" />
+
+                    <p:schedule id="schedule" value="#{editalCalendarManagedBean.eventModel}" widgetVar="myschedule" locale="pt">
+
+                        <p:ajax event="dateSelect" listener="#{editalCalendarManagedBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show()" />
+                        <p:ajax event="eventSelect" listener="#{editalCalendarManagedBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show()" />
+                        <p:ajax event="eventMove" listener="#{editalCalendarManagedBean.onEventMove}" update="messages" />
+                        <p:ajax event="eventResize" listener="#{editalCalendarManagedBean.onEventResize}" update="messages" />
+
+                    </p:schedule>
+
+                    <p:dialog widgetVar="eventDialog" header="Detalhamento do evento" showEffect="clip" hideEffect="clip">
+                        <h:panelGrid id="eventDetails" columns="2">
+                            <h:outputLabel for="title" value="Evento:" />
+                            <p:inputText id="title" value="#{editalCalendarManagedBean.event.title}" required="true"/>
+
+                            <h:outputLabel for="from" value="Início:" />
+                            <p:inputMask id="from" value="#{editalCalendarManagedBean.event.startDate}" mask="99/99/9999">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputMask>
+
+                            <h:outputLabel for="to" value="Fim:" />
+                            <p:inputMask id="to" value="#{editalCalendarManagedBean.event.endDate}" mask="99/99/9999">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputMask>
+
+                            <h:outputLabel for="allDay" value="Alertas:" />
+                            <h:panelGroup>
+                            <h:selectBooleanCheckbox id="dia" value="" > No dia</h:selectBooleanCheckbox>
+                            <h:selectBooleanCheckbox id="antes1" value="" > 24h antes </h:selectBooleanCheckbox>
+                            <h:selectBooleanCheckbox id="antes2" value="" > 48h antes </h:selectBooleanCheckbox>
+                            </h:panelGroup>
+                            <p:commandButton type="reset" value="Cancelar" />
+                            <p:commandButton id="addButton" value="Gravar" actionListener="#{editalCalendarManagedBean.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

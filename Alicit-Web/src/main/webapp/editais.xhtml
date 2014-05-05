@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
     </h:head>
     <h:body>
+        <ui:debug />
         <ui:composition template="/resources/mainTemplate.xhtml">
             <ui:define name="top">
                 <ui:include src="menu.xhtml" />
@@ -67,7 +68,9 @@
                             <f:facet name="header">  
                                 <h:outputText value="Data de abertura" />  
                             </f:facet>  
-                            <p:calendar value="#{edital.dataAbertura}" readonly="true" styleClass="dateDisplay" />
+                            <p:calendar value="#{edital.dataAbertura}" readonly="true" styleClass="dateDisplay" pattern="dd/MM/yyyy">
+                                <f:converter converterId="DateConverter" />
+                            </p:calendar>
                         </p:column>
 
                         <p:column>

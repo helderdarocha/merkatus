@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
@@ -24,7 +24,7 @@ import javax.persistence.NoResultException;
  * @author helderdarocha
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class CurrentProdutoManagedBean implements Serializable {
 
     @EJB

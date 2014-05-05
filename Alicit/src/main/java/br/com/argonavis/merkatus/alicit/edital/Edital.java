@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -34,10 +35,10 @@ public abstract class Edital implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<ItemProduto>     itensProduto;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ItemHabilitacao> itensHabilitacao;
 
     private String nomeDisplay;

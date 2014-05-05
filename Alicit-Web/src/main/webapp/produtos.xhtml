@@ -19,6 +19,17 @@
                 <h1>Cadastro de Produtos</h1>
                 <h:form prependId="false">
                     <h2>Produtos cadastrados</h2>
+                    
+                    <p>Filtrar por categoria: 
+                            <p:selectOneMenu value="#{produtoManagedBean.categoriaId}">
+                                <f:selectItem itemLabel="Todas as categorias" itemValue=""/>
+                                <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
+                                <f:ajax render="@form" />
+                            </p:selectOneMenu>
+                    </p>
+                    
+                    <p>Tags: (todos os tags)</p>
+                    
                     <p:dataTable id="dataTable" value="#{produtoManagedBean.produtos}" var="produto"
                                  emptyMessage="Nenhum produto encontrada para os critérios selecionados" 
                                  widgetVar="produtosTable"

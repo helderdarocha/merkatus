@@ -18,14 +18,15 @@
 
                 <h1>Cadastro de Produtos</h1>
                 <h:form prependId="false">
+                    <h:messages style="color:red;margin:8px;" />
                     <p:fieldset legend="Edição de Produto">
                         <p>
                             <p:outputLabel >ID do produto </p:outputLabel> 
-                            <p:inputText value="#{currentProdutoManagedBean.currentProduto.id}" readonly="true" />
+                            #{currentProdutoManagedBean.currentProduto.id}
                         </p>
                         <p>
                             <p:outputLabel >Código do produto </p:outputLabel> 
-                            <p:inputText value="#{currentProdutoManagedBean.currentProduto.codigo}" readonly="true" />
+                            #{currentProdutoManagedBean.currentProduto.codigo}
                         </p>
                         <p>
                             <p:outputLabel >Nome do produto </p:outputLabel> 
@@ -36,7 +37,7 @@
                             <p:inputText value="#{currentProdutoManagedBean.currentProduto.preco}" />
                         </p>
                         <p>
-                            <p:outputLabel >Categoria </p:outputLabel> 
+                            <p:outputLabel >Categoria  (FALTA IMPLEMENTAR)</p:outputLabel> 
                             <p:selectOneMenu value="#{currentProdutoManagedBean.currentProduto.categoria.id}">
                                 <f:selectItem itemLabel="Selecionar categoria" itemValue=""/>
                                 <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
@@ -44,7 +45,7 @@
                         </p>
                         <p>
                             <p:outputLabel >Tags (FALTA IMPLEMENTAR)</p:outputLabel> 
-                            <p:inputText value="#{currentProdutoManagedBean.currentProduto.tags}" />
+                            #{currentProdutoManagedBean.currentProduto.tags}
                         </p>
                         <p:commandButton value="Atualizar produto" action="#{currentProdutoManagedBean.atualizar}"/>
                         <p:commandButton value="Remover produto" action="#{currentProdutoManagedBean.remover}"/>

@@ -15,7 +15,7 @@
                 <ui:include src="menu.xhtml" />
             </ui:define>
             <ui:define name="content">
-
+<ui:debug hotkey="x" />
                 <h1>Cadastro de Editais</h1>
                 <h:form prependId="false">
                     <p:fieldset legend="Cadastrar Novo Edital">
@@ -80,7 +80,8 @@
                                 </p>
                                 <p>
                                     <p:outputLabel >Data de abertura </p:outputLabel> 
-                                    <p:calendar value="#{currentEditalManagedBean.editalDataAbertura}" />
+                                    <p:calendar value="#{currentEditalManagedBean.editalDataAbertura}" pattern="dd/MM/yyyy"/>
+                               
                                 </p>
                                 <p>
                                     <p:outputLabel >Email </p:outputLabel> 
@@ -88,11 +89,13 @@
                                 </p>
                                 <p>
                                     <p:outputLabel >Telefone entrega</p:outputLabel> 
-                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaDdd}" size="2" />)<p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaNumero}" />
+                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaDdd}" size="2" />)
+                                    <p:inputText value="#{currentEditalManagedBean.editalTelefoneEntregaNumero}" />
                                 </p>
                                 <p>
                                     <p:outputLabel >Telefone cobrança</p:outputLabel> 
-                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaDdd}" size="2" />)<p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaNumero}" />
+                                    +55(<p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaDdd}" size="2" />)
+                                    <p:inputText value="#{currentEditalManagedBean.editalTelefoneCobrancaNumero}" />
                                 </p>
                                 <p>
                                     <p:outputLabel >Endereço entrega</p:outputLabel> 

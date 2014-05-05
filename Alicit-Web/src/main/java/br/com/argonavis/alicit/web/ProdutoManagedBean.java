@@ -5,7 +5,9 @@
  */
 package br.com.argonavis.alicit.web;
 
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.CategoriaFacadeRemote;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
+import br.com.argonavis.merkatus.alicit.produto.Categoria;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,13 +30,19 @@ public class ProdutoManagedBean implements Serializable {
     ProdutoFacadeRemote produtoFacade;
     @Inject
     CurrentProdutoManagedBean  currentProdutoManagedBean;
+    @EJB
+    CategoriaFacadeRemote categoriaFacade;
 
-    private List<Produto> produtos;
     Map<String, String> produtosMap;
 
     private Long produtoId;
+    private Long categoriaId;
 
     public List<Produto> getProdutos() {
+        if (categoriaId != null) {
+            Categoria categoria = categoriaFacade.find(categoriaId);
+            return produtoFacade.findByCategoria(categoria);
+        }
         return produtoFacade.findAll();
     }
     public Map<String, String> getProdutosMap() {
@@ -48,6 +56,14 @@ public class ProdutoManagedBean implements Serializable {
         return produtosMap;
     }
 
+    public Long getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     public Long getProdutoId() {
         return produtoId;
     }
@@ -57,6 +73,7 @@ public class ProdutoManagedBean implements Serializable {
     }
     
     public String exibirProduto() {
+        currentProdutoManagedBean.unsetCurrentProduto();
         currentProdutoManagedBean.setProdutoId(produtoId);
         currentProdutoManagedBean.setCurrentProduto();
         return "produtosExibir";
@@ -70,6 +87,7 @@ public class ProdutoManagedBean implements Serializable {
     }
 
     public String editarProduto() {
+        currentProdutoManagedBean.unsetCurrentProduto();
         currentProdutoManagedBean.setProdutoId(produtoId);
         currentProdutoManagedBean.setCurrentProduto();
         return "produtosEditar";

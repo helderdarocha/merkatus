@@ -8,8 +8,10 @@ package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
+import br.com.argonavis.merkatus.alicit.produto.Categoria_;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
 import br.com.argonavis.merkatus.alicit.produto.Produto_;
+import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -62,5 +64,19 @@ public class ProdutoFacade extends AbstractFacade<Produto> implements ProdutoFac
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Produto> findByCategoria(Categoria categoria) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Produto> cq = cb.createQuery(Produto.class);
+        Root<Produto> root = cq.from(Produto.class);
+        Predicate condition = cb.or(
+                      cb.equal(root.get(Produto_.categoria), categoria),  
+                      cb.equal(root.get(Produto_.categoria), categoria.getContexto()));
+        
+        cq.where(condition);
+        TypedQuery<Produto> q = getEntityManager().createQuery(cq);
+        return q.getResultList();
     }
 }

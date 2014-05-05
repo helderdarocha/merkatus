@@ -1,29 +1,74 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         <nav class="menubar">
-        <div id="logo">
-            <span class="name"><span class="capital">@</span>licit</span> <span class="version">1.0.0 Beta</span>
-        </div>
-        <ul class="menu">
-            <li><h:link outcome="/admin/setup.xhtml">admin</h:link></li>
-            <li><h:link outcome="/compradores.xhtml">compradores</h:link></li>
-            <li><h:link outcome="/editais.xhtml">editais</h:link></li>
-            <li><h:link outcome="/produtos.xhtml">produtos</h:link></li>
-            <li><h:link outcome="/tags.xhtml">tags</h:link></li>
-            <li><h:link outcome="/categorias.xhtml">categorias</h:link></li>
-            <li><h:link outcome="/itensHabilitacao.xhtml">itens de habilitação</h:link></li>
-            <li>|</li>
-            <li>dossier</li>
-            <li>calendário</li>
-            <li>login</li>
-            <li>ajuda</li>
-        </ul>
+            <div id="logo">
+                <span class="name"><span class="capital">@</span>licit</span> <span class="version">1.0.0 Beta</span>
+            </div>
+
+            <h:form>  
+
+                <p:layoutUnit position="north" size="155" collapsed="false" resizable="false" closable="false" collapsible="false" gutter="6">
+
+                    <span style="position: absolute; top: 40px; left: 250px; bottom: 0px">
+
+                        <p:menubar style="background: transparent">  
+
+                            <p:submenu label="Edital">  
+                                <p:menuitem value="Novo..." outcome="/editaisCriar.xhtml"/>
+                                <p:menuitem value="Listar..." outcome="/editais.xhtml"/>
+                                <p:menuitem value="Calendário..." outcome="/editaisCalendario.xhtml"/>
+                                <p:separator /> 
+                                <p:menuitem value="Cadastro de itens de habilitação..." outcome="/itensHabilitacao.xhtml"/>
+                                <p:menuitem value="Cadastro de produtos..." outcome="/produtos.xhtml"/>  
+                            </p:submenu>  
+
+                            <p:submenu label="Produto">  
+                                <p:menuitem value="Cadastro de produtos" outcome="/produtos.xhtml" />  
+                                <p:menuitem value="Categorias" outcome="/categorias.xhtml"/> 
+                                <p:menuitem value="Tags" outcome="/tags.xhtml"/> 
+                            </p:submenu>
+
+                            <p:submenu label="Dossier">  
+                                <p:menuitem value="Novo..."/>
+                                <p:menuitem value="Listar..." />  
+                                <p:menuitem value="Calendário..." /> 
+                                <p:separator /> 
+                                <p:menuitem value="Cadastro de Documentos" />  
+                                <p:menuitem value="Cadastro de Fornecedores" /> 
+                            </p:submenu> 
+
+                            <p:submenu label="Ajuda">  
+                                <p:menuitem value="Manual da aplicação"     url="#" />
+                                <p:menuitem value="Manual de licitações"    url="#" />  
+                                <p:separator />
+                                <p:menuitem value="Compradores cadastrados" outcome="/compradores.xhtml"/> 
+                            </p:submenu> 
+
+                            <p:submenu label="Usuário">  
+                                <p:menuitem value="Login"  url="#" />
+                                <p:menuitem value="Comissões" url="#" disabled="true" />
+                                <p:separator /> 
+                                <p:menuitem value="Controle de acesso" url="#" disabled="true" />
+                                <p:menuitem value="Configuração" outcome="/admin/setup.xhtml"/>
+                                <p:separator /> 
+                                <p:menuitem value="Sair" url="/" />
+                            </p:submenu>  
+
+                        </p:menubar>  
+
+
+                    </span>
+                </p:layoutUnit>
+
+            </h:form>  
         </nav>
     </h:body>
 </html>
