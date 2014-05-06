@@ -17,7 +17,7 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Categorias</h1>
-                <h:form>
+                
                     <h2>Categoria cadastrada</h2>
                     <p>Nome: #{currentCategoriaManagedBean.currentCategoria.nome}</p>
                     <p>Contexto: #{currentCategoriaManagedBean.currentCategoria.contexto}</p>
@@ -25,8 +25,8 @@
                     <p>Subcategorias: #{currentCategoriaManagedBean.currentCategoria.subCategorias}</p>
                     <p>Root #{currentCategoriaManagedBean.currentCategoria.root}</p>
                     <p>ID #{currentCategoriaManagedBean.currentCategoria.id}</p>
-                    <p:commandButton value="Voltar" action="categorias"/>
-                </h:form>
+                    <h:commandButton value="Voltar" action="categorias"/>
+                
 
             </ui:define>
         </ui:composition>

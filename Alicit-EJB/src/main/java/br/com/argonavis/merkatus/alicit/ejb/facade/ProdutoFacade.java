@@ -8,15 +8,16 @@ package br.com.argonavis.merkatus.alicit.ejb.facade;
 
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Categoria;
-import br.com.argonavis.merkatus.alicit.produto.Categoria_;
 import br.com.argonavis.merkatus.alicit.produto.Produto;
 import br.com.argonavis.merkatus.alicit.produto.Produto_;
+import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -40,6 +41,22 @@ public class ProdutoFacade extends AbstractFacade<Produto> implements ProdutoFac
 
     public ProdutoFacade() {
         super(Produto.class);
+    }
+    
+    @Override
+    public List<Produto> findByTag(Tag tag) {
+        String q = "select p from Produto p, Tag t where t.nome = :tag and t member of p.tags";
+        Query query = em.createQuery(q, Produto.class);
+        query.setParameter("tag", tag.getNome());
+        return query.getResultList();
+    }
+    
+    @Override
+    public Long countByTag(Tag tag) {
+        String q = "select count(p) from Produto p, Tag t where t.nome = :tag and t member of p.tags";
+        Query query = em.createQuery(q, Produto.class);
+        query.setParameter("tag", tag.getNome());
+        return (Long)query.getSingleResult();
     }
     
     @Override

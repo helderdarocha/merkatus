@@ -17,13 +17,13 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Itens de Habilitação</h1>
-                <h:form prependId="false">
+                
                     <h2>Itens de Habilitação cadastrados</h2>
                     <p>Codigo: #{currentItemHabilitacaoManagedBean.currentItemHabilitacao.codigo}</p>
                     <p>Descrição: #{currentItemHabilitacaoManagedBean.currentItemHabilitacao.descricao}</p>
                     <p>ID #{currentItemHabilitacaoManagedBean.currentItemHabilitacao.id}</p>
-                    <p:commandButton value="Voltar" action="itensHabilitacao"/>
-                </h:form>
+                    <h:commandButton value="Voltar" action="itensHabilitacao"/>
+                
 
             </ui:define>
         </ui:composition>

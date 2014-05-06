@@ -22,7 +22,7 @@
                               rendered="#{setupManagedBean.installed}" />
                 <h:outputText value="O ambiente ainda não foi inicializado." 
                               rendered="#{not setupManagedBean.installed}" />
-                <h:form>
+
                     <h:commandButton action="#{setupManagedBean.setup}"
                                      rendered="#{not setupManagedBean.installed}"
                                      value="Instalar Aplicação"/>

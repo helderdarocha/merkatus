@@ -17,7 +17,7 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Categorias</h1>
-                <h:form>
+                
                     <p:fieldset legend="Remover Categoria">
                         <p>
                             <p:outputLabel >Nome absoluto: <b>#{currentCategoriaManagedBean.currentCategoria.nomeAbsoluto}</b> </p:outputLabel>
@@ -26,7 +26,7 @@
                         <p:commandButton value="Confirma remoção de categoria" action="#{currentCategoriaManagedBean.remover}" />
                         <p:commandButton value="Cancelar remoção de categoria" action="categorias"/>
                     </p:fieldset>
-                </h:form>
+                
 
             </ui:define>
         </ui:composition>

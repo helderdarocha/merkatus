@@ -18,7 +18,7 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Editais</h1>
-                <h:form prependId="false">
+                
                     <p:fieldset legend="Detalhamento de Edital">
                         <h:panelGrid columns="2">
                             <p:outputLabel >ID do edital </p:outputLabel> 
@@ -124,9 +124,9 @@
                                     <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
                                 </h:outputText></b></p>
 
-                        <p:commandButton value="Voltar" action="editais"/>
+                        <h:commandButton value="Voltar" action="editais"/>
                     </p:fieldset>
-                </h:form>
+                
 
             </ui:define>
         </ui:composition>

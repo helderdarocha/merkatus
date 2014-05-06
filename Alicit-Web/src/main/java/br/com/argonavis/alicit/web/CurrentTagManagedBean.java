@@ -6,6 +6,7 @@
 
 package br.com.argonavis.alicit.web;
 
+import br.com.argonavis.merkatus.alicit.ejb.facade.remote.ProdutoFacadeRemote;
 import br.com.argonavis.merkatus.alicit.ejb.facade.remote.TagFacadeRemote;
 import br.com.argonavis.merkatus.alicit.produto.Tag;
 import java.io.Serializable;

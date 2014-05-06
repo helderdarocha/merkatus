@@ -18,7 +18,7 @@
             <ui:define name="content">
                 <ui:debug hotkey="x" />
                 <h1>Cadastro de Editais</h1>
-                <h:form prependId="false">
+                
                     <p:fieldset legend="Edição do Edital no. #{currentEditalManagedBean.currentEdital.numeroEdital}">
 
                         <h:panelGrid columns="2">
@@ -234,7 +234,7 @@
                             <p:commandButton value="Excluir este edital" action="#{currentEditalManagedBean.remover}" style="float: right"/>
                         </p>
                     </p:fieldset>
-                </h:form>
+                
 
             </ui:define>
         </ui:composition>

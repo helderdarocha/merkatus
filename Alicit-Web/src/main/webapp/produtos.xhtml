@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Alicit 1.0 Beta</title>
         <link rel="stylesheet" href="/resources/css/alicit.css" type="text/css"></link>
@@ -17,73 +18,79 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Produtos</h1>
-                <h:form prependId="false">
-                    <h2>Produtos cadastrados</h2>
-                    
-                    <p>Filtrar por categoria: 
-                            <p:selectOneMenu value="#{produtoManagedBean.categoriaId}">
-                                <f:selectItem itemLabel="Todas as categorias" itemValue=""/>
-                                <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
-                                <f:ajax render="@form" />
-                            </p:selectOneMenu>
-                    </p>
-                    
-                    <p>Tags: (todos os tags)</p>
-                    
-                    <p:dataTable id="dataTable" value="#{produtoManagedBean.produtos}" var="produto"
-                                 emptyMessage="Nenhum produto encontrada para os critérios selecionados" 
-                                 widgetVar="produtosTable"
-                                 paginator="true" rows="10"  
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
-                                 rowsPerPageTemplate="5,10,15"
-                                 currentPageReportTemplate="Página {currentPage} de {totalPages}">
 
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Nome" />  
-                            </f:facet>  
-                            #{produto.nome}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Código" />  
-                            </f:facet> 
-                            #{produto.codigo}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Preço" />  
-                            </f:facet> 
-                            R$#{produto.preco}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="ID" />  
-                            </f:facet>
-                            #{produto.id}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Categoria" />  
-                            </f:facet>
-                            #{produto.categoria.nomeAbsoluto}
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Editar" action="#{produtoManagedBean.editarProduto}">
-                                <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Visualizar" action="#{produtoManagedBean.exibirProduto}">
-                                <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
-                    <p></p>
-                        <p:commandButton value="Cadastrar novo produto" 
-                                         action="#{produtoManagedBean.cadastrarNovoProduto}" />
+                <h2>Produtos cadastrados</h2>
 
-                </h:form>
+                <p>Filtrar por categoria: 
+                    <h:selectOneMenu value="#{produtoManagedBean.categoriaId}">
+                        <f:selectItem itemLabel="Todas as categorias" itemValue="#{null}"/>
+                        <f:selectItems value="#{categoriaManagedBean.categoriasMap}" />
+                        <f:ajax execute="@form" render="@form" />
+                    </h:selectOneMenu>
+                </p>
+                
+                <h:panelGroup id="taglist" >
+                <p>Filtrar por tag: <ui:repeat value="#{tagManagedBean.tags}" var="tag">
+                        <h:panelGroup rendered="#{(produtoManagedBean.getProdutoCountForTag(tag) > 0 and empty produtoManagedBean.tagId) or (produtoManagedBean.tagId eq tag.id)}">
+                            <h:commandButton value="#{tag.nome}(#{produtoManagedBean.getProdutoCountForTag(tag)})" 
+                                             action="#{produtoManagedBean.filtrarPorTag}">
+                                <f:setPropertyActionListener target="#{produtoManagedBean.tagId}" value="#{tag.id}" />
+                                <p:ajax process="@this" update=":form" />
+                            </h:commandButton>
+                        </h:panelGroup>
+                    </ui:repeat>
+                    <h:commandButton value="Remover filtro" rendered="#{produtoManagedBean.tagId ne null}" action="#{produtoManagedBean.resetTagFilter}" >
+                        <f:ajax render="@form" /> 
+                    </h:commandButton>
+                </p>
+                </h:panelGroup>
+
+                <p:dataTable id="dataTable" value="#{produtoManagedBean.produtos}" var="produto"
+                             emptyMessage="Nenhum produto encontrada para os critérios selecionados" 
+                             widgetVar="produtosTable"
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
+                             rowsPerPageTemplate="5,10,15"
+                             currentPageReportTemplate="Página {currentPage} de {totalPages}"
+                             rowStyleClass="table-row"
+
+                             selection="#{produtoManagedBean.currentProduto}"
+                             >
+
+                    <p:column headerText="Código">  
+                        <h:commandLink styleClass="table-link" value="#{produto.codigo}" action="#{produtoManagedBean.exibirProduto}">
+                            <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Nome">  
+                        <h:commandLink styleClass="table-link" value="#{produto.nome}" action="#{produtoManagedBean.exibirProduto}">
+                            <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column styleClass="preco" headerText="Preço">  
+                        <h:commandLink styleClass="table-link" action="#{produtoManagedBean.exibirProduto}">
+                            <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                            <h:outputText value="#{produto.preco}">
+                                <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                            </h:outputText>
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Categoria">  
+                        <h:commandLink styleClass="table-link" value="#{produto.categoria.nomeAbsoluto}" action="#{produtoManagedBean.exibirProduto}">
+                            <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column width="50">
+                        <p:commandLink value="Editar" action="#{produtoManagedBean.editarProduto}">
+                            <f:setPropertyActionListener target="#{produtoManagedBean.produtoId}" value="#{produto.id}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <p></p>
+                <p:commandButton value="Cadastrar novo produto" 
+                                 action="#{produtoManagedBean.cadastrarNovoProduto}" />
+
+
 
             </ui:define>
         </ui:composition>

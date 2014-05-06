@@ -18,77 +18,62 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Editais</h1>
-                <h:form prependId="false">
-                    <h2>Editais cadastrados</h2>
-                    <p:dataTable id="dataTable" value="#{editalManagedBean.editais}" var="edital"
-                                 emptyMessage="Nenhum edital encontrado para os critérios selecionados" 
-                                 widgetVar="editaisTable"
-                                 paginator="true" rows="10"  
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
-                                 rowsPerPageTemplate="5,10,15"
-                                 currentPageReportTemplate="Página {currentPage} de {totalPages}">
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="ID" />  
-                            </f:facet>  
-                            #{edital.id}
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Portal" />  
-                            </f:facet>  
-                            #{edital.comprador.identificador}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="UASG/OC/Orgao"/>  
-                            </f:facet>  
-                            #{edital.comprador.portal.idCodigoComprador}: #{edital.numeroEditalComprador}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Número" />  
-                            </f:facet>  
-                            #{edital.numeroEdital}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Edital" />  
-                            </f:facet>  
-                            #{edital.nomeDisplay}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Tipo" />  
-                            </f:facet>  
-                            #{edital.class.simpleName}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Data de abertura" />  
-                            </f:facet>  
-                            <p:calendar value="#{edital.dataAbertura}" readonly="true" styleClass="dateDisplay" pattern="dd/MM/yyyy">
+
+                <h2>Editais cadastrados</h2>
+                <p:dataTable id="dataTable" value="#{editalManagedBean.editais}" var="edital"
+                             emptyMessage="Nenhum edital encontrado para os critérios selecionados" 
+                             widgetVar="editaisTable"
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
+                             rowsPerPageTemplate="5,10,15"
+                             currentPageReportTemplate="Página {currentPage} de {totalPages}"
+                             rowStyleClass="table-row">
+
+                    <p:column headerText="Número">  
+                        <h:commandLink styleClass="table-link" value="#{edital.numeroEdital}" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Portal">  
+                        <h:commandLink styleClass="table-link" value="#{edital.comprador.identificador}" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="UASG/OC/Orgao">  
+                        <h:commandLink styleClass="table-link" value="#{edital.comprador.portal.idCodigoComprador}: #{edital.numeroEditalComprador}" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Edital">  
+                        <h:commandLink styleClass="table-link" value="#{edital.nomeDisplay}" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Tipo">  
+                        <h:commandLink styleClass="table-link" value="#{edital.class.simpleName}" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column headerText="Data de abertura">  
+                        <h:commandLink styleClass="table-link" action="#{editalManagedBean.exibirEdital}">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                            <h:outputText value="#{edital.dataAbertura}" styleClass="dateDisplay">
                                 <f:converter converterId="DateConverter" />
-                            </p:calendar>
-                        </p:column>
+                            </h:outputText>
+                        </h:commandLink>
+                    </p:column>
 
-                        <p:column>
-                            <p:commandLink action="#{editalManagedBean.exibirEdital}" value="Exibir">
-                                <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <p:commandLink action="#{editalManagedBean.editarEdital}" value="Editar">
-                                <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
-                    <p></p>
+                    <p:column>
+                        <p:commandLink action="#{editalManagedBean.editarEdital}" value="Editar">
+                            <f:setPropertyActionListener target="#{editalManagedBean.editalId}" value="#{edital.id}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <p></p>
 
-                    <p:commandButton value="Cadastrar novo edital" 
-                                     action="#{editalManagedBean.cadastrarNovoEdital}"/>
-                </h:form>
+                <p:commandButton value="Cadastrar novo edital" 
+                                 action="#{editalManagedBean.cadastrarNovoEdital}"/>
+
 
             </ui:define>
         </ui:composition>

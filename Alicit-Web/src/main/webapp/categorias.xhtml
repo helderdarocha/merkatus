@@ -17,7 +17,7 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Categorias</h1>
-                <h:form prependId="false">
+                
                     <h2>Categorias cadastradas</h2>
                     <p:dataTable id="dataTable" value="#{categoriaManagedBean.categorias}" var="categoria"
                                  emptyMessage="Nenhum categoria encontrada para os critérios selecionados" 
@@ -25,51 +25,33 @@
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
                                  rowsPerPageTemplate="5,10,15"
-                                 currentPageReportTemplate="Página {currentPage} de {totalPages}">
+                                 currentPageReportTemplate="Página {currentPage} de {totalPages}"
+                                 rowStyleClass="table-row">
 
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="ID" />  
-                            </f:facet>  
-                            #{categoria.id}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Nome sem contexto" />  
-                            </f:facet>  
-                            #{categoria.nome}
-                        </p:column>
+                        
                         <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="Contexto" />  
                             </f:facet> 
-                            #{categoria.contexto}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Root" />  
-                            </f:facet> 
-                            #{categoria.root}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Nome absoluto" />  
-                            </f:facet> 
-                            #{categoria.nomeAbsoluto}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="Nome com contexto" />  
-                            </f:facet> 
-                            #{categoria}
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Remover" action="#{categoriaManagedBean.editarCategoria}">
+                            <h:commandLink styleClass="table-link" value="#{categoria.contexto}" action="#{categoriaManagedBean.exibirCategoria}">
                                 <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
-                            </p:commandLink>
+                            </h:commandLink>
                         </p:column>
                         <p:column>
-                            <p:commandLink value="Visualizar" action="#{categoriaManagedBean.exibirCategoria}">
+                            <f:facet name="header">  
+                                <h:outputText value="Nome" />  
+                            </f:facet>  
+                            <h:commandLink styleClass="table-link" value="#{categoria.nome}" action="#{categoriaManagedBean.exibirCategoria}">
+                                <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
+                            </h:commandLink>
+                        </p:column>
+                        <p:column headerText="Nome absoluto">  
+                            <h:commandLink styleClass="table-link" value="#{categoria}" action="#{categoriaManagedBean.exibirCategoria}">
+                                <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
+                            </h:commandLink>
+                        </p:column>
+                        <p:column width="50">
+                            <p:commandLink value="Remover" action="#{categoriaManagedBean.editarCategoria}">
                                 <f:setPropertyActionListener target="#{categoriaManagedBean.categoriaId}" value="#{categoria.id}" />
                             </p:commandLink>
                         </p:column>
@@ -79,7 +61,7 @@
                         <p:commandButton value="Cadastrar nova categoria" 
                                          action="#{categoriaManagedBean.cadastrarNovaCategoria}"/>
                     </p>
-                </h:form>
+                
 
             </ui:define>
         </ui:composition>

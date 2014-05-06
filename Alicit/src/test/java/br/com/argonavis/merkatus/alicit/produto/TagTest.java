@@ -18,9 +18,7 @@ import static org.junit.Assert.*;
 public class TagTest {
     
     Tag t = new Tag("tag");
-  
-    
-   
+
     @Test
     public void testGetNome() {
         assertEquals("tag", t.getNome());

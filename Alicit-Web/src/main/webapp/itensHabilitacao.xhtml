@@ -17,41 +17,35 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Itens de Habilitação</h1>
-                <h:form prependId="false">
+                
                     <h2>Itens de Habilitação cadastrados</h2>
                     <p:dataTable id="dataTable" value="#{itemHabilitacaoManagedBean.itensHabilitacao}" var="itemHabilitacao"
                                  emptyMessage="Nenhum item encontrado para os critérios selecionados" 
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
                                  rowsPerPageTemplate="5,10,15"
-                                 currentPageReportTemplate="Página {currentPage} de {totalPages}">
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="ID" />  
-                            </f:facet>  
-                            #{itemHabilitacao.id}
-                        </p:column>
+                                 currentPageReportTemplate="Página {currentPage} de {totalPages}"
+                                 rowStyleClass="table-row">
                         <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="Código" />  
                             </f:facet>  
-                            #{itemHabilitacao.codigo}
+                            <h:commandLink value="#{itemHabilitacao.codigo}" action="#{itemHabilitacaoManagedBean.exibirItemHabilitacao}">
+                                <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
+                            </h:commandLink>
                         </p:column>
                         <p:column>
                             <f:facet name="header">  
                                 <h:outputText value="Descrição" />  
                             </f:facet>  
-                            #{itemHabilitacao.descricao}
+                            <h:commandLink styleClass="table-link"  value="#{itemHabilitacao.descricao}" action="#{itemHabilitacaoManagedBean.exibirItemHabilitacao}">
+                                <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
+                            </h:commandLink>
                         </p:column>
                         <p:column>
-                            <p:commandLink value="Remover" action="#{itemHabilitacaoManagedBean.editarItemHabilitacao}" >
+                            <h:commandLink styleClass="table-link"  value="Remover" action="#{itemHabilitacaoManagedBean.editarItemHabilitacao}" >
                                 <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Visualizar" action="#{itemHabilitacaoManagedBean.exibirItemHabilitacao}">
-                                <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
-                            </p:commandLink>
+                            </h:commandLink>
                         </p:column>
                     </p:dataTable>
                     <p>
@@ -59,7 +53,7 @@
                             <f:setPropertyActionListener target="#{itemHabilitacaoManagedBean.currentItemHabilitacaoCodigo}" value="#{itemHabilitacao.codigo}" />
                         </p:commandButton>
                     </p>
-                </h:form>
+                
                 
             </ui:define>
         </ui:composition>

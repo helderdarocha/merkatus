@@ -17,7 +17,7 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Tags</h1>
-                <h:form>
+                
                     <p:fieldset legend="Remover Tag">
                         <p>
                             <p:outputLabel >Tag: <b>#{currentTagManagedBean.tagNome}</b> </p:outputLabel> 
@@ -26,7 +26,7 @@
                         <p:commandButton value="Confirma remoção de Tag" action="#{currentTagManagedBean.remover}"/>
                         <p:commandButton value="Cancelar remoção de tag" action="tags"/>
                     </p:fieldset>
-                </h:form>
+                
 
             </ui:define>
         </ui:composition>

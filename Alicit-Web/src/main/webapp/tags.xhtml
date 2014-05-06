@@ -17,43 +17,24 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Tags</h1>
-                <h:form prependId="false">
+                
                     <h2>Tags cadastradas</h2>
-                    <p:dataTable id="dataTable" value="#{tagManagedBean.tags}" var="tag"
-                                 emptyMessage="Nenhum tag encontrada para os critérios selecionados" 
-                                 paginator="true" rows="10"  
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}   Mostrar {RowsPerPageDropdown} registros por página"  
-                                 rowsPerPageTemplate="5,10,15"
-                                 currentPageReportTemplate="Página {currentPage} de {totalPages}">
-                        <p:column>
-                            <f:facet name="header">  
-                                <h:outputText value="ID" />  
-                            </f:facet>  
-                            #{tag.id}
-                        </p:column>
-                        <p:column>
+                    <ui:repeat value="#{tagManagedBean.tags}" var="tag">
+                        <h:panelGroup styleClass="tag-produto">
                             <f:facet name="header">  
                                 <h:outputText value="Nome" />  
                             </f:facet>  
-                            #{tag.nome}
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Remover" action="#{tagManagedBean.editarTag}" >
+                            #{tag.nome} <h:commandButton value="X" action="#{tagManagedBean.editarTag}" >
                                 <f:setPropertyActionListener target="#{tagManagedBean.currentTagNome}" value="#{tag.nome}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <p:commandLink value="Visualizar" action="#{tagManagedBean.exibirTag}">
-                                <f:setPropertyActionListener target="#{tagManagedBean.currentTagNome}" value="#{tag.nome}" />
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
+                            </h:commandButton>
+                        </h:panelGroup>
+                    </ui:repeat>
                     <p>
-                        <p:commandButton value="Cadastrar nova tag" action="#{tagManagedBean.cadastrarNovaTag}">
+                        <h:commandButton value="Cadastrar nova tag" action="#{tagManagedBean.cadastrarNovaTag}">
                             <f:setPropertyActionListener target="#{tagManagedBean.currentTagNome}" value="#{tag.nome}" />
-                        </p:commandButton>
+                        </h:commandButton>
                     </p>
-                </h:form>
+                
                 
             </ui:define>
         </ui:composition>

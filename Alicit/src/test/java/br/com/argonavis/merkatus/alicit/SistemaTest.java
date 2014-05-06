@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -49,7 +50,8 @@ public class SistemaTest {
     public void tearDown() {
         em = null;
     }
-    
+   
+ /*   
     @Test
     public void testItemProdutoEdital() throws ParseException {
         // Create produtos
@@ -231,7 +233,88 @@ public class SistemaTest {
         assertEquals(size, categorias.size());
 
     }
-   
+    */
+    @Test
+    public void testProdutosPorTag() {
+        // Create 4 tags
+        Tag tag1 = new Tag("tag-teste-573485673");
+        Tag tag2 = new Tag("tag-teste-204742694");
+        Tag tag3 = new Tag("tag-teste-016375233");
+        Tag tag4 = new Tag("tag-teste-088444233");
+        
+        tag1 = em.merge(tag1); // 4 produtos
+        tag2 = em.merge(tag2); // 1 produto
+        tag3 = em.merge(tag3); // 2 produtos
+        tag4 = em.merge(tag4); // 0 produtos
+        
+        // Create 4 produtos
+        Produto p1 = em.merge(new Produto("Teste946394623", "Teste1")); // 3 tags
+        Produto p2 = em.merge(new Produto("Teste954325436", "Teste2")); // 1 tag
+        Produto p3 = em.merge(new Produto("Teste904724020", "Teste3")); // 1 tag
+        Produto p4 = em.merge(new Produto("Teste774992942", "Teste4")); // 2 tags
+        
+        p1.addTag(tag1);
+        p2.addTag(tag1);
+        p3.addTag(tag1);
+        p4.addTag(tag1);
+        
+        p1.addTag(tag2);
+        
+        p1.addTag(tag3);
+        p4.addTag(tag3);
+        
+        // get all produtos for each tag
+        String q = "select p from Produto p, Tag t where t.nome = :tag and t in (p.tags)";
+        Query query = em.createQuery(q, Produto.class);
+        
+        query.setParameter("tag", tag1.getNome());
+        List<Produto> produtos = query.getResultList();
+        
+        assertEquals(4, produtos.size());
+        
+        query.setParameter("tag", tag3.getNome());
+        produtos = query.getResultList();
+        
+        assertEquals(2, produtos.size());
+        
+        query.setParameter("tag", tag4.getNome());
+        produtos = query.getResultList();
+        
+        assertEquals(0, produtos.size());
+        
+        query.setParameter("tag", tag2.getNome());
+        produtos = query.getResultList();
+        
+        assertEquals(1, produtos.size());
+        assertEquals(p1, produtos.iterator().next());
+        
+        q = "select count(p) from Produto p, Tag t where t.nome = :tag and t in (p.tags)";
+        query = em.createQuery(q, Produto.class);
+        query.setParameter("tag", tag1.getNome());
+        Long count = (Long)query.getSingleResult();
+        
+        assertEquals(Long.valueOf(4), count);
+        
+        
+        p1.getTags().clear();
+        p2.getTags().clear();
+        p3.getTags().clear();
+        p4.getTags().clear();
+        
+        em.remove(em.merge(p1));
+        em.remove(em.merge(p2));
+        em.remove(em.merge(p3));
+        em.remove(em.merge(p4));
+
+        em.remove(em.merge(tag1));
+        em.remove(em.merge(tag2));
+        em.remove(em.merge(tag3));
+        em.remove(em.merge(tag4));
+
+        tx.commit();
+        em.close();
+    }
+   /*
     @Test
     public void testProdutos() {
         Categoria cat = CategoriaBase.COMPUTADORES.getCategoria();
@@ -354,5 +437,5 @@ public class SistemaTest {
         em.close();
         assertEquals(size, editais.size());
     }
-
+*/
 }

@@ -17,35 +17,40 @@
             <ui:define name="content">
 
                 <h1>Cadastro de Produtos</h1>
-                                <h:form prependId="false">
-                    <p:fieldset legend="Detalhes de Produto">
-                        <p>
-                            <p:outputLabel >ID do produto </p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.id}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Código do produto </p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.codigo}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Nome do produto </p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.nome}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Preço </p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.preco}" />
-                        </p>
-                        <p>
-                            <p:outputLabel >Categoria </p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.categoria}"/>
-                        </p>
-                        <p>
-                            <p:outputLabel >Tags</p:outputLabel> 
-                            <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.tags}" />
-                        </p>
-                        <p:commandButton value="Voltar" action="produtos"/>
-                    </p:fieldset>
-                </h:form>
+
+                <p:fieldset legend="Detalhes de Produto">
+                    <p>
+                        <p:outputLabel >ID do produto </p:outputLabel> 
+                        <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.id}" />
+                    </p>
+                    <p>
+                        <p:outputLabel >Código do produto: </p:outputLabel> 
+                        <p:outputLabel value="#{currentProdutoManagedBean.currentProduto.codigo}" />
+                    </p>
+                    <p>
+                        <p:outputLabel >Nome do produto: </p:outputLabel> 
+                        <b><p:outputLabel value="#{currentProdutoManagedBean.currentProduto.nome}" /></b>
+                    </p>
+                    <p>
+                        <p:outputLabel >Preço </p:outputLabel> 
+                        <b>
+                            <h:outputText value="#{currentProdutoManagedBean.currentProduto.preco}">
+                                <f:convertNumber currencySymbol="R$" type="currency" locale="pt-BR" />
+                            </h:outputText>
+                        </b>
+                    </p>
+                    <p>
+                        <p:outputLabel >Categoria: </p:outputLabel> 
+                        <b><p:outputLabel value="#{currentProdutoManagedBean.currentProduto.categoria}"/></b>
+                    </p>
+                    <p>
+                        <p:outputLabel >Tags: </p:outputLabel> 
+                        <b><p:outputLabel value="#{currentProdutoManagedBean.currentProduto.tags}" /></b>
+
+                    </p>
+                    <p:commandButton value="Voltar" action="#{currentProdutoManagedBean.atualizar()}"/>
+                </p:fieldset>
+
 
             </ui:define>
         </ui:composition>
